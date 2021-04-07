@@ -1,9 +1,8 @@
 <template>
   <div class="page">
-    <p id="title" class="ml-5">Criar a sua Conta LTSIW</p>
-    <div class="d-flex justify-content-start">
+    <b-col md="12">
       <user-form />
-    </div>
+    </b-col>
   </div>
 </template>
 
@@ -33,15 +32,29 @@ export default {
   color: #707070;
   font-size: 20px;
 }
-#sumbitBtn {
-  background-color: #0077b6;
-  width: 269px;
-  height: 39px;
-  border-radius: 18px;
-  font-weight: lighter;
-  font-size: 19px;
-  border: none;
+@media only screen and (max-width: 992px) {
+  #sumbitBtn  {
+    background-color: #0077b6;
+    width: 100%;
+    border-radius: 18px;
+    font-weight: lighter;
+    font-size: 19px;
+    border: none;
+    box-shadow: 2px 2px 2px 2px #e6e6e6;
+  }
 }
+@media only screen and (min-width: 992px) {
+  #sumbitBtn  {
+    background-color: #0077b6;
+    width: 50%;
+    border-radius: 18px;
+    font-weight: lighter;
+    font-size: 19px;
+    border: none;
+    box-shadow: 2px 2px 2px 2px #e6e6e6;
+  }
+}
+
 
 #textarea {
   border-radius: 15px;
