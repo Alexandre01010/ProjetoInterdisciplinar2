@@ -1,8 +1,9 @@
 <template>
   <div class="page">
-    <p id="title" class="ml-5">Login</p>
+  <b-col md="12">
+    <p id="title">Login</p>
     <div class="d-flex justify-content-center">
-      <b-col class="align-content-center " cols="6">
+      <b-col class="align-content-center " xl="6">
         <div id="form" class="mt-5">
           <b-form @submit.prevent="login">
             <div class="text-center mb-4">
@@ -10,20 +11,10 @@
             </div>
 
             <b-form-group id="input-group-1" label="Email" label-for="input-1">
-              <b-form-input
-                id="input-1"
-                class="input"
-                v-model="email"
-                type="email"
-                required
-              ></b-form-input>
+              <b-form-input id="input-1" class="input" v-model="email" type="email" required></b-form-input>
             </b-form-group>
 
-            <b-form-group
-              id="input-group-2"
-              label="Password"
-              label-for="input-2"
-            >
+            <b-form-group id="input-group-2" label="Password" label-for="input-2">
               <b-form-input
                 id="input-2"
                 class="input"
@@ -39,9 +30,11 @@
               <b-button id="sumbitBtn" type="submit">Entrar</b-button>
             </div>
           </b-form>
+           <router-link v-if="windSize <= 772" class="menuItems" :to="{ name: 'register' }"><a class="d-flex justify-content-center mt-3 mobileVersion">Criar Conta</a></router-link>
         </div>
       </b-col>
     </div>
+  </b-col>
   </div>
 </template>
 
@@ -53,8 +46,15 @@ export default {
         password: "",
         catchAlert:{
           alert: ""
-        }
+        },
+        windSize: window.innerWidth
     };
+  },
+  created() {
+    window.addEventListener("resize", this.myEventHandler);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.myEventHandler);
   },
   methods: {
        login() {
@@ -68,7 +68,10 @@ export default {
             } catch (error) {
               this.catchAlert.alert = error  
             }
-        }
+        },
+      myEventHandler() {
+        this.windSize = window.innerWidth
+      }
   },
 };
 </script>
@@ -77,6 +80,10 @@ export default {
 <style scoped>
 .page {
   background-color: #f5f5f5;
+}
+.mobileVersion{
+  color: #707070;
+  font-weight: lighter;
 }
 #sumbitBtn {
   background-color: #0077b6;

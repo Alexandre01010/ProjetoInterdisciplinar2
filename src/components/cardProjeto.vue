@@ -5,21 +5,21 @@
             </b-col>
             <b-col md="12">
               <b-row>
-                <b-col v-if="propCard.estado == 'aprovado'" class="fw-bolder" md="8">
+                <b-col v-if="propCard.estado == 'aprovado'" class="cardInformation" md="8">
                   {{propCard.titulo}}
                   <b-badge class="proposalState ml-2" variant="success">Aprovado</b-badge>
                   <b-col class="text-muted mt-2" md="12">
                     <p class="participants">{{propCard.objetivos}}</p>
                   </b-col>
                 </b-col>
-                 <b-col v-if="propCard.estado == 'revisao'" class="fw-bolder" md="8">
+                 <b-col v-if="propCard.estado == 'revisao'" class="cardInformation" md="8">
                   {{propCard.titulo}}
                   <b-badge class="proposalState ml-2" variant="danger">Para Revisão</b-badge>
                   <b-col class="text-muted mt-2" md="12">
                     <p class="participants">{{propCard.objetivos}}</p>
                   </b-col>
                 </b-col>
-                <b-col v-if="propCard.estado == 'analise'" class="fw-bolder" md="8">
+                <b-col v-if="propCard.estado == 'analise'" class="cardInformation" md="8">
                   {{propCard.titulo}}
                   <b-badge class="proposalState ml-2" variant="warning">Em análise</b-badge>
                   <b-col class="text-muted mt-2" md="12">

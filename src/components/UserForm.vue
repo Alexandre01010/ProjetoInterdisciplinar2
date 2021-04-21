@@ -15,10 +15,10 @@
               <p class="mt-4">Email</p><b-input id="input-1" class="input" placeholder="example@example.com" v-model="email" type="email" required></b-input>
             </b-col>
             <b-col class="mt-3" md="6">
-              <p class="mt-4">Password</p><b-input id="input-1" class="input" v-model="email" type="password" required></b-input>
+              <p class="mt-4">Password</p><b-input id="input-1" class="input" v-model="password" type="password" required></b-input>
             </b-col>
             <b-col class="mt-3" md="6">
-              <p class="mt-4">Confirmar Password</p><b-input id="input-1" class="input" v-model="email" type="password" required></b-input>
+              <p class="mt-4">Confirmar Password</p><b-input id="input-1" class="input" v-model="confirm_password" type="password" required></b-input>
             </b-col>
             <b-col md="12">
               <b-form-group id="tipo" class="col-8 mt-5">

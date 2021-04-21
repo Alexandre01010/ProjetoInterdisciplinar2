@@ -6,6 +6,8 @@
                   <img width="219" height="49" src="https://www.ipp.pt/covid19/img/pporto.png">
                   <p class="welcomeText mt-3">Licenciatura em Tecnologias e Sistemas de Informação para Web <br> Gestão de submissão de projetos</p>
                   <img class="mt-3" width="299" src="../assets/LoginWelcomeImage.png">
+                  <br>
+                  <router-link class="menuItems" :to="{ name: 'login' }"><button class="loginBtn mt-3">Login</button></router-link>
               </b-col>
           </div>
           <div id="menuItemsInteract">
@@ -169,7 +171,16 @@ ul ul a {
   font-weight: lighter;
   border-radius: 19px;
 }
-
+.loginBtn{
+    border: none;
+    border-radius: 9px;
+    background-color: #0077B6;
+    color: white;
+    height: 29px;
+    width: 199px;
+    font-family: "Rubik", sans-serif;
+    font-weight: lighter;
+}
 
 #dropButtons{
   font-weight: lighter;

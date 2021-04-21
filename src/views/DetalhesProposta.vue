@@ -1,16 +1,10 @@
 <template>
-   <div class="page" id="proposalDetail">
+  <div>
     <b-col md="12">
-      <b-col md="12">
-        <p id="title" class="mb-5">{{ proposta.titulo }} - Detalhes</p>
-      </b-col>
-      <b-col cols="12" class="data">
-        <b-row>
-          <b-col md="12">
-            <b-col md="11 ">
-              <div id="scrollarea-invalid" class="input">
-                <div id="scrollarea-content" class="ml-5 mt-3">
-                  <p v-if="proposta.tipo != 'estagio'" class="type">
+      <p id="title">{{ proposta.titulo }} - Detalhes</p>
+      <b-card class="proposalDetails">
+        <b-card-text>
+          <p v-if="proposta.tipo != 'estagio'" class="type">
                     Projeto ESMAD
                   </p>
                   <p v-else class="type">Estágio ESMAD</p>
@@ -25,226 +19,9 @@
                   <p class="text">{{ proposta.perfil }}</p>
                   <p class="header">Resultados Esperados:</p>
                   <p class="text">{{ proposta.resultados }}</p>
-                  <p v-if="proposta.tipo == 'estagio'" class="header">
-                    Identificação da Entidade Acolhedora:
-                  </p>
-                  <p v-if="proposta.tipo == 'estagio'" class="text">
-                    {{ proposta.entidade }}
-                  </p>
-                  <p class="text" v-if="proposta.tipo == 'estagio'">
-                    {{ proposta.morada_entidade }}
-                  </p>
-                  <p class="text" v-if="proposta.tipo == 'estagio'">
-                    {{ proposta.email_entidade }}
-                  </p>
-                  <p v-if="proposta.tipo == 'estagio'" class="text">
-                    {{ proposta.website }}
-                  </p>
-                  <p v-if="proposta.tipo == 'estagio'" class="header">
-                    Tutor na Entidade Acolhedora:
-                  </p>
-                  <p v-if="proposta.tipo == 'estagio'" class="subtext ">
-                    {{ proposta.tutor }}
-                  </p>
-                  <p v-if="proposta.tipo == 'estagio'" class="subtext ">
-                    {{ proposta.cargo }}
-                  </p>
-                  <p v-if="proposta.tipo == 'estagio'" class="subtext ">
-                    {{ proposta.email }}
-                  </p>
-                  <p v-if="proposta.tipo == 'estagio'" class="subtext ">
-                    {{ proposta.contato }}
-                  </p>
-
-                  <p v-if="proposta.estado == 'aprovado'" class="header">
-                    Professor Orientador ESMAD:
-                  </p>
-                  <p v-if="proposta.estado == 'aprovado'" class="text">
-                    {{ proposta.orientador }}
-                  </p>
-                  <p v-if="proposta.estado == 'revisao'" class="header">
-                    Motivo da Revisão:
-                  </p>
-                  <p v-if="proposta.estado == 'revisao'" class="text">
-                    {{ proposta.msgRevisao }}
-                  </p>
-                  
-
-                  <b-button
-                    v-if="!admin && proposta.estado == 'aprovado'"
-                    id="btnOpenForum"
-                    class="btnOpenForum mb-4"
-                    variant="light"
-                    @click="$bvModal.show('candidatar_modal')"
-                    >Candidatar-me</b-button
-                  >
-                  <b-button
-                    v-if="admin && proposta.estado == 'aprovado'"
-                    id="btnOpenForum"
-                    class="btnOpenForum mb-4 mt-4"
-                    variant="light"
-                    @click="eliminar()"
-                    >Eliminar Proposta</b-button
-                  >
-                  <b-button
-                    v-if="
-                      this.$store.getters.getLoggedUser.name == proposta.user &&
-                        proposta.estado == 'revisao'
-                    "
-                    id="btnOpenForum"
-                    class="btnOpenForum mb-4 mt-4"
-                    variant="light"
-                    @click="editar()"
-                    >Editar</b-button
-                  >
-
-                  <b-button
-                    v-if="admin && proposta.estado == 'analise'"
-                    id="btnOpenForum"
-                    class="btnOpenForum mb-4 mt-4"
-                    variant="light"
-                    @click="$bvModal.show('aprovar_modal')"
-                    >Aprovar</b-button
-                  >
-                  <b-button
-                    v-if="admin && proposta.estado == 'analise'"
-                    id="btnOpenForum"
-                    class="btnOpenForum ml-4 mb-4 mt-4"
-                    variant="light"
-                    @click="$bvModal.show('revisao_modal')"
-                    >Enviar para Revisão</b-button
-                  >
-                </div>
-              </div></b-col
-            >
-          </b-col>
-        </b-row>
-      </b-col>
+        </b-card-text>
+      </b-card>
     </b-col>
-
-    <div>
-      <b-modal
-        id="candidatar_modal"
-        class="modal-content"
-        size="lg"
-        hide-footer
-        hide-header
-      >
-        <div class="d-flex justify-content-center  ">
-          <b-col md="8">
-            <p id="title" class="mb-5">Candidatar-me</p>
-            <b-col md="12">
-              <b-form-textarea
-                id="input-3"
-                v-model="form.candidatura"
-                placeholder="Adicione observações à candidatura"
-                rows="10"
-                max-rows="10"
-                required
-                maxlength="350"
-              ></b-form-textarea>
-            </b-col>
-            <b-col md="12">
-              <b-row>
-                <b-col md="3">
-                  <label for="range" class="mt-2"
-                    >Prioridade: {{ form.ordem }}
-                  </label>
-                </b-col>
-                <b-col md="9">
-                  <b-form-input
-                    type="range"
-                    v-model="form.ordem"
-                    list="tickmarks"
-                    class=" mt-3 range "
-                    max="5"
-                    min="1"
-                /></b-col>
-              </b-row>
-            </b-col>
-            <div class="d-flex justify-content-center">
-              <b-button
-                id="aprovar"
-                @click="candidatar()"
-                class="mt-4"
-                type="submit"
-                >Candidatar</b-button
-              >
-            </div>
-          </b-col>
-        </div>
-      </b-modal>
-    </div>
-
-    <div>
-      <b-modal id="aprovar_modal" size="lg" hide-footer hide-header>
-        <div class="d-flex justify-content-center modalContent">
-          <b-col md="8">
-            <p id="title" class="mb-5">Atribuição de Tutor ESMAD</p>
-
-            <b-input-group>
-              <b-form-input
-                v-model="form.orientador"
-                list="my-list-id"
-                placeholder="Selecione o Docente"
-                class="input"
-              ></b-form-input>
-              <b-input-group-append> </b-input-group-append>
-            </b-input-group>
-            <datalist id="my-list-id">
-              <option v-for="user in users" :key="user.name">
-                {{ user.name }}
-              </option>
-            </datalist>
-
-            <div class="d-flex justify-content-center">
-              <b-button
-                id="aprovar"
-                @click="aprovar()"
-                class="mt-4"
-                type="submit"
-                >Aprovar</b-button
-              >
-            </div>
-          </b-col>
-        </div>
-      </b-modal>
-    </div>
-
-    <div>
-      <b-modal
-        id="revisao_modal"
-        class="modalBox"
-        size="lg"
-        hide-footer
-        hide-header
-      >
-        <div class="d-flex justify-content-center modalContent">
-          <b-col md="8">
-            <p id="title" class="mb-5">Motivo da Revisão</p>
-            <b-form-textarea
-              id="input-3"
-              v-model="form.revisao"
-              placeholder="Descreva o motivo da revisão"
-              rows="10"
-              max-rows="10"
-              required
-              maxlength="500"
-            ></b-form-textarea>
-
-            <div class="d-flex justify-content-center">
-              <b-button
-                id="revisao"
-                @click="revisao()"
-                class="mt-4"
-                type="submit"
-                >Enviar</b-button
-              >
-            </div>
-          </b-col>
-        </div>
-      </b-modal>
-    </div>
   </div>
 </template>
 <script>
@@ -311,10 +88,15 @@ export default {
 .range {
   width: 100%;
 }
-.modal-content {
+.modal-content{
   background-color: #f5f5f5 !important;
 }
-
+.proposalDetails{
+  background-color: #f5f5f5;
+  border-radius: none;
+  box-shadow: none;
+  border: none;
+}
 .subtext {
   font-weight: lighter;
   font-size: 17px;
@@ -403,14 +185,6 @@ export default {
 
 #scrollarea-content {
   min-height: 101%;
-}
-.card {
-  background-color: white;
-  font-size: 17px;
-  font-family: "Rubik", sans-serif;
-  border: none;
-  border-radius: 36px !important;
-  box-shadow: 2px 3px #d9d9d9;
 }
 .input {
   background-color: white;
