@@ -11,6 +11,7 @@
             <b-col class="mt-3" md="6">
               <p class="mt-4">Nome</p><b-input id="input-3" class="input" placeholder="Primeiro e ultimo" v-model="name" type="text" required></b-input>
             </b-col>
+            <!--Teste de commit-->
             <b-col class="mt-3" md="6">
               <p class="mt-4">Email</p><b-input id="input-1" class="input" placeholder="example@example.com" v-model="email" type="email" required></b-input>
             </b-col>
