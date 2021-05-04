@@ -13,7 +13,7 @@
             </b-col>
             <!--Teste de commit-->
             <b-col class="mt-3" md="6">
-              <!--dsasdas-->
+              <!--dsasdasasdsfd-->
               <p class="mt-4">Email</p><b-input id="input-1" class="input" placeholder="example@example.com" v-model="email" type="email" required></b-input>
             </b-col>
             <b-col class="mt-3" md="6">
