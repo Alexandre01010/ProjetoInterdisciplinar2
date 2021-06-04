@@ -21,7 +21,7 @@
               >
                 <b-form-select
                   class="input"
-                  v-model="form.entidade"
+                  v-model="form.nome_entidade"
                   :options="entidades"
                   required
                 ></b-form-select>
@@ -47,7 +47,7 @@
                 <b-form-input
                   id="input-2"
                   class="input"
-                  v-model="form.tutor"
+                  v-model="form.nome_tutor"
                   type="text"
                   maxlength="50"
                   required
@@ -85,7 +85,7 @@
                 <b-form-input
                   id="input-4"
                   class="input"
-                  v-model="form.cargo"
+                  v-model="form.cargo_tutor"
                   type="text"
                   maxlength="50"
                   required
@@ -149,31 +149,31 @@ export default {
       ],
 
       form: {
-        entidade: this.$parent.$data.form_proposta.entidade,
-        tutor: this.$parent.$data.form_proposta.tutor,
+        nome_entidade: this.$parent.$data.form_proposta.nome_entidade,
+        nome_tutor: this.$parent.$data.form_proposta.nome_tutor,
         email: this.$parent.$data.form_proposta.email,
-        cargo: this.$parent.$data.form_proposta.cargo,
+        cargo_tutor: this.$parent.$data.form_proposta.cargo_tutor,
         contato: this.$parent.$data.form_proposta.contato,
       },
     };
   },
   methods: {
     back() {
-      this.$parent.$data.form_proposta.tutor = this.form.tutor;
+      this.$parent.$data.form_proposta.nome_tutor = this.form.nome_tutor;
       this.$parent.$data.form_proposta.email = this.form.email;
-      this.$parent.$data.form_proposta.cargo = this.form.cargo;
+      this.$parent.$data.form_proposta.cargo_tutor = this.form.cargo_tutor;
       this.$parent.$data.form_proposta.contato = this.form.contato;
       this.$parent.$data.steps--;
     },
     registerProposal() {
       try {
-        this.$parent.$data.form_proposta.entidade = this.form.entidade;
-        this.$parent.$data.form_proposta.tutor = this.form.tutor;
+        this.$parent.$data.form_proposta.nome_entidade = this.form.nome_entidade;
+        this.$parent.$data.form_proposta.nome_tutor = this.form.nome_tutor;
         this.$parent.$data.form_proposta.email = this.form.email;
-        this.$parent.$data.form_proposta.cargo = this.form.cargo;
+        this.$parent.$data.form_proposta.cargo_tutor = this.form.cargo_tutor;
         this.$parent.$data.form_proposta.contato = this.form.contato;
-        this.$parent.$data.form_proposta.tipo = "estagio";
-        this.$parent.$data.form_proposta.icon = "building";
+        // this.$parent.$data.form_proposta.tipo = "estagio";
+        // this.$parent.$data.form_proposta.icon = "building";
         this.$store.dispatch(
           "registerProposal",
           this.$parent.$data.form_proposta

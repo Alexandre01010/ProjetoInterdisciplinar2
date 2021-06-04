@@ -109,14 +109,32 @@ export default {
     allProposals() {
       this.selectedOption = "all";
     },
+    async getProposalsApproved() {
+      try {
+        await this.$store.dispatch("fetchProposals");
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||  error.message || error.toString();
+      } finally {
+        // calls getter getMessage and result is put inside content component data
+        this.content = this.getMessage;
+      }
+    }
+    
   },
   computed: {
     getProposals() {
       return this.$store.getters
         .getFilterdProposals(this.selectedOption, this.search)
-        .filter((proposal) => proposal.estado == "aprovado");
+        .filter((proposal) => proposal.id_tipo_estado == 3);
+      
+      
     },
   },
+  created(){
+    this.getProposalsApproved()
+  }
 };
 </script>
 <style scoped>

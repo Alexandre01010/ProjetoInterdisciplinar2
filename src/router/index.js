@@ -75,9 +75,10 @@ const routes = [
     }
   },
   {
-    path: '/DetalhesProposta/:id',
+    path: '/DetalhesProposta',
     name: 'proposalDetails',
     component: DetalhesProposta,
+    props:true,
     meta: {
       requiresAuth: true
     }

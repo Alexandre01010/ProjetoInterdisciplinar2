@@ -8,15 +8,15 @@
           <p v-else class="type">Estágio ESMAD</p>
           <p class="title">{{ proposta.titulo }}</p>
           <p class="header">Autor:</p>
-          <p class="text">{{ proposta.user }}</p>
+          <p class="text">{{ getName }}</p>
           <p class="header">Objetivos:</p>
           <p class="text">{{ proposta.objetivos }}</p>
           <p class="header">Plano Provisório de Trabalho:</p>
-          <p class="text">{{ proposta.plano }}</p>
+          <p class="text">{{ proposta.plano_provisorio_trabalho }}</p>
           <p class="header">Perfil do candidato desejado:</p>
-          <p class="text">{{ proposta.perfil }}</p>
+          <p class="text">{{ proposta.perfil_candidato_desejado }}</p>
           <p class="header">Resultados Esperados:</p>
-          <p class="text">{{ proposta.resultados }}</p>
+          <p class="text">{{ proposta.resultados_esperados }}</p>
         </b-card-text>
       </b-card>
     </b-col>
@@ -24,6 +24,9 @@
 </template>
 <script>
 export default {
+  props: {
+        proposta: Object,
+    },
   data() {
     return {
       admin: this.$store.getters.getLoggedUser.name == "CCA" ? true : false,
@@ -42,12 +45,7 @@ export default {
         userSendPhoto: "",
       },
 
-      users: this.$store.getters.getUsers.filter(
-        (user) => user.selected == "docente"
-      ),
-      proposta: this.$store.getters.getProposals.filter(
-        (proposal) => proposal.id == this.$route.params.id
-      )[0],
+      userAutor:""
     };
   },
   methods: {
@@ -82,7 +80,29 @@ export default {
     candidatar() {
       this.$store.dispatch("candidatar", this.$data);
     },
+    async getAuthorUser() {
+      try {
+        await this.$store.dispatch("fetchUserById",this.proposta.id_user_autor);
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||  error.message || error.toString();
+      } finally {
+        // calls getter getMessage and result is put inside content component data
+        this.content = this.getMessage;
+      }
+    },
+    
   },
+  computed:{
+    getName(){
+      return this.$store.getters.getPretendedUserName
+    }
+  },
+
+  created(){
+    this.getAuthorUser();
+  }
 };
 </script>
 <style scoped>

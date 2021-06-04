@@ -24,7 +24,7 @@
               >
                 <b-form-textarea
                   id="input-1"
-                  v-model="form.dados_relevantes"
+                  v-model="form.outros_dados"
                   class="input"
                   placeholder="Outros dados que possam ser relevantes para o desenvolvimento do trabalho "
                   rows="10"
@@ -43,7 +43,7 @@
               >
                 <b-form-textarea
                   id="input-2"
-                  v-model="form.recursos"
+                  v-model="form.recursos_necessarios"
                   class="input"
                   placeholder="Descrever necessidades específicas para o projeto: hardware necessário, software necessário..."
                   rows="10"
@@ -64,7 +64,7 @@
               >
                 <b-form-textarea
                   id="input-3"
-                  v-model="form.plano"
+                  v-model="form.plano_provisorio_trabalho"
                   class="input"
                   placeholder="Plano resumido de trabalhos ao longo das 15 semanas de estágio/projeto"
                   rows="10"
@@ -110,9 +110,9 @@ export default {
       //estagio: this.$parent.$data.estagio,
       error: "",
       form: {
-        dados_relevantes: this.$parent.$data.form_proposta.dados_relevantes,
-        recursos: this.$parent.$data.form_proposta.recursos,
-        plano: this.$parent.$data.form_proposta.plano,
+        outros_dados: this.$parent.$data.form_proposta.outros_dados,
+        recursos_necessarios: this.$parent.$data.form_proposta.recursos_necessarios,
+        plano_provisorio_trabalho: this.$parent.$data.form_proposta.plano_provisorio_trabalho,
       },
     };
   },
@@ -122,16 +122,14 @@ export default {
     },
     onSubmit(event) {
       event.preventDefault();
-      this.$parent.$data.form_proposta.dados_relevantes = this.form.dados_relevantes;
-      this.$parent.$data.form_proposta.recursos = this.form.recursos;
-      this.$parent.$data.form_proposta.plano = this.form.plano;
+      this.$parent.$data.form_proposta.outros_dados = this.form.outros_dados;
+      this.$parent.$data.form_proposta.recursos_necessarios = this.form.recursos_necessarios;
+      this.$parent.$data.form_proposta.plano_provisorio_trabalho = this.form.plano_provisorio_trabalho;
       if (this.comp == "estagio") {
         //avança para o prox passo
         this.$parent.$data.steps++;
       } else {
         try {
-          this.$parent.$data.form_proposta.tipo = "projeto";
-          this.$parent.$data.form_proposta.icon = "file-earmark-code";
           this.$store.dispatch(
             "registerProposal",
             this.$parent.$data.form_proposta

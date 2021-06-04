@@ -4,16 +4,16 @@
       <p class="cardIdentification">
         <b-icon
           style="color: #0077b6; width: 19px; height: 19px"
-          :icon="propCard.icon"
+          :icon='propCard.nome_entidade==null? "file-earmark-code":"building"'
           aria-hidden="true"
         ></b-icon>
-        Proposta {{ propCard.tipo }}
+        Proposta {{ propCard.nome_entidade==null? "Projeto":"Estágio" }}
       </p>
     </b-col>
     <b-col md="12">
       <b-row>
         <b-col
-          v-if="propCard.estado == 'aprovado'"
+          v-if="propCard.id_tipo_estado == 3"
           class="cardInformation"
           md="8"
         >
@@ -26,7 +26,7 @@
           </b-col>
         </b-col>
         <b-col
-          v-if="propCard.estado == 'revisao'"
+          v-if="propCard.id_tipo_estado == 2"
           class="cardInformation"
           md="8"
         >
@@ -39,7 +39,7 @@
           </b-col>
         </b-col>
         <b-col
-          v-if="propCard.estado == 'analise'"
+          v-if="propCard.id_tipo_estado == '1'"
           class="cardInformation"
           md="8"
         >
@@ -55,7 +55,7 @@
           <div class="d-flex justify-content-end">
             <router-link
               class="menuItems"
-              :to="{ name: 'proposalDetails', params: { id: propCard.id } }"
+              :to="{ name: 'proposalDetails', params: { proposta: propCard } }"
               ><b-button id="btnDetails" variant="primary"
                 >Detalhes</b-button
               ></router-link

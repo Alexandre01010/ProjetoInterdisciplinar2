@@ -59,7 +59,7 @@
               >
                 <b-form-textarea
                   id="input-3"
-                  v-model="form.resultados"
+                  v-model="form.resultados_esperados"
                   class="input"
                   placeholder="Descrever o que se pretende obter no final do projeto"
                   rows="10"
@@ -93,7 +93,7 @@ export default {
       form: {
         titulo: this.$parent.$data.form_proposta.titulo,
         objetivos: this.$parent.$data.form_proposta.objetivos,
-        resultados: this.$parent.$data.form_proposta.resultados,
+        resultados_esperados: this.$parent.$data.form_proposta.resultados_esperados,
       },
     };
   },
@@ -103,7 +103,7 @@ export default {
       this.$parent.$data.steps++;
       this.$parent.$data.form_proposta.titulo = this.form.titulo;
       this.$parent.$data.form_proposta.objetivos = this.form.objetivos;
-      this.$parent.$data.form_proposta.resultados = this.form.resultados;
+      this.$parent.$data.form_proposta.resultados_esperados = this.form.resultados_esperados;
     },
   },
   computed: {

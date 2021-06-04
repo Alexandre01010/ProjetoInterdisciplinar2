@@ -83,14 +83,19 @@ export default {
     window.removeEventListener("resize", this.myEventHandler);
   },
   methods: {
-    login() {
+    async login() {
       try {
         // Chamar a ação login que está na Store
         //this.$store.dispatch('login',{username: this.username, password: this.password})
-        this.$store.dispatch("login", this.$data);
+        let response =await this.$store.dispatch("login", this.$data);
+        //console.log(response.message)
+        if (response) {
+          throw response.message
+        }
         // Saltar para a view Home
-        this.$router.push({ name: "forum" });
+        this.$router.push({ name: "dashboard" });
       } catch (error) {
+        
         this.catchAlert.alert = error;
       }
     },
