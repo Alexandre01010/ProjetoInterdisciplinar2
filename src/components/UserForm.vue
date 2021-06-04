@@ -19,7 +19,7 @@
                 id="input-3"
                 class="input"
                 placeholder="Primeiro e ultimo"
-                v-model="name"
+                v-model="nome"
                 type="text"
                 required
               ></b-input>
@@ -64,14 +64,14 @@
                     v-model="selected"
                     name="some-radios"
                     class="opt1 ml-4"
-                    value="docente"
+                    value="2"
                     >Docente</b-form-radio
                   >
                   <b-form-radio
                     v-model="selected"
                     name="some-radios"
                     class="opt2 ml-4"
-                    value="não docente"
+                    value="3"
                     >Não Docente</b-form-radio
                   >
                 </b-row>
@@ -140,9 +140,10 @@ export default {
       email: "",
       password: "",
       selected: "aluno",
-      name: "",
+      nome: "",
       img: "",
       descricao: "",
+      cv:"",
       confirm_password: "",
       catchAlert: {
         alert: "",

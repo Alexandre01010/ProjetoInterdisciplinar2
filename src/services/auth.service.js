@@ -29,21 +29,29 @@ export const AuthService = {
     },
 
     async register(user) {
+        console.log(user)
         const response = await fetch(`${API_URL}/signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
             },
             body: JSON.stringify({
-                username: user.username,
+                // username: user.name,
+                // email: user.email,
+                // password: user.password
+                nome: user.nome,
                 email: user.email,
-                password: user.password
+                password:  user.password,
+                id_tipo_user: user.selected,
+                cv: user.cv,
+                foto: user.img
             })
         });
         if (response.ok) {
             const data = await response.json();
             return data;
         } else {
+            console.log(Error)
             throw Error(handleResponses(response.status));
         }
     }

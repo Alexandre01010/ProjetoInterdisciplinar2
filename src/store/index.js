@@ -111,10 +111,12 @@ export default new Vuex.Store({
         (user) => user.email === payload.email
       );
       if (user == undefined) {
-        context.commit("REGISTER", payload);
-        localStorage.setItem("users", JSON.stringify(context.state.users));
+        let response = await AuthService.register(payload);
+        
+        context.commit("REGISTER", response);
+        //localStorage.setItem("users", JSON.stringify(context.state.users));
       } else {
-        throw "Email já existente";
+        return "Email já existente";
       }
     },
     async registerProposal(context, payload) {
