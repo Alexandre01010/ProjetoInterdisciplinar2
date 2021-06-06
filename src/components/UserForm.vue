@@ -16,7 +16,7 @@
             <b-col class="mt-3" md="6">
               <p class="mt-4">Nome</p>
               <b-input
-                id="input-3"
+                id="inputNome"
                 class="input"
                 placeholder="Primeiro e ultimo"
                 v-model="nome"
@@ -29,7 +29,7 @@
               <!--dsasdasasdsfd-->
               <p class="mt-4">Email</p>
               <b-input
-                id="input-1"
+                id="inputEmail"
                 class="input"
                 placeholder="example@example.com"
                 v-model="email"
@@ -40,7 +40,7 @@
             <b-col class="mt-3" md="6">
               <p class="mt-4">Password</p>
               <b-input
-                id="input-1"
+                id="inputPassword"
                 class="input"
                 v-model="password"
                 type="password"
@@ -50,7 +50,7 @@
             <b-col class="mt-3" md="6">
               <p class="mt-4">Confirmar Password</p>
               <b-input
-                id="input-1"
+                id="inputConfirmPassword"
                 class="input"
                 v-model="confirm_password"
                 type="password"
