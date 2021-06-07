@@ -115,7 +115,7 @@ export default {
   color: #707070;
   font-weight: lighter;
 }
-#sumbitBtn {
+#entrarBtn {
   background-color: #0077b6;
   width: 269px;
   height: 39px;
