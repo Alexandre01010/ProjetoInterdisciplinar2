@@ -73,31 +73,28 @@ export default {
   },
   data() {
     return {
-
+      username:""
     };
-  },
-  methods: {
-    async getUserName() {
-
   },
   computed:{
     AssignUserName(){
+      
       return this.$store.getters.getPretendedUserName
     }
   },
   created(){
 try {
-        this.$store.dispatch("fetchUserById",this.propCard.id_pro_orientador);
-      } catch (error) {
+      console.log(this.propCard.id_prof_orientador)
+      this.$store.dispatch("fetchUserById",this.propCard.id_prof_orientador);
+    } catch (error) {
         console.log(error);
-        this.content =
-          (error.response && error.response.data) ||  error.message || error.toString();
+        this.content =(error.response && error.response.data) ||  error.message || error.toString();
       }
     }
   }
 
 
-};
+
 </script>
 <style scoped>
 #listCard {
