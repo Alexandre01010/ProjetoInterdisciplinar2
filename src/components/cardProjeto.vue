@@ -15,7 +15,9 @@
         >
           {{ propCard.titulo }}
           <b-col class="text-muted mt-2" md="12">
-            <p class="participants">Professor Orientador: {{AssignUserName}}</p>
+            <p class="participants">
+              Professor Orientador: {{ AssignUserName }}
+            </p>
           </b-col>
         </b-col>
         <b-col
@@ -71,27 +73,30 @@ export default {
   },
   data() {
     return {
-      
+
     };
   },
   methods: {
     async getUserName() {
-      try {
-        await this.$store.dispatch("fetchUserById",this.propCard.id_pro_orientador);
-      } catch (error) {
-        console.log(error);
-        this.content =
-          (error.response && error.response.data) ||  error.message || error.toString();
-      } 
-    }
+
   },
   computed:{
     AssignUserName(){
       return this.$store.getters.getPretendedUserName
     }
+  },
+  created(){
+try {
+        this.$store.dispatch("fetchUserById",this.propCard.id_pro_orientador);
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||  error.message || error.toString();
+      }
+    }
   }
-  
- 
+
+
 };
 </script>
 <style scoped>
