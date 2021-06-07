@@ -15,7 +15,7 @@
         >
           {{ propCard.titulo }}
           <b-col class="text-muted mt-2" md="12">
-            <p class="participants">Professor orientador: Alexandre Cunha</p>
+            <p class="participants">Professor Orientador: {{AssignUserName}}</p>
           </b-col>
         </b-col>
         <b-col
@@ -29,7 +29,7 @@
           >
           <b-col class="text-muted mt-2" md="12">
             <p class="participants">
-              Professor Orientador: {{ propCard.id_prof_orientador }}
+              Professor Orientador: {{ AssignUserName }}
             </p>
           </b-col>
         </b-col>
@@ -44,7 +44,7 @@
           >
           <b-col class="text-muted mt-2" md="12">
             <p class="participants">
-              Professor Orientador: {{ propCard.id_prof_orientador }}
+              Professor Orientador: {{ AssignUserName }}
             </p>
           </b-col>
         </b-col>
