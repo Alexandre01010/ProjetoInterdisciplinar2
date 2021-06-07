@@ -125,6 +125,15 @@
   border: none;
   font-size: 19px;
 }
+#sumbitBtnRegister {
+  background-color: #0077b6;
+  width: 269px;
+  height: 39px;
+  border-radius: 18px;
+  font-weight: lighter;
+  font-size: 19px;
+  border: none;
+}
 @media only screen and (max-width: 992px) {
   .opt2 {
     padding-left: 0;
