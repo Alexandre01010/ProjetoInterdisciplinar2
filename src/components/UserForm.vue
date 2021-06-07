@@ -83,7 +83,7 @@
                   catchAlert.alert
                 }}</b-alert>
               </div>
-              <b-button id="entrarBtn" type="submit">Registar</b-button>
+              <b-button id="sumbitBtnRegister" type="submit">Registar</b-button>
             </b-col>
           </b-row>
         </b-col>

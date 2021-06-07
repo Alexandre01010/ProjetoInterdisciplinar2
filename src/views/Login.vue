@@ -46,7 +46,7 @@
                 }}</b-alert>
               </div>
               <div class="d-flex justify-content-center mt-5">
-                <b-button id="sumbitBtn" type="submit">Entrar</b-button>
+                <b-button id="entrarBtn" type="submit">Entrar</b-button>
               </div>
             </b-form>
             <router-link
