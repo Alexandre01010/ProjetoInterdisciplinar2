@@ -14,7 +14,7 @@ import LandingPage from '../views/LandingPage.vue'
 import MinhasPropostas from '../views/MinhasPropostas.vue'
 import Register from '../views/Register.vue'
 import Forum from '../views/Forum.vue'
-//import Store from '../store'
+import Store from '../store'
 import Dashboard from '../views/DashBoard.vue'
 import EditarPerfil from '../views/EditarPerfil.vue'
 import Forum_assunto from '../views/Forum_assunto.vue'
@@ -151,13 +151,13 @@ const routes = [
  const router = new VueRouter({
    routes
  })
-// router.beforeEach((to, from, next) => {
-//   if (to.meta.requiresAuth && !Store.getters.isLoggedUser) {
-//     next({ name: 'login' })
-//   } else {
-//     next();
-//   }
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !Store.getters.isLoggedUser) {
+    next({ name: 'login' })
+  } else {
+    next();
+  }
 
-// });
+});
 
  export default router
