@@ -41,17 +41,20 @@ export default new Vuex.Store({
     getProposals: (state) => {
       return state.proposals;
     },
-    getFilterdProposals: (state) => (type, search) => {
+    getFilterdProposals: (state) => (type, search,stateF) => {
       let type2;
       if (type != "all") {
         type2 = type == "estagio" ? false : true;
       }
-      const card_filter = state.proposals.filter(
+      let card_filter = state.proposals.filter(
         (proposal) =>
           ((proposal.nome_entidade == null) == type2 || type == "all") &&
           (proposal.titulo.toUpperCase().includes(search.toUpperCase()) ||
             search == "")
       );
+      if (stateF==1||stateF==2||stateF==3) {
+        card_filter=card_filter.filter(prop=>prop.id_tipo_estado==stateF)
+      }
       return card_filter;
     },
     getType: (state) => {

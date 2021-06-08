@@ -130,15 +130,15 @@ export default {
     },
 
     filterAprovado() {
-      this.selectedState = "aprovado";
+      this.selectedState = 3;
       this.stateText = "Aprovadas";
     },
     filterAnalise() {
-      this.selectedState = "analise";
+      this.selectedState = 1;
       this.stateText = "Análise";
     },
     filterRevisao() {
-      this.selectedState = "revisao";
+      this.selectedState = 2;
       this.stateText = "Revisão";
     },
     async getMyProposals() {
@@ -159,7 +159,7 @@ export default {
   computed: {
     getProposals() {
       return this.$store.getters
-        .getFilterdProposals(this.selectedOption, this.search);
+        .getFilterdProposals(this.selectedOption, this.search,this.selectedState);
     },
   },
   created() {
