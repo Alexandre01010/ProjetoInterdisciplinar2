@@ -51,11 +51,11 @@
                         <b-td class="candTd">Desenvolvimento de uma aplicação de deteção</b-td>
                         <b-td class="candTd">9</b-td>
                         <b-td class="candTd"><b-badge class="proposalState" variant="success">Aprovado</b-badge></b-td>
-                    <b-td>
-                        <b-button class="btn_edit" variant="#0077B6" font-color="#0077B6"><b-icon-pencil-square class="btn ml-1" style="width: 23px; height: 23px"/></b-button>
-                        <b-button id="remove" class="btn ml-1"><b-icon-trash-fill style="width: 23px; height: 23px" /></b-button>
-                     </b-td>
-    </b-tr>
+                        <b-td>
+                            <b-button class="btn_edit" variant="#0077B6" font-color="#0077B6"><b-icon-pencil-square class="btn ml-1" style="width: 23px; height: 23px"/></b-button>
+                            <b-button id="remove" class="btn ml-1"><b-icon-trash-fill style="width: 23px; height: 23px" /></b-button>
+                        </b-td>
+                    </b-tr>
   </b-table-simple>
   </div>
           </div>
