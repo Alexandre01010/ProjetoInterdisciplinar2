@@ -64,6 +64,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    // async fetchMyProposals(context,id){
+
+    // },
     async fetchUserById(context, id) {
       const response = await axios.get(resource_uri + "/users/" + id);
       context.commit("SETUSER", response.data);
@@ -121,7 +124,7 @@ export default new Vuex.Store({
     },
     async registerProposal(context, payload) {
       const proposal = context.state.proposals.find(
-        (proposal) => proposal.titulo === payload.titulo
+        (proposal) => proposal.titulo == payload.titulo
       );
       if (proposal == undefined) {
         console.log(payload);

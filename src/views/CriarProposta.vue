@@ -35,9 +35,9 @@ export default {
         email: "",
         cargo_tutor: "",
         contato: "",
-        perfil_candidato_desejado:"harcoded",
+        perfil_candidato_desejado:"",
         id_prof_orientador:50,
-        morada_entidade:"hardcoded",
+        morada_entidade:"",
         codigo_postal:"1000",
       },
     };
@@ -48,6 +48,8 @@ export default {
       return this.$route.params.type;
     },
   },
+  
+
 };
 </script>
 

@@ -12,29 +12,24 @@
             <span class="step">Passo 3</span>
           </p>
           <b-row>
-            <b-col cols="11">
+            <b-col cols="12">
               <b-form-group
                 id="input-group-1"
                 label="Entidade Acolhedora"
                 label-for="input-1"
-                class="mb-4"
+                class="mb-3"
               >
-                <b-form-select
+                <b-form-input
                   class="input"
                   v-model="form.nome_entidade"
-                  :options="entidades"
+                  type="text"
+                  maxlength="50"
                   required
-                ></b-form-select>
+                ></b-form-input>
               </b-form-group>
             </b-col>
 
-            <b-col>
-              <b-container>
-                <b-row align-v="center" align-h="center"
-                  ><b-col
-                    ><b-icon-plus-circle
-                      class="mt-5" /></b-col></b-row></b-container
-            ></b-col>
+           
           </b-row>
           <b-row>
             <b-col cols="12">

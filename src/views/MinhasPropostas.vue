@@ -145,15 +145,32 @@ export default {
   computed: {
     getProposals() {
       return this.$store.getters
-        .getFilterdProposals(this.selectedOption, this.search)
-        .filter(
-          (proposal) => proposal.user == this.$store.getters.getLoggedUser.name
-        )
+        .getMyProposals(this.selectedOption, this.search)
+
         .filter(
           (proposal) =>
             proposal.estado == this.selectedState || this.selectedState == "all"
         );
     },
+    methods: {
+      async getMyProposals() {
+        try {
+          await this.$store.dispatch("fetchMyProposals");
+        } catch (error) {
+          console.log(error);
+          this.content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+        } finally {
+          // calls getter getMessage and result is put inside content component data
+          this.content = this.getMessage;
+        }
+      },
+    },
+    // created() {
+    //   //this.getMyProposals();
+    // },
   },
 };
 </script>
