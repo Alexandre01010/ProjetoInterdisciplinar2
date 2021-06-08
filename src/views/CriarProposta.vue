@@ -24,7 +24,6 @@ export default {
     return {
       steps: 1,
       form_proposta: {
-        estado: 2,
         titulo: "",
         objetivos: "",
         resultados_esperados: "",
@@ -37,11 +36,9 @@ export default {
         cargo_tutor: "",
         contato: "",
         perfil_candidato_desejado:"harcoded",
-        id_prof_orientador:0,
-        id_tipo_estado:1,
+        id_prof_orientador:50,
         morada_entidade:"hardcoded",
-        codigo_postal:"hardcoded",
-        id_user_autor:1 //COLOCAR BUSCAR USER LOGADO,
+        codigo_postal:"1000",
       },
     };
   },

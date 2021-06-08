@@ -115,7 +115,7 @@ export default {
   },
   computed: {
     getUserName() {
-      return this.$store.getters.getLoggedUser.name;
+      return this.$store.getters.getLoggedUser;
     },
     getNotification() {
       return this.$store.getters.getNotification;

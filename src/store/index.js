@@ -11,8 +11,8 @@ export default new Vuex.Store({
   state: {
     ProposalUser: "",
     users: [],
-    loggedUser: localStorage.getItem("loggedUser")
-      ? JSON.parse(localStorage.getItem("loggedUser"))
+    loggedUser: localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
       : "",
     proposals: [],
 
@@ -38,7 +38,7 @@ export default new Vuex.Store({
         : 1;
     },
     getUsers: (state) => state.users,
-    getLoggedUser: (state) => state.loggedUser,
+    getLoggedUser: (state) => state.loggedUser.username,
     isLoggedUser: (state) => (state.loggedUser == "" ? false : true),
     getProposals: (state) => {
       return state.proposals;
@@ -125,11 +125,11 @@ export default new Vuex.Store({
       );
       if (proposal == undefined) {
         console.log(payload);
-        let response = await axios.post(resource_uri + "/propostas", payload);
+        let response = await axios.post(resource_uri + "/propostas", payload,{headers:{'x-access-token':JSON.parse(localStorage.getItem("user")).accessToken}});
         console.log(response.data);
-        let proposal = payload.push({ id_proposta: response.data });
-        console.log(proposal);
-        context.commit("REGISTERPROPOSAL", proposal);
+        // let proposal = payload+({ id_proposta: response.data });
+        // console.log(proposal);
+        // context.commit("REGISTERPROPOSAL", proposal);
         //localStorage.setItem('proposals', JSON.stringify(context.state.proposals))
       } else {
         throw "Proposta já criada! Por favor reveja os campos";
