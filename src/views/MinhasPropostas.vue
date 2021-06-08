@@ -10,7 +10,7 @@
         <b-col id="listCards" md="12">
           <div id="inputFilters" class="mt-5">
             <b-row>
-              <b-col md="11">
+              <b-col md="9">
                 <b-input
                   id="seacrhInput"
                   v-model="search"
@@ -32,7 +32,7 @@
               <b-col
                 id="filterButton"
                 class="d-flex justify-content-end"
-                md="1"
+                md="3"
               >
                 <b-button
                   id="filterBtn"
@@ -204,7 +204,7 @@ export default {
   border: none;
   border-radius: 999px;
   box-shadow: 2px 2px 2px 2px #e6e6e6;
-  width: 49px;
+  width: 100%;
   height: 49px;
   position: relative;
 }
@@ -230,7 +230,7 @@ export default {
   font-family: Rubik, sans-serif;
   font-weight: lighter;
 }
-@media (max-width: 768px) {
+@media (max-width: 719px) {
   #filterButton {
     margin-top: 9px;
     align-content: flex-start;

@@ -170,7 +170,7 @@ export default {
   font-family: Rubik, sans-serif;
   font-weight: lighter;
 }
-@media (max-width: 768px) {
+@media (max-width: 719px) {
   #filterButton {
     margin-top: 9px;
     align-content: flex-start;

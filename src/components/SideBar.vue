@@ -15,7 +15,7 @@
           </b-col>
         </b-row>
       </div>
-      <div id="menuItemsInteract">
+      <div class="ml-3" id="menuItemsInteract">
         <ul class="lisst-unstyled components">
           <!-- <li class="active">
             <a
@@ -113,7 +113,7 @@
                 icon="vector-pen"
                 aria-hidden="true"
               ></b-icon>
-              Requirimento CCA</router-link
+              Minhas Candidaturas</router-link
             >
           </li>
           <li class="d-flex justify-content-start">
