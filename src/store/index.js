@@ -64,16 +64,19 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    // async fetchMyProposals(context,id){
-
-    // },
+    async fetchMyProposals(context) {
+      const response = await axios.get(resource_uri + "/propostas/minhas",{
+        headers: {"x-access-token": JSON.parse(localStorage.getItem("user")).accessToken}});
+      context.commit("SETPROPOSALS", response.data);
+    },
     async fetchUserById(context, id) {
       const response = await axios.get(resource_uri + "/users/" + id);
       context.commit("SETUSER", response.data);
       context.commit("SETUSER", response.data);
     },
     async fetchProposals(context) {
-      const response = await axios.get(resource_uri + "/propostas");
+      const response = await axios.get(resource_uri + "/propostas/approved",{
+        headers: {"x-access-token": JSON.parse(localStorage.getItem("user")).accessToken}});
       context.commit("SETPROPOSALS", response.data);
     },
     async eliminar(context, id) {
@@ -86,7 +89,7 @@ export default new Vuex.Store({
     async login(context, payload) {
       try {
         const loggedUser = await AuthService.login(payload);
-        console.log(loggedUser)
+        console.log(loggedUser);
         context.commit("LOGIN", loggedUser);
       } catch (error) {
         return error;
@@ -115,7 +118,7 @@ export default new Vuex.Store({
       );
       if (user == undefined) {
         let response = await AuthService.register(payload);
-        
+
         context.commit("REGISTER", response);
         //localStorage.setItem("users", JSON.stringify(context.state.users));
       } else {
@@ -128,7 +131,12 @@ export default new Vuex.Store({
       );
       if (proposal == undefined) {
         console.log(payload);
-        let response = await axios.post(resource_uri + "/propostas", payload,{headers:{'x-access-token':JSON.parse(localStorage.getItem("user")).accessToken}});
+        let response = await axios.post(resource_uri + "/propostas", payload, {
+          headers: {
+            "x-access-token": JSON.parse(localStorage.getItem("user"))
+              .accessToken,
+          },
+        });
         console.log(response.data);
         // let proposal = payload+({ id_proposta: response.data });
         // console.log(proposal);

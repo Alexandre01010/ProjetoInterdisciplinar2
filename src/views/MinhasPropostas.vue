@@ -141,19 +141,7 @@ export default {
       this.selectedState = "revisao";
       this.stateText = "Revisão";
     },
-  },
-  computed: {
-    getProposals() {
-      return this.$store.getters
-        .getMyProposals(this.selectedOption, this.search)
-
-        .filter(
-          (proposal) =>
-            proposal.estado == this.selectedState || this.selectedState == "all"
-        );
-    },
-    methods: {
-      async getMyProposals() {
+    async getMyProposals() {
         try {
           await this.$store.dispatch("fetchMyProposals");
         } catch (error) {
@@ -167,11 +155,16 @@ export default {
           this.content = this.getMessage;
         }
       },
-    },
-    // created() {
-    //   //this.getMyProposals();
-    // },
   },
+  computed: {
+    getProposals() {
+      return this.$store.getters
+        .getFilterdProposals(this.selectedOption, this.search);
+    },
+  },
+  created() {
+      this.getMyProposals();
+    },
 };
 </script>
 <style scoped>
