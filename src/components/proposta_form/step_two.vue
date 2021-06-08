@@ -131,13 +131,14 @@ export default {
       } else {
         try {
           this.$store.dispatch(
-            "registerProposal",
-            this.$parent.$data.form_proposta
-          );
-          this.$router.push({ name: "myProposals" });
-        } catch (error) {
-          this.error = error;
-        }
+          "registerProposal",
+          this.$parent.$data.form_proposta
+        );
+
+        this.$router.push({ name: "myProposals" });
+      } catch (error) {
+        this.error = error;
+      }
       }
     },
   },

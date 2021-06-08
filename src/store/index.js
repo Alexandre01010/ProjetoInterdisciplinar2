@@ -139,9 +139,10 @@ export default new Vuex.Store({
           },
         });
         console.log(response.data);
-        // let proposal = payload+({ id_proposta: response.data });
+        //let proposal = payload
+        //proposal['id_proposta']=response.
         // console.log(proposal);
-        // context.commit("REGISTERPROPOSAL", proposal);
+        context.commit("REGISTERPROPOSAL", proposal);
         //localStorage.setItem('proposals', JSON.stringify(context.state.proposals))
       } else {
         throw "Proposta já criada! Por favor reveja os campos";
