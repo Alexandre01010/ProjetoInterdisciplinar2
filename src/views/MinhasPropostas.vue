@@ -21,9 +21,9 @@
                 <div v-if="selectedOption != 'all' || selectedState != 'all'">
                   <p class="text">
                     Filtros:
-                    <b-badge id="filterInfo">{{ filterText }}</b-badge>
-                    <b-badge id="filterInfo">{{ stateText }}</b-badge>
-                    <b-badge id="filterInfo"
+                    <b-badge id="filterInfo" class="mr-1">{{ filterText }}</b-badge>
+                    <b-badge id="filterInfo" class="mr-1">{{ stateText }}</b-badge>
+                    <b-badge id="filterInfo" class="mr-1"
                       >{{ getProposals.length }} resultados</b-badge
                     >
                   </p>

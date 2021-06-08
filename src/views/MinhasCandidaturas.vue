@@ -3,7 +3,7 @@
     <b-col id="contentContainer" cols="12">
       <div id="forumTitle">
         <b-col cols="12">
-          <h3 class="TitlePage">Minhas Propostas</h3>
+          <h3 class="TitlePage">Minhas Candidaturas</h3>
         </b-col>
       </div>
       <div>
@@ -40,7 +40,7 @@
           <!--Cards-->
           <div class="mt-3" id="cardsDisplay" v-if="getProposals.length > 0">
             <div id="forumContent" class="d-flex justify-content-center">
-                <b-table-simple class="table input" borderless hover>
+                <b-table-simple responsive class="table input" borderless hover>
                     <b-tr class="head">
                         <b-th class="text-center">Proposta</b-th>
                         <b-th class="text-center">ordem de escolha</b-th>
@@ -51,16 +51,18 @@
                         <b-td class="candTd">Desenvolvimento de uma aplicação de deteção</b-td>
                         <b-td class="candTd">9</b-td>
                         <b-td class="candTd"><b-badge class="proposalState" variant="success">Aprovado</b-badge></b-td>
-                        <b-td>
-                            <b-button class="btn_edit" variant="#0077B6" font-color="#0077B6"><b-icon-pencil-square class="btn mr-4" style="width: 23px; height: 23px"/></b-button>
-                            <b-button id="remove" class="btn mr-4"><b-icon-trash-fill style="width: 23px; height: 23px" /></b-button>
-                        </b-td>
-                    </b-tr>
-                </b-table-simple>
-            </div>
+                    <b-td>
+                        <b-button class="btn_edit" variant="#0077B6" font-color="#0077B6"><b-icon-pencil-square class="btn ml-1" style="width: 23px; height: 23px"/></b-button>
+                        <b-button id="remove" class="btn ml-1"><b-icon-trash-fill style="width: 23px; height: 23px" /></b-button>
+                     </b-td>
+    </b-tr>
+  </b-table-simple>
+  </div>
           </div>
           <div class="align-self-center" v-else>
-            <warning message="Não foram encontrados resultados para a pesquisa!"/>
+            <warning
+              message="Não foram encontrados resultados para a pesquisa!"
+            />
           </div>
         </b-col>
       </div>
