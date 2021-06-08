@@ -11,16 +11,12 @@
       </p>
       <p v-if="propCard.id_tipo_estado == 1" class="cardIdentification">
        Proposta {{ propCard.nome_entidade == null ? "Projeto" : "Estágio" }}
-        <b-badge class="proposalState ml-2" variant="danger">Análise</b-badge>
+        <b-badge class="proposalState ml-2" variant="warning">Em Análise</b-badge>
       </p>
     </b-col>
     <b-col md="12">
       <b-row>
-        <b-col
-          v-if="propCard.id_tipo_estado == 3"
-          class="cardInformation"
-          md="8"
-        >
+        <b-col v-if="propCard.id_tipo_estado == 3" class="cardInformation" md="8">
           {{ propCard.titulo }}
           <b-col class="text-muted mt-2" md="12">
             <p class="participants">
@@ -28,45 +24,25 @@
             </p>
           </b-col>
         </b-col>
-        <b-col
-          v-if="propCard.id_tipo_estado == 2"
-          class="cardInformation"
-          md="8"
-        >
+        <b-col v-if="propCard.id_tipo_estado == 2" class="cardInformation" md="8">
           {{ propCard.titulo }}
-          <b-badge class="proposalState ml-2" variant="danger"
-            >Para Revisão</b-badge
-          >
           <b-col class="text-muted mt-2" md="12">
             <p class="participants">
-              Candidaturas efetuadas: {{ AssignUserName }}
+              9 candidaturas efetuadas
             </p>
           </b-col>
         </b-col>
-        <b-col
-          v-if="propCard.id_tipo_estado == '1'"
-          class="cardInformation"
-          md="8"
-        >
+        <b-col v-if="propCard.id_tipo_estado == 1" class="cardInformation" md="8">
           {{ propCard.titulo }}
-          <b-badge class="proposalState ml-2" variant="warning"
-            >Em análise</b-badge
-          >
           <b-col class="text-muted mt-2" md="12">
             <p class="participants">
-              Candidaturas efetuadas: {{ AssignUserName }}
+              9 candidaturas efetuadas
             </p>
           </b-col>
         </b-col>
         <b-col md="4">
           <div class="d-flex justify-content-center">
-            <router-link
-              class="menuItems"
-              :to="{ name: 'proposalDetails', params: { proposta: propCard } }"
-              ><b-button id="btnDetails" variant="primary"
-                >Detalhes</b-button
-              ></router-link
-            >
+            <router-link class="menuItems" :to="{ name: 'proposalDetails', params: { proposta: propCard } }"><b-button id="btnDetails" variant="primary">Detalhes</b-button></router-link>
           </div>
         </b-col>
       </b-row>
