@@ -15,13 +15,11 @@ export default new Vuex.Store({
       ? JSON.parse(localStorage.getItem("user"))
       : "",
     proposals: [],
+    applications: [],
 
     notifications: localStorage.getItem("notification")
       ? JSON.parse(localStorage.getItem("notification"))
-      : [],
-    applications: localStorage.getItem("applications")
-      ? JSON.parse(localStorage.getItem("applications"))
-      : [],
+      : []
   },
   getters: {
     getPretendedUserName: (state) => {

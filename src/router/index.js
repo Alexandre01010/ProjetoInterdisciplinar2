@@ -18,6 +18,7 @@ import Store from '../store'
 import Dashboard from '../views/DashBoard.vue'
 import EditarPerfil from '../views/EditarPerfil.vue'
 import Forum_assunto from '../views/Forum_assunto.vue'
+import MinhasCandidaturas from '../views/MinhasCandidaturas.vue'
 
 
 Vue.use(VueRouter)
@@ -142,6 +143,14 @@ const routes = [
     path: '/EditarPerfil',
     name: 'editarPerfil',
     component: EditarPerfil,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/MinhasCandidaturas',
+    name: 'minhasCandidaturas',
+    component: MinhasCandidaturas,
     meta: {
       requiresAuth: true
     }

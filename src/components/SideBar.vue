@@ -101,7 +101,7 @@
             >
           </li>
           <li class="d-flex justify-content-start">
-            <router-link class="menuItems" :to="{ name: 'interview' }"
+            <router-link class="menuItems" :to="{ name: 'minhasCandidaturas' }"
               ><b-icon
                 style="
                   color: #c74620;
