@@ -16,7 +16,7 @@
                 label-for="input-1"
               >
                 <b-form-input
-                  id="input-1"
+                  id="inputEmail"
                   class="input"
                   v-model="email"
                   type="email"
@@ -30,7 +30,7 @@
                 label-for="input-2"
               >
                 <b-form-input
-                  id="input-2"
+                  id="inputPassword"
                   class="input"
                   type="password"
                   v-model="password"
