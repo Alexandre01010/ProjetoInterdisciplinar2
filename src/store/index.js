@@ -81,6 +81,11 @@ export default new Vuex.Store({
         headers: {"x-access-token": JSON.parse(localStorage.getItem("user")).accessToken}});
       context.commit("SETPROPOSALS", response.data);
     },
+    async fetchMyCandidaturas(context) {
+      const response = await axios.get(resource_uri + "/candidaturas/minhas", {
+        headers: {"x-access-token": JSON.parse(localStorage.getItem("user")).accessToken}})
+      context.commit("SETCMYCANDIDATURAS", response.data)
+    },
     async eliminar(context, id) {
       context.commit("DELETEPROPOSAL", id);
       localStorage.setItem(
