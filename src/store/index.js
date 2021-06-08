@@ -4,6 +4,7 @@ import axios from "axios";
 //import { UserService } from "@/services/user.service";
 import { AuthService } from "@/services/auth.service";
 
+
 Vue.use(Vuex);
 const resource_uri = "http://localhost:8080";
 
