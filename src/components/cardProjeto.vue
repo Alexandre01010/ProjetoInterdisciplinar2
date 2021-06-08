@@ -1,9 +1,17 @@
 <template>
-  <b-card class="mt-5" id="listCard">
-    <b-col md="3">
-      <p class="cardIdentification">
-        Proposta {{ propCard.nome_entidade == null ? "Projeto" : "Estágio" }}
+  <b-card class="mt-3" id="listCard">
+    <b-col md="12">
+      <p v-if="propCard.id_tipo_estado == 3" class="cardIdentification">
+       Proposta {{ propCard.nome_entidade == null ? "Projeto" : "Estágio" }}
         <b-badge class="proposalState ml-2" variant="success">Aprovado</b-badge>
+      </p>
+      <p v-if="propCard.id_tipo_estado == 2" class="cardIdentification">
+       Proposta {{ propCard.nome_entidade == null ? "Projeto" : "Estágio" }}
+        <b-badge class="proposalState ml-2" variant="danger">Para revisão</b-badge>
+      </p>
+      <p v-if="propCard.id_tipo_estado == 1" class="cardIdentification">
+       Proposta {{ propCard.nome_entidade == null ? "Projeto" : "Estágio" }}
+        <b-badge class="proposalState ml-2" variant="danger">Análise</b-badge>
       </p>
     </b-col>
     <b-col md="12">
@@ -16,7 +24,7 @@
           {{ propCard.titulo }}
           <b-col class="text-muted mt-2" md="12">
             <p class="participants">
-              Professor Orientador: {{ AssignUserName }}
+              9 candidaturas efetuadas
             </p>
           </b-col>
         </b-col>
@@ -31,7 +39,7 @@
           >
           <b-col class="text-muted mt-2" md="12">
             <p class="participants">
-              Professor Orientador: {{ AssignUserName }}
+              Candidaturas efetuadas: {{ AssignUserName }}
             </p>
           </b-col>
         </b-col>
@@ -46,7 +54,7 @@
           >
           <b-col class="text-muted mt-2" md="12">
             <p class="participants">
-              Professor Orientador: {{ AssignUserName }}
+              Candidaturas efetuadas: {{ AssignUserName }}
             </p>
           </b-col>
         </b-col>

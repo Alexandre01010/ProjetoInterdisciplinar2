@@ -10,69 +10,39 @@
         <b-col id="listCards" md="12">
           <div id="inputFilters" class="mt-5">
             <b-row>
-              <b-col md="11">
-                <b-input
-                  id="seacrhInput"
-                  v-model="search"
-                  type="text"
-                  placeholder="Search"
-                ></b-input>
-                <br />
+              <b-col md="9">
+                <b-input id="seacrhInput" v-model="search" type="text" placeholder="Search"></b-input>
+                <br/>
                 <div v-if="selectedOption != 'all'">
                   <p class="text">
                     Filtros:
-                    <b-badge id="filterInfo">{{ filterText }}</b-badge>
-                    <b-badge id="filterInfo"
-                      >{{ getProposals.length }} resultados</b-badge
-                    >
+                    <b-badge id="filterInfo" class="mr-1">{{ filterText }}</b-badge>
+                    <b-badge id="filterInfo" class="mr-1">{{ getProposals.length }} resultados</b-badge>
                   </p>
                 </div>
               </b-col>
-              <b-col
-                id="filterButton"
-                class="d-flex justify-content-end"
-                md="1"
-              >
-                <b-button
-                  id="filterBtn"
-                  variant="light"
-                  data-bs-toggle="dropdown"
-                  ><b-icon icon="filter-right" aria-hidden="true"></b-icon
-                ></b-button>
-                <ul
-                  id="dropdownFilter"
-                  class="dropdown-menu"
-                  aria-labelledby="dropdownMenuButton2"
-                >
+              <b-col id="filterButton" class="d-flex justify-content-end" md="3">
+                <b-button id="filterBtn" variant="light" data-bs-toggle="dropdown"><b-icon icon="filter-right" aria-hidden="true"></b-icon></b-button>
+                <ul id="dropdownFilter" class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
                   <li>
                     <a @click="allProposals" class="dropdown-item">Todas</a>
                   </li>
                   <li>
-                    <a @click="filterProjeto" class="dropdown-item"
-                      >Proposta Projeto</a
-                    >
+                    <a @click="filterProjeto" class="dropdown-item">Proposta Projeto</a>
                   </li>
                   <li>
-                    <a @click="filterEstagio" class="dropdown-item"
-                      >Proposta Estágio</a
-                    >
+                    <a @click="filterEstagio" class="dropdown-item">Proposta Estágio</a>
                   </li>
                 </ul>
               </b-col>
             </b-row>
           </div>
           <!--Cards-->
-          <div class="mt-3" id="cardsDisplay" v-if="getProposals.length > 0">
-            <cardProjeto
-              v-for="proposal in getProposals"
-              :key="proposal.titulo"
-              :propCard="proposal"
-            />
+          <div class="mt-1" id="cardsDisplay" v-if="getProposals.length > 0">
+            <cardProjeto v-for="proposal in getProposals" :key="proposal.titulo" :propCard="proposal"/>
           </div>
-          <div class="align-self-center" v-else>
-            <warning
-              message="Não foram encontrados resultados para a pesquisa!"
-            />
+          <div class="align-self-center mt-3" v-else>
+            <warning message="Não foram encontrados resultados para a pesquisa!"/>
           </div>
         </b-col>
       </div>
@@ -174,7 +144,7 @@ export default {
   border: none;
   border-radius: 999px;
   box-shadow: 2px 2px 2px 2px #e6e6e6;
-  width: 49px;
+  width: 100%;
   height: 49px;
   position: relative;
 }
