@@ -8,37 +8,8 @@
       </div>
       <div>
         <b-col id="listCards" md="12">
-          <div id="inputFilters" class="mt-5">
-            <b-row>
-              <b-col md="9">
-                <b-input id="seacrhInput" v-model="search" type="text" placeholder="Search"></b-input>
-                <br/>
-                <div v-if="selectedOption != 'all'">
-                  <p class="text">
-                    Filtros:
-                    <b-badge id="filterInfo" class="mr-1">{{ filterText }}</b-badge>
-                    <b-badge id="filterInfo" class="mr-1">{{ getProposals.length }} resultados</b-badge>
-                  </p>
-                </div>
-              </b-col>
-              <b-col id="filterButton" class="d-flex justify-content-end" md="3">
-                <b-button id="filterBtn" variant="light" data-bs-toggle="dropdown"><b-icon icon="filter-right" aria-hidden="true"></b-icon></b-button>
-                <ul id="dropdownFilter" class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                  <li>
-                    <a @click="allProposals" class="dropdown-item">Todas</a>
-                  </li>
-                  <li>
-                    <a @click="filterProjeto" class="dropdown-item">Proposta Projeto</a>
-                  </li>
-                  <li>
-                    <a @click="filterEstagio" class="dropdown-item">Proposta Estágio</a>
-                  </li>
-                </ul>
-              </b-col>
-            </b-row>
-          </div>
           <!--Cards-->
-          <div class="mt-3" id="cardsDisplay" v-if="getProposals.length > 0">
+          <div class="mt-3" id="cardsDisplay" v-if="getMyCandid.length > 0">
             <div id="forumContent" class="d-flex justify-content-center">
                 <b-table-simple responsive class="table input" borderless hover>
                     <b-tr class="head">
@@ -47,17 +18,9 @@
                         <b-th class="text-center">Estado</b-th>
                         <b-th class="text-center">Ações</b-th>
                     </b-tr>
-                    <b-tr class="text-center tabledata">
-                        <b-td class="candTd">Desenvolvimento de uma aplicação de deteção</b-td>
-                        <b-td class="candTd">9</b-td>
-                        <b-td class="candTd"><b-badge class="proposalState" variant="success">Aprovado</b-badge></b-td>
-                        <b-td>
-                            <b-button class="btn_edit" variant="#0077B6" font-color="#0077B6"><b-icon-pencil-square class="btn ml-1" style="width: 23px; height: 23px"/></b-button>
-                            <b-button id="remove" class="btn ml-1"><b-icon-trash-fill style="width: 23px; height: 23px" /></b-button>
-                        </b-td>
-                    </b-tr>
-  </b-table-simple>
-  </div>
+                <tableTr v-for="cand in getMyCandid" :key="cand.titulo" :tableTr="cand" />
+                </b-table-simple>
+            </div>
           </div>
           <div class="align-self-center" v-else>
             <warning
@@ -70,13 +33,13 @@
   </div>
 </template>
 <script>
-//import cardProjeto from "../components/cardProjeto.vue";
+import tableTr from "../components/candidaturaTableData.vue";
 import warning from "../components/warning.vue";
 //import cardEstagio from '../components/cardEstagio.vue'
 export default {
-  name: "MinhasPropostas.vue",
+  name: "MinhasCandidaturas.vue",
   components: {
-    //cardProjeto,
+    tableTr,
     //cardEstagio,
     warning,
   },
@@ -90,34 +53,9 @@ export default {
     };
   },
   methods: {
-    filterProjeto() {
-      this.selectedOption = "projeto";
-      this.filterText = "Projeto";
-    },
-    filterEstagio() {
-      this.selectedOption = "estagio";
-      this.filterText = "Estágio";
-    },
-    allProposals() {
-      this.selectedOption = "all";
-      this.selectedState = "all";
-    },
-
-    filterAprovado() {
-      this.selectedState = "aprovado";
-      this.stateText = "Aprovadas";
-    },
-    filterAnalise() {
-      this.selectedState = "analise";
-      this.stateText = "Análise";
-    },
-    filterRevisao() {
-      this.selectedState = "revisao";
-      this.stateText = "Revisão";
-    },
-    async getMyProposals() {
+    async getMyAplications() {
         try {
-          await this.$store.dispatch("fetchMyProposals");
+          await this.$store.dispatch("fetchMyCandidaturas");
         } catch (error) {
           console.log(error);
           this.content =
@@ -131,14 +69,18 @@ export default {
       },
   },
   computed: {
-    getProposals() {
-      return this.$store.getters
-        .getFilterdProposals(this.selectedOption, this.search);
+    getMyCandid() {
+    try{
+        console.log(this.$store.getters.getMyCandidaturas)
+        return this.$store.getters.getMyCandidaturas
+    }catch(err){
+        return[]
+    }
     },
   },
   created() {
-      this.getMyProposals();
-    },
+      this.getMyAplications()
+    }
 };
 </script>
 <style scoped>
@@ -249,10 +191,6 @@ export default {
   font-size: 12px;
   font-family: Rubik, sans-serif;
   font-weight: lighter;
-}
-.candTd{
-    text-align: center; 
-    vertical-align: middle;
 }
 </style>
 
