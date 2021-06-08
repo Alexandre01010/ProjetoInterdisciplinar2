@@ -16,23 +16,7 @@
     </b-col>
     <b-col md="12">
       <b-row>
-        <b-col v-if="propCard.id_tipo_estado == 3" class="cardInformation" md="8">
-          {{ propCard.titulo }}
-          <b-col class="text-muted mt-2" md="12">
-            <p class="participants">
-              9 candidaturas efetuadas
-            </p>
-          </b-col>
-        </b-col>
-        <b-col v-if="propCard.id_tipo_estado == 2" class="cardInformation" md="8">
-          {{ propCard.titulo }}
-          <b-col class="text-muted mt-2" md="12">
-            <p class="participants">
-              9 candidaturas efetuadas
-            </p>
-          </b-col>
-        </b-col>
-        <b-col v-if="propCard.id_tipo_estado == 1" class="cardInformation" md="8">
+        <b-col class="cardInformation" md="8">
           {{ propCard.titulo }}
           <b-col class="text-muted mt-2" md="12">
             <p class="participants">
