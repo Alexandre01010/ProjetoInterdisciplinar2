@@ -82,7 +82,7 @@ export default {
           }finally{
             this.content = this.getMessage;
           }
-      }
+      },
   },
   computed:{
       getProposal(){

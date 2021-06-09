@@ -13,7 +13,7 @@
                 <b-table-simple responsive class="table input" borderless hover>
                     <b-tr class="head">
                         <b-th class="text-center">Proposta</b-th>
-                        <b-th class="text-center">ordem de escolha</b-th>
+                        <b-th class="text-center">Prioridade</b-th>
                         <b-th class="text-center">Estado</b-th>
                         <b-th class="text-center">Ações</b-th>
                     </b-tr>
