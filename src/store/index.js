@@ -89,13 +89,17 @@ export default new Vuex.Store({
   },
   actions: {
     async fetchTemasByIdForum(context,payload){
-      const response = await axios.get(resource_uri + "/foruns/"+payload.id_forum+"/temas/", {
-        headers: {
-          "x-access-token": JSON.parse(localStorage.getItem("user"))
-            .accessToken,
-        },
-      });
-      context.commit("SETTEMAS", response.data);
+      try{
+        const response = await axios.get(resource_uri + "/foruns/"+payload.id_forum+"/temas/", {
+          headers: {
+            "x-access-token": JSON.parse(localStorage.getItem("user"))
+              .accessToken,
+          },
+        });
+        context.commit("SETTEMAS", response.data);
+      }catch(error){
+        context.commit('SETTEMAS', [])
+      }
     },
     async fetchMyForuns(context){
       const response = await axios.get(resource_uri + "/foruns", {
@@ -149,6 +153,7 @@ export default new Vuex.Store({
       const response = await axios.get(resource_uri + "/propostas/" + id);
       context.commit("SETPROPOSAL", response.data);
     },
+    //async fetchPorposalForApproval(context, )
     async fetchMyCandidaturas(context) {
       const response = await axios.get(resource_uri + "/candidaturas/minhas", {
         headers: {
