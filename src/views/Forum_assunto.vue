@@ -25,9 +25,9 @@
             >
           </b-col>
         </b-row>
-        <b-row class="mt-3">
-          <b-col v-for="assunto in getTemas" :key="assunto.id" cols="12">
-            <b-card class="mt-5 discussionCard">
+        <b-row class="mt-3" v-if="getTemas.length>0">
+          <b-col  v-for="assunto in getTemas" :key="assunto.id" cols="12" >
+            <b-card class="mt-5 discussionCard" >
               <b-col md="12">
                 <b-row align-v="center">
                   <b-col md="2">
@@ -65,7 +65,13 @@
               </b-col>
             </b-card>
           </b-col>
+          
         </b-row>
+        <div class="align-self-center" v-else>
+            <warning
+              message="Não foram encontrados resultados para a pesquisa!"
+            />
+          </div>
       </b-col>
 
       <div></div>
@@ -74,7 +80,11 @@
 </template>
 
 <script>
+import warning from "../components/warning.vue";
 export default {
+  components:{
+    warning
+  },
   props: {
         forum: Object,
     },
@@ -88,6 +98,7 @@ export default {
   methods: {
     async getForumTemas(){
       try {
+          console.log(this.forum.id_forum +" id do forum")
           await this.$store.dispatch("fetchTemasByIdForum",this.forum);
         } catch (error) {
           console.log(error);
@@ -103,8 +114,9 @@ export default {
   },
   computed:{
     getTemas() {
+      
       return this.$store.getters
-        .getFilterdtemas(this.selectedOption);
+        .getFilterdtemas(this.search);
     },
   },
   created() {
