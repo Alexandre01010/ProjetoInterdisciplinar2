@@ -42,13 +42,21 @@
       <b-button v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Editar</b-button>
       <b-button v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Eliminar Proposta</b-button>
       <b-button id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Voltar</b-button>
-      <b-modal id="aprovar_modal" size="lg" hide-footer hide-header>
-        <div class="d-flex justify-content-center modalContent">
-          <b-col md="8">
-            <p id="title" class="mb-5">Atribuição de Tutor ESMAD</p>
+      <b-modal id="aprovar_modal" size="lg" hide-header hide-footer>
+            <b-col md="12">
+              <b-row>
+                <b-col md="6">
+                  <p id="title">Atribuição de Tutor ESMAD</p>
+                </b-col>
+                <b-col class="d-flex justify-content-end" md="6">
+                  <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal">X</b-button>
+                </b-col>
+              </b-row>
+            </b-col>
+            <b-col md="8">
             <b-input-group>
               <b-form-input v-model="form.orientador" list="my-list-id" placeholder="Selecione o Docente" class="input"></b-form-input>
-              </b-input-group>
+            </b-input-group>
             <datalist id="my-list-id">
               <select>
                 <option v-for="prof in getProfessores" :key="prof.id_user">
@@ -59,17 +67,12 @@
             <div class="d-flex justify-content-center">
               <b-button @click="updateProposalState" id="aprovar" class="mt-4" type="submit">Aprovar</b-button>
             </div>
-              <div
-                v-if="catchAlert.alert"
-                class="d-flex justify-content-center mt-5"
-              >
-                <b-alert id="alertMessage" show variant="danger">{{
-                  catchAlert.alert
-                }}</b-alert>
+              <div v-if="catchAlert.alert" class="d-flex justify-content-center mt-5">
+                <b-alert id="alertMessage" show variant="danger">{{catchAlert.alert}}</b-alert>
               </div>
-          </b-col>
-        </div>
-      </b-modal>
+
+            </b-col>
+          </b-modal>
     </b-col>
   </div>
 </template>
@@ -159,7 +162,7 @@ export default {
       try{
         await this.$store.dispatch("putAproveProposal", {id_proposta: this.proposta.id_proposta, id_tipo_estado: 3, id_prof_orientador: this.getProfessores.filter(prof => prof.nome == this.form.orientador)[0].id_user })
       }catch(error){
-        this.catchAlert.alert = "Deve inserir um professor orientador para aprovar uma proposta";
+        this.catchAlert.alert = "Deve inserir um professor orientador";
       }
       
       
@@ -236,5 +239,20 @@ export default {
   font-weight: 700;
   color: #767676;
   font-size: 15px;
+}
+#alertMessage {
+  background-color: white;
+  color: red;
+  border: none;
+  font-size: 19px;
+}
+.closeModal {
+  background-color: #fff;
+  border: none;
+  border-radius: 99px;
+  width: 39px;
+  height: 39px;
+  color: #757070;
+  box-shadow: 2px 2px 2px 2px #e6e6e6;
 }
 </style>
