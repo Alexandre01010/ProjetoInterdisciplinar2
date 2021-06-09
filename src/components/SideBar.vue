@@ -100,7 +100,7 @@
               Entrevistas</router-link
             >
           </li>
-          <li class="d-flex justify-content-start">
+          <li v-if="getLoggedUser != 1" class="d-flex justify-content-start">
             <router-link class="menuItems" :to="{ name: 'minhasCandidaturas' }"
               ><b-icon
                 style="

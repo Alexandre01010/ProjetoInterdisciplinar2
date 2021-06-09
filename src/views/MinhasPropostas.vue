@@ -81,7 +81,7 @@
           <div class="mt-3" id="cardsDisplay" v-if="getProposals.length > 0">
             <cardProjeto
               v-for="proposal in getProposals"
-              :key="proposal.titulo"
+              :key="proposal.id_proposta"
               :propCard="proposal"
             />
           </div>

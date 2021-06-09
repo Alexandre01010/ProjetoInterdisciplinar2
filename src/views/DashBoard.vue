@@ -39,7 +39,7 @@
           </div>
           <!--Cards-->
           <div class="mt-1" id="cardsDisplay" v-if="getProposals.length > 0">
-            <cardProjeto v-for="proposal in getProposals" :key="proposal.titulo" :propCard="proposal"/>
+            <cardProjeto v-for="proposal in getProposals" :key="proposal.id_proposta" :propCard="proposal"/>
           </div>
           <div class="align-self-center mt-3" v-else>
             <warning message="Não foram encontrados resultados para a pesquisa!"/>

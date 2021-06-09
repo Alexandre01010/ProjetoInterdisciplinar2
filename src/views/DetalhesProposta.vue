@@ -21,36 +21,41 @@
           <p class="text">{{ proposta.resultados_esperados }}</p>
           <p class="header">Outros Dados:</p>
           <p class="text">{{ proposta.outros_dados }}</p>
+          <p v-if="proposta.id_tipo_estado == 3" class="header">Professor orientador:</p>
+          <p v-if="proposta.id_tipo_estado == 3" class="text">{{ getProfessores }}</p>
           <p v-if="proposta.nome_entidade != null" class="header">Tutor:</p>
           <p v-if="proposta.nome_entidade != null" class="text">{{ proposta.nome_tutor }}</p>
           <p v-if="proposta.nome_entidade != null" class="header">Cargo do tutor:</p>
           <p v-if="proposta.nome_entidade != null" class="text">{{ proposta.cargo_tutor }}</p>
           <p v-if="proposta.nome_entidade != null" class="header">Contacto entidade:</p>
           <p v-if="proposta.nome_entidade != null" class="text">{{ proposta.contato }}</p>
-          <p v-if="proposta.nome_entidade != null" class="header">Professor orientador:</p>
-          <p v-if="proposta.nome_entidade != null" class="text">{{ getName }}</p>
           <p v-if="proposta.nome_entidade != null" class="header">Nome entidade:</p>
           <p v-if="proposta.nome_entidade != null" class="text">{{ proposta.nome_entidade }}</p>
           <p v-if="proposta.nome_entidade != null" class="header">Morada da entidade:</p>
           <p v-if="proposta.nome_entidade != null" class="text">{{ proposta.morada_entidade }}</p>
           <p v-if="proposta.nome_entidade != null" class="header">Email entidade:</p>
           <p v-if="proposta.nome_entidade != null" class="text">{{ proposta.email }}</p>
+          <p v-if="proposta.id_tipo_estado == 2" class="header">Mensagem de revisão:</p>
+          <p v-if="proposta.id_tipo_estado == 2" class="text">{{ proposta.msgRevisao }}</p>
         </b-card-text>
       </b-card>
       <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum mb-4 mt-4 ml-3" variant="light" @click="$bvModal.show('aprovar_modal')">Aprovar</b-button>
-      <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Enviar para Revisão</b-button>
+      <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light" @click="$bvModal.show('enviar_revisao')">Enviar para Revisão</b-button>
       <b-button v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Editar</b-button>
       <b-button v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Eliminar Proposta</b-button>
       <b-button id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Voltar</b-button>
       <b-modal id="aprovar_modal" size="lg" hide-header hide-footer>
         <b-col md="12">
           <b-row>
-            <b-col md="6">
-              <p id="title">Atribuição de Tutor ESMAD</p>
+            <b-col class="items" md="12">
+            <b-row>
+                <p class="ml-3" id="title">Atribuição de Tutor ESMAD</p>
+                <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal">X</b-button>
+            </b-row>
             </b-col>
-            <b-col class="d-flex justify-content-end" md="6">
-              <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal">X</b-button>
-            </b-col>
+            <!-- <b-col class="d-flex justify-content-end" md="6">
+              <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal mb-3">X</b-button>
+            </b-col> -->
           </b-row>
         </b-col>
         <div class="d-flex justify-content-center"> 
@@ -60,7 +65,7 @@
             </b-input-group>
             <datalist id="my-list-id">
               <select>
-                <option v-for="prof in getProfessores" :key="prof.id_user">
+                <option v-for="prof in getAllProfs" :key="prof.id_user">
                   {{prof.nome}}
                 </option>
               </select>
@@ -71,7 +76,33 @@
           </b-col>
         </div>  
         <div class="d-flex justify-content-center">
-          <b-button @click="updateProposalState" id="aprovar" class="mt-4" type="submit">Aprovar</b-button>
+          <b-button @click="updateProposalState" id="aprovar" class="btnSubmitValues mt-4" type="submit">Aprovar</b-button>
+        </div>
+      </b-modal>
+      <b-modal id="enviar_revisao" size="lg" hide-header hide-footer>
+        <b-col md="12">
+          <b-row>
+            <b-col class="items" md="12">
+            <b-row>
+               <p class="ml-3" id="title">Motivo da revisão</p>
+                <b-button @click="$bvModal.hide('enviar_revisao')" variant="light" class="closeModal">X</b-button>
+            </b-row>
+            </b-col>
+            <!-- <b-col class="d-flex justify-content-end" md="6">
+              <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal mb-3">X</b-button>
+            </b-col> -->
+          </b-row>
+        </b-col>
+        <div class="d-flex justify-content-center"> 
+          <b-col md="8" >
+            <b-form-textarea id="input-3" v-model="form.candidatura" placeholder="Adicione observações à candidatura" rows="10" max-rows="10" required maxlength="350"></b-form-textarea>
+              <div v-if="catchAlert.alert" class="d-flex justify-content-center mt-5">
+                <b-alert id="alertMessage" show variant="danger">{{catchAlert.alert}}</b-alert>
+              </div>
+            </b-col>
+        </div>  
+        <div class="d-flex justify-content-center">
+          <b-button @click="updateProposalStateRevisao" id="aprovar" class="btnSubmitValues mt-4" type="submit">Enviar</b-button>
         </div>
       </b-modal>
     </b-col>
@@ -161,12 +192,20 @@ export default {
 
     async updateProposalState(){
       try{
-        await this.$store.dispatch("putAproveProposal", {id_proposta: this.proposta.id_proposta, id_tipo_estado: 3, id_prof_orientador: this.getProfessores.filter(prof => prof.nome == this.form.orientador)[0].id_user })
+        await this.$store.dispatch("putAproveProposal", {id_proposta: this.proposta.id_proposta, id_tipo_estado: 3, id_prof_orientador: this.getAllProfs.filter(prof => prof.nome == this.form.orientador)[0].id_user })
+        this.$router.push({ name: "aproveProposals" });
       }catch(error){
-        this.catchAlert.alert = "Deve inserir um professor orientador";
+        this.catchAlert.alert = error;
       }
-      
-      
+    },
+
+    async updateProposalStateRevisao(){
+      try{
+        await this.$store.dispatch("putAproveProposal", {id_proposta: this.proposta.id_proposta, id_tipo_estado: 2, msgRevisao: this.form.revisao})
+        this.$router.push({ name: "aproveProposals" });
+      }catch(error){
+        console.log(error)
+      }
     },
 
     async getProfNames(){
@@ -187,8 +226,18 @@ export default {
     getName(){
       return this.$store.getters.getPretendedUserName.nome
     },
-    getProfessores(){
+
+    getAllProfs(){
       return this.$store.getters.getUsers
+    },
+
+    getProfessores(){
+      try{
+        return this.$store.getters.getUsers.filter(prof => prof.id_user == this.proposta.id_prof_orientador)[0].nome
+      }catch(error){
+        return {nome: "vazio"}
+      }
+
     }
   },
 
@@ -255,5 +304,19 @@ export default {
   height: 39px;
   color: #757070;
   box-shadow: 2px 2px 2px 2px #e6e6e6;
+  margin-left:auto;
+}
+.btnSubmitValues{
+  border-radius: 19px;
+  background-color: #0077b6;
+  width: 30%;
+  border: none;
+  font-weight: lighter;
+}
+#input-3 {
+  background-color: white;
+  border-radius: 15px !important;
+  box-shadow: 2px 2px 2px 2px #e6e6e6;
+  border: none;
 }
 </style>
