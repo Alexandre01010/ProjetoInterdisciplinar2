@@ -55,14 +55,20 @@
           </div>
           <!--Cards-->
           <div class="mt-1" id="cardsDisplay" v-if="getAnswersCp.length > 0">
-            <b-alert
-              class="alert mt-3"
-              show
-              variant="danger"
-              v-for="answer in getAnswersCp"
-              :key="answer.texto_resposta"
-            >
-              {{}}
+            <b-alert class="alert mt-3" show variant="light" v-for="answer in getAnswersCp" :key="answer.texto_resposta">
+              <b-row class="mt-2" >
+                <b-col md="2" >
+                  <b-avatar size="50px" :src="getFoto"></b-avatar>
+                </b-col>
+                <b-col md=6>
+                  {{answer.texto_resposta}}
+                </b-col>
+                <b-col md="4" class=" d-flex justify-content-end">
+                  <b-icon icon="chat-left-fill" style="width: 20px; height: 20px; color: #c74620" />
+                  <b-icon-arrow-up style="width: 25px; height: 25px; color: #0077b6" class="arrow-up-short ml-3"/>
+                </b-col>
+              </b-row>
+              
             </b-alert>
           </div>
           <div class="align-self-center mt-3" v-else>
@@ -95,6 +101,18 @@ export default {
     };
   },
   methods: {
+    async getAuthorFoto() {
+      try {
+        await this.$store.dispatch("fetchUserById",this.forum.id_user);
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||  error.message || error.toString();
+      } finally {
+        // calls getter getMessage and result is put inside content component data
+        this.content = this.getMessage;
+      }
+    },
     async getAnswers() {
       try {
         await this.$store.dispatch("fetchAnswers", this.tema);

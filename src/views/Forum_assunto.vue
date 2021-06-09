@@ -34,11 +34,11 @@
                     <b-row>
                       <div class="d-flex justify-content-center">
                         <b-col>
-                          <b-avatar size="50px" :src="getFoto"></b-avatar
+                          <b-avatar size="50px" :src="getFoto(assunto)"></b-avatar
                         ></b-col></div
                     ></b-row>
                     <b-row class="mt-1">
-                      {{ assunto.user }}
+                      
                     </b-row>
                   </b-col>
                   <b-col md="6">
@@ -111,9 +111,11 @@ export default {
           this.content = this.getMessage;
         }
     },
-    async getAuthorFoto() {
+    async getAuthorFoto(assunto) {
       try {
-        await this.$store.dispatch("fetchUserById",this.forum.id_user);
+        console.log(assunto)
+        await this.$store.dispatch("fetchUserById",assunto.id_user);
+        
       } catch (error) {
         console.log(error);
         this.content =
@@ -125,7 +127,8 @@ export default {
     },
   },
   computed:{
-    getFoto(){
+    getFoto(assunto){
+      this.getAuthorFoto(assunto)
       return this.$store.getters.getPretendedUserName.foto
     },
     getTemas() {
@@ -135,7 +138,7 @@ export default {
   },
   created() {
       this.getForumTemas();
-      this.getAuthorFoto();
+      //this.getAuthorFoto();
     },
 };
 </script>
