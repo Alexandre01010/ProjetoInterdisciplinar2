@@ -137,6 +137,7 @@ const routes = [
   {
     path: '/Forum_detalhes',
     name: 'forum_detalhes',
+    props:true,
     component: Forum_assunto
   },
   {

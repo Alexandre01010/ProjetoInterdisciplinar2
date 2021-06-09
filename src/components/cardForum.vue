@@ -13,8 +13,7 @@
             <b-col md="12">
               <b-row>
                 <b-col class="fw-bolder" md="8">
-                  Injeção de SQL para obter dados - Quais os passos a
-                  tomar?<b-badge
+                  {{forum.titulo}}<b-badge
                     id="badgeNotification"
                     class="ml-3"
                     variant="danger"
@@ -30,7 +29,7 @@
                       id="btnOpenForum"
                       href="#"
                       variant="primary"
-                      @click="$router.push({ name: 'forum_detalhes' })"
+                      @click="$router.push({ name: 'forum_detalhes', params: { forum: forum } })"
                       >Abrir</b-button
                     >
                   </div>
@@ -52,13 +51,13 @@ export default {
   },
   computed: {},
   created() {
-    // try {
-    //   console.log(this.propCard.id_prof_orientador)
-    //   this.$store.dispatch("fetchUserById",this.propCard.id_prof_orientador);
-    // } catch (error) {
-    //     console.log(error);
-    //     this.content =(error.response && error.response.data) ||  error.message || error.toString();
-    //   }
+    try {
+      console.log(this.forum)
+      this.$store.dispatch("fetchUserById",this.propCard.id_prof_orientador);
+    } catch (error) {
+        console.log(error);
+        this.content =(error.response && error.response.data) ||  error.message || error.toString();
+      }
   },
 };
 </script>

@@ -13,6 +13,7 @@
             class="mt-5"
             type="text"
             placeholder="Search"
+            v-model="search"
           ></b-input>
           
           <card-forum v-for="forum in getForums"
@@ -37,7 +38,7 @@ export default {
   },
   data() {
     return {
-      
+      search:""
     };
   },
   methods: {

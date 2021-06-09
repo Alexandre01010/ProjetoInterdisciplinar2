@@ -2,7 +2,7 @@
   <div class="page" id="forumContent">
     <b-col md="12">
       <b-col md="12">
-        <p id="title" class="mb-5">Forum - {{ forum.nome }}</p>
+        <p id="title" class="mb-5">Forum - {{ forum.titulo }}</p>
       </b-col>
       <b-col md="12">
         <b-row>
@@ -75,12 +75,13 @@
 
 <script>
 export default {
+  props: {
+        forum: Object,
+    },
   data() {
+    
     return {
       search: "",
-      forum: {
-        nome: "Desenvolvimento de Jogos",
-      },
       assuntos: [
         {
           id: 1,
@@ -105,7 +106,31 @@ export default {
       ],
     };
   },
-  methods: {},
+  methods: {
+    async getForumTemas(){
+      try {
+          await this.$store.dispatch("fetchTemasByIdForum");
+        } catch (error) {
+          console.log(error);
+          this.content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+        } finally {
+          
+          this.content = this.getMessage;
+        }
+    }
+  },
+  computed:{
+    getProposals() {
+      return this.$store.getters
+        .getFilterdtemas(this.selectedOption);
+    },
+  },
+  created() {
+      this.getForumTemas();
+    },
 };
 </script>
 
