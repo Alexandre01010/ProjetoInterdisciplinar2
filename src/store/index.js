@@ -4,7 +4,6 @@ import axios from "axios";
 //import { UserService } from "@/services/user.service";
 import { AuthService } from "@/services/auth.service";
 
-
 Vue.use(Vuex);
 const resource_uri = "http://localhost:8080";
 
@@ -18,12 +17,19 @@ export default new Vuex.Store({
     proposals: [],
     applications: [],
     proposal: "",
+    foruns: [],
 
     notifications: localStorage.getItem("notification")
       ? JSON.parse(localStorage.getItem("notification"))
-      : []
+      : [],
   },
   getters: {
+    getForuns: (state) =>(search)=> {
+      if (search) {
+        return state.foruns.filter(forum=>forum.titulo.includes(search));
+      }
+      return state.foruns;
+    },
     getPretendedUserName: (state) => {
       return state.ProposalUser;
     },
@@ -42,7 +48,7 @@ export default new Vuex.Store({
       return state.applications;
     },
     getProposalTitle: (state) => {
-      return state.proposal
+      return state.proposal;
     },
     getUsers: (state) => state.users,
     getLoggedUser: (state) => state.loggedUser.username,
@@ -50,7 +56,7 @@ export default new Vuex.Store({
     getProposals: (state) => {
       return state.proposals;
     },
-    getFilterdProposals: (state) => (type, search,stateF) => {
+    getFilterdProposals: (state) => (type, search, stateF) => {
       let type2;
       if (type != "all") {
         type2 = type == "estagio" ? false : true;
@@ -61,8 +67,10 @@ export default new Vuex.Store({
           (proposal.titulo.toUpperCase().includes(search.toUpperCase()) ||
             search == "")
       );
-      if (stateF==1||stateF==2||stateF==3) {
-        card_filter=card_filter.filter(prop=>prop.id_tipo_estado==stateF)
+      if (stateF == 1 || stateF == 2 || stateF == 3) {
+        card_filter = card_filter.filter(
+          (prop) => prop.id_tipo_estado == stateF
+        );
       }
       return card_filter;
     },
@@ -74,9 +82,22 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async fetchMyForuns(context){
+      const response = await axios.get(resource_uri + "/foruns", {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      });
+      context.commit("SETFORUNS", response.data);
+    },
     async fetchMyProposals(context) {
-      const response = await axios.get(resource_uri + "/propostas/minhas",{
-        headers: {"x-access-token": JSON.parse(localStorage.getItem("user")).accessToken}});
+      const response = await axios.get(resource_uri + "/propostas/minhas", {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      });
       context.commit("SETPROPOSALS", response.data);
     },
     async fetchUserById(context, id) {
@@ -85,19 +106,27 @@ export default new Vuex.Store({
       //context.commit("SETUSER", response.data);
     },
     async fetchProposals(context) {
-      const response = await axios.get(resource_uri + "/propostas/approved",{
-        headers: {"x-access-token": JSON.parse(localStorage.getItem("user")).accessToken}});
+      const response = await axios.get(resource_uri + "/propostas/approved", {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      });
       context.commit("SETPROPOSALS", response.data);
     },
     async fetchProposalById(context, id) {
-      const response = await axios.get(resource_uri + "/propostas/" + id)
-      context.commit("SETPROPOSAL", response.data)
+      const response = await axios.get(resource_uri + "/propostas/" + id);
+      context.commit("SETPROPOSAL", response.data);
     },
     async fetchMyCandidaturas(context) {
       const response = await axios.get(resource_uri + "/candidaturas/minhas", {
-        headers: {"x-access-token": JSON.parse(localStorage.getItem("user")).accessToken}})
-        console.log(response.data)
-      context.commit("SETMYCANDIDATURAS", response.data)
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      });
+      console.log(response.data);
+      context.commit("SETMYCANDIDATURAS", response.data);
     },
     async eliminar(context, id) {
       context.commit("DELETEPROPOSAL", id);
@@ -216,6 +245,7 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    SETFORUNS(state,data){state.foruns=data},
     SETUSER(state, data) {
       state.ProposalUser = data.nome;
     },
@@ -223,7 +253,7 @@ export default new Vuex.Store({
       state.proposals = data;
     },
     SETPROPOSAL(state, data) {
-      state.proposal = data.titulo
+      state.proposal = data.titulo;
     },
     DELETEPROPOSAL(state, id) {
       state.proposals = state.proposals.filter((proposal) => proposal.id != id);
@@ -253,9 +283,9 @@ export default new Vuex.Store({
       state.notifications.push(notif);
     },
     SETMYCANDIDATURAS(state, proposals) {
-      console.log("Aqui é commit " + proposals)
-      state.applications = proposals
-      console.log(proposals)
-    }
+      console.log("Aqui é commit " + proposals);
+      state.applications = proposals;
+      console.log(proposals);
+    },
   },
 });

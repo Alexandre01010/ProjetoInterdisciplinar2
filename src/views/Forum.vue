@@ -14,130 +14,56 @@
             type="text"
             placeholder="Search"
           ></b-input>
-          <b-card class="mt-5" id="forumCard">
-            <b-col md="3">
-              <p class="cardIdentification">
-                <b-icon
-                  style="color: #0077b6"
-                  icon="chat-left-fill"
-                  aria-hidden="true"
-                ></b-icon>
-                Forum
-              </p>
-            </b-col>
-            <b-col md="12">
-              <b-row>
-                <b-col class="fw-bolder" md="8">
-                  Injeção de SQL para obter dados - Quais os passos a
-                  tomar?<b-badge
-                    id="badgeNotification"
-                    class="ml-3"
-                    variant="danger"
-                    >4</b-badge
-                  >
-                  <b-col class="text-muted mt-2" md="12">
-                    <p class="participants">Numero de participantes 4</p>
-                  </b-col>
-                </b-col>
-                <b-col md="4">
-                  <div class="d-flex justify-content-end">
-                    <b-button
-                      id="btnOpenForum"
-                      href="#"
-                      variant="primary"
-                      @click="$router.push({ name: 'forum_detalhes' })"
-                      >Abrir</b-button
-                    >
-                  </div>
-                </b-col>
-              </b-row>
-            </b-col>
-          </b-card>
-          <b-card class="mt-5" id="forumCard">
-            <b-col md="3">
-              <p class="cardIdentification">
-                <b-icon
-                  style="color: #0077b6"
-                  icon="chat-left-fill"
-                  aria-hidden="true"
-                  @click="$router.push({ name: 'forum_detalhes' })"
-                ></b-icon>
-                Forum
-              </p>
-            </b-col>
-            <b-col md="12">
-              <b-row>
-                <b-col class="fw-bolder" md="8">
-                  Injeção de SQL para obter dados - Quais os passos a
-                  tomar?<b-badge
-                    id="badgeNotification"
-                    class="ml-3"
-                    variant="danger"
-                    >4</b-badge
-                  >
-                  <b-col class="text-muted mt-2" md="12">
-                    <p class="participants">Numero de participantes 4</p>
-                  </b-col>
-                </b-col>
-                <b-col md="4">
-                  <div class="d-flex justify-content-end">
-                    <b-button
-                      id="btnOpenForum"
-                      href="#"
-                      variant="primary"
-                      @click="$router.push({ name: 'forum_detalhes' })"
-                      >Abrir</b-button
-                    >
-                  </div>
-                </b-col>
-              </b-row>
-            </b-col>
-          </b-card>
-          <b-card class="mt-5" id="forumCard">
-            <b-col md="3">
-              <p class="cardIdentification">
-                <b-icon
-                  style="color: #0077b6"
-                  icon="chat-left-fill"
-                  aria-hidden="true"
-                ></b-icon>
-                Forum
-              </p>
-            </b-col>
-            <b-col md="12">
-              <b-row>
-                <b-col class="fw-bolder" md="8">
-                  Injeção de SQL para obter dados - Quais os passos a
-                  tomar?<b-badge
-                    id="badgeNotification"
-                    class="ml-3"
-                    variant="danger"
-                    >4</b-badge
-                  >
-                  <b-col class="text-muted mt-2" md="12">
-                    <p class="participants">Numero de participantes 4</p>
-                  </b-col>
-                </b-col>
-                <b-col md="4">
-                  <div class="d-flex justify-content-end">
-                    <b-button
-                      id="btnOpenForum"
-                      href="#"
-                      @click="$router.push({ name: 'forum_detalhes' })"
-                      >Abrir</b-button
-                    >
-                  </div>
-                </b-col>
-              </b-row>
-            </b-col>
-          </b-card>
-        </b-col>
+          
+          <card-forum v-for="forum in getForums"
+              :key="forum.titulo"
+              :forum="forum" />
       </div>
     </b-col>
   </div>
 </template>
 
 <script>
+import cardForum from "../components/cardForum.vue";
+export default {
+  name: "MinhasPropostas.vue",
+  components: {
+    cardForum,
+    //cardEstagio,
+    
+  },
+  data() {
+    return {
+      
+    };
+  },
+  methods: {
+    
+    async getMyForuns() {
+        try {
+          await this.$store.dispatch("fetchMyForuns");
+        } catch (error) {
+          console.log(error);
+          this.content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+        } finally {
+          // calls getter getMessage and result is put inside content component data
+          this.content = this.getMessage;
+        }
+      },
+  },
+  computed: {
+    getForums() {
+      return this.$store.getters
+        .getForuns(this.search);
+    },
+  },
+  created() {
+      this.getMyForuns();
+    },
+};
 </script>
 
 <style>
