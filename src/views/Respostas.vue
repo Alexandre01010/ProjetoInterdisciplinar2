@@ -3,7 +3,7 @@
     <b-col id="contentContainer" cols="12">
       <div id="forumTitle">
         <b-col cols="12">
-          <h3 class="TitlePage">Tema -{{forum.titulo}}</h3>
+          <h3 class="TitlePage">Tema -{{ forum.titulo }}</h3>
         </b-col>
       </div>
       <div>
@@ -11,36 +11,64 @@
           <div id="inputFilters" class="mt-5">
             <b-row>
               <b-col md="9">
-                <b-input id="seacrhInput" v-model="search" type="text" placeholder="Search"></b-input>
-                <br/>
+                <b-input
+                  id="seacrhInput"
+                  v-model="search"
+                  type="text"
+                  placeholder="Search"
+                ></b-input>
+                <br />
                 <div v-if="selectedOption != 'all'">
                   <p class="text">
                     Filtros:
-                    <b-badge id="filterInfo" class="mr-1">{{ filterText }}</b-badge>
-                    <b-badge id="filterInfo" class="mr-1">{{ getAnswersCp.length }} resultados</b-badge>
+                    <b-badge id="filterInfo" class="mr-1">{{
+                      filterText
+                    }}</b-badge>
+                    <b-badge id="filterInfo" class="mr-1"
+                      >{{ getAnswersCp.length }} resultados</b-badge
+                    >
                   </p>
                 </div>
               </b-col>
-              <b-col id="filterButton" class="d-flex justify-content-end" md="3">
-                <b-button id="filterBtn" variant="light" data-bs-toggle="dropdown"><b-icon icon="filter-right" aria-hidden="true"></b-icon></b-button>
-                <ul id="dropdownFilter" class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+              <b-col
+                id="filterButton"
+                class="d-flex justify-content-end"
+                md="3"
+              >
+                <b-button
+                  id="filterBtn"
+                  variant="light"
+                  data-bs-toggle="dropdown"
+                  ><b-icon icon="filter-right" aria-hidden="true"></b-icon
+                ></b-button>
+                <ul
+                  id="dropdownFilter"
+                  class="dropdown-menu"
+                  aria-labelledby="dropdownMenuButton2"
+                >
                   <li>
-                    <a  class="dropdown-item">Todas</a>
+                    <a class="dropdown-item">Todas</a>
                   </li>
-                  
                 </ul>
               </b-col>
             </b-row>
           </div>
           <!--Cards-->
           <div class="mt-1" id="cardsDisplay" v-if="getAnswersCp.length > 0">
-            <b-alert class="alert mt-3" show variant="danger" v-for="answer in getAnswersCp" :key="answer.titulo">
+            <b-alert
+              class="alert mt-3"
+              show
+              variant="danger"
+              v-for="answer in getAnswersCp"
+              :key="answer.texto_resposta"
+            >
               {{}}
             </b-alert>
-            
           </div>
           <div class="align-self-center mt-3" v-else>
-            <warning message="Não foram encontrados resultados para a pesquisa!"/>
+            <warning
+              message="Não foram encontrados resultados para a pesquisa!"
+            />
           </div>
         </b-col>
       </div>
@@ -55,8 +83,9 @@ export default {
   components: {
     warning,
   },
-  props:{
-    forum:Object
+  props: {
+    tema: Object,
+    forum: Object,
   },
   data() {
     return {
@@ -66,32 +95,31 @@ export default {
     };
   },
   methods: {
-    
     async getAnswers() {
       try {
-        await this.$store.dispatch("fetchAnswers");
+        await this.$store.dispatch("fetchAnswers", this.tema);
+        
       } catch (error) {
         console.log(error);
         this.content =
-          (error.response && error.response.data) ||  error.message || error.toString();
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
       } finally {
         // calls getter getMessage and result is put inside content component data
         this.content = this.getMessage;
       }
-    }
-    
+    },
   },
   computed: {
     getAnswersCp() {
-      return this.$store.getters
-        .getFilterdAnswers(this.selectedOption, this.search)
-        .filter((proposal) => proposal.id_tipo_estado == 3);
-      
+      console.log(this.$store.getters.getFilterdAnswers())
+      return this.$store.getters.getFilterdAnswers(this.search);
     },
   },
-  created(){
-    this.getAnswers()
-  }
+  created() {
+    this.getAnswers();
+  },
 };
 </script>
 <style scoped>
