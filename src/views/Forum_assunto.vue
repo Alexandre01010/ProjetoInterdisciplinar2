@@ -26,7 +26,7 @@
           </b-col>
         </b-row>
         <b-row class="mt-3">
-          <b-col v-for="assunto in assuntos" :key="assunto.id" cols="12">
+          <b-col v-for="assunto in getTemas" :key="assunto.id" cols="12">
             <b-card class="mt-5 discussionCard">
               <b-col md="12">
                 <b-row align-v="center">
@@ -82,34 +82,13 @@ export default {
     
     return {
       search: "",
-      assuntos: [
-        {
-          id: 1,
-          titulo: "Em que dia são publicadas as propostas",
-          user: "Sara Silva",
-          respostas: 4,
-          gostos: 50,
-          data: "15/01-2021",
-          hora: "16:00:00",
-          img: "https://via.placeholder.com/150",
-        },
-        {
-          id: 2,
-          titulo: "Em que dia são publicadas as propostas",
-          user: "Sara Silva",
-          respostas: 4,
-          gostos: 50,
-          data: "15/01-2021",
-          hora: "16:00:00",
-          img: "https://via.placeholder.com/150",
-        },
-      ],
+      
     };
   },
   methods: {
     async getForumTemas(){
       try {
-          await this.$store.dispatch("fetchTemasByIdForum");
+          await this.$store.dispatch("fetchTemasByIdForum",this.forum);
         } catch (error) {
           console.log(error);
           this.content =
@@ -123,7 +102,7 @@ export default {
     }
   },
   computed:{
-    getProposals() {
+    getTemas() {
       return this.$store.getters
         .getFilterdtemas(this.selectedOption);
     },

@@ -18,6 +18,7 @@ export default new Vuex.Store({
     applications: [],
     proposal: "",
     foruns: [],
+    temas:[],
 
     notifications: localStorage.getItem("notification")
       ? JSON.parse(localStorage.getItem("notification"))
@@ -43,7 +44,12 @@ export default new Vuex.Store({
         ? state.notifications[state.notifications.length - 1].id + 1
         : 1;
     },
-
+    getFilterdtemas:(state)=>(search)=>{
+      if (search) {
+        return state.temas.filter(tema=>tema.titulo.includes(search));
+      }
+      return state.temas;
+    },
     getMyCandidaturas: (state) => {
       return state.applications;
     },
@@ -82,6 +88,15 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async fetchTemasByIdForum(context,payload){
+      const response = await axios.get(resource_uri + "/foruns/"+payload.id_forum+"/temas/", {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      });
+      context.commit("SETTEMAS", response.data);
+    },
     async fetchMyForuns(context){
       const response = await axios.get(resource_uri + "/foruns", {
         headers: {
@@ -261,6 +276,7 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    SETTEMAS(state,data){state.temas=data},
     SETFORUNS(state,data){state.foruns=data},
     SETUSER(state, data) {
       state.ProposalUser = data.nome;
