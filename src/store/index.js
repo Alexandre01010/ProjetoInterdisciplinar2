@@ -153,7 +153,15 @@ export default new Vuex.Store({
       const response = await axios.get(resource_uri + "/propostas/" + id);
       context.commit("SETPROPOSAL", response.data);
     },
-    //async fetchPorposalForApproval(context, )
+    async fetchPorposalForApproval(context){
+      const response = await axios.get(resource_uri + "/propostas/pending", {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      })
+      context.commit("SETPROPOSALBYSTATE", response.data)
+    },
     async fetchMyCandidaturas(context) {
       const response = await axios.get(resource_uri + "/candidaturas/minhas", {
         headers: {
@@ -288,6 +296,9 @@ export default new Vuex.Store({
     },
     SETPROPOSALS(state, data) {
       state.proposals = data;
+    },
+    SETPROPOSALBYSTATE(state, data) {
+      state.proposals = data
     },
     SETPROPOSAL(state, data) {
       state.proposal = data.titulo;

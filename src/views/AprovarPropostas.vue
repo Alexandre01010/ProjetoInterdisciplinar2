@@ -109,14 +109,31 @@ export default {
     allProposals() {
       this.selectedOption = "all";
     },
+    async getProposalsForApproval() {
+      try {
+        await this.$store.dispatch("fetchPorposalForApproval");
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||  error.message || error.toString();
+      } finally {
+        // calls getter getMessage and result is put inside content component data
+        this.content = this.getMessage;
+      }
+    }
   },
   computed: {
-    getProposals() {
+      getProposals() {
       return this.$store.getters
         .getFilterdProposals(this.selectedOption, this.search)
-        .filter((proposal) => proposal.estado == "analise");
+        .filter((proposal) => proposal.id_tipo_estado == 1);
+      
+      
     },
   },
+  created(){
+    this.getProposalsForApproval()
+  }
 };
 </script>
 <style scoped>

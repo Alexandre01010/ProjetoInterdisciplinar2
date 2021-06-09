@@ -1,5 +1,5 @@
 <template>
-    <b-alert class="alert" show variant="danger">
+    <b-alert class="alert mt-3" show variant="danger">
         {{message}}
     </b-alert>
 </template>

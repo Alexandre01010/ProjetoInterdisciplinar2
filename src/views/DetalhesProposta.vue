@@ -4,7 +4,7 @@
       <p id="title">{{ proposta.titulo }} - Detalhes</p>
       <b-card class="proposalDetails">
         <b-card-text>
-          <p v-if="proposta.tipo != 'estagio'" class="type">Projeto ESMAD</p>
+          <p v-if="proposta.nome_entidade == null" class="type">Projeto ESMAD</p>
           <p v-else class="type">Estágio ESMAD</p>
           <p class="title">{{ proposta.titulo }}</p>
           <p class="header">Autor:</p>
@@ -13,10 +13,28 @@
           <p class="text">{{ proposta.objetivos }}</p>
           <p class="header">Plano Provisório de Trabalho:</p>
           <p class="text">{{ proposta.plano_provisorio_trabalho }}</p>
+          <p class="header">Recursos necessários:</p>
+          <p class="text">{{ proposta.recursos_necessarios }}</p>
           <p class="header">Perfil do candidato desejado:</p>
           <p class="text">{{ proposta.perfil_candidato_desejado }}</p>
           <p class="header">Resultados Esperados:</p>
           <p class="text">{{ proposta.resultados_esperados }}</p>
+          <p class="header">Outros Dados:</p>
+          <p class="text">{{ proposta.outros_dados }}</p>
+          <p v-if="proposta.nome_entidade != null" class="header">Tutor:</p>
+          <p v-if="proposta.nome_entidade != null" class="text">{{ proposta.nome_tutor }}</p>
+          <p v-if="proposta.nome_entidade != null" class="header">Cargo do tutor:</p>
+          <p v-if="proposta.nome_entidade != null" class="text">{{ proposta.cargo_tutor }}</p>
+          <p v-if="proposta.nome_entidade != null" class="header">Contacto entidade:</p>
+          <p v-if="proposta.nome_entidade != null" class="text">{{ proposta.contato }}</p>
+          <p v-if="proposta.nome_entidade != null" class="header">Professor orientador:</p>
+          <p v-if="proposta.nome_entidade != null" class="text">{{ getName }}</p>
+          <p v-if="proposta.nome_entidade != null" class="header">Nome entidade:</p>
+          <p v-if="proposta.nome_entidade != null" class="text">{{ proposta.nome_entidade }}</p>
+          <p v-if="proposta.nome_entidade != null" class="header">Morada da entidade:</p>
+          <p v-if="proposta.nome_entidade != null" class="text">{{ proposta.morada_entidade }}</p>
+          <p v-if="proposta.nome_entidade != null" class="header">Email entidade:</p>
+          <p v-if="proposta.nome_entidade != null" class="text">{{ proposta.email }}</p>
         </b-card-text>
       </b-card>
       <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum mb-4 mt-4 ml-3" variant="light">Aprovar</b-button>
@@ -119,6 +137,12 @@ export default {
     this.getRole()
 
     this.getUserId()
+    try {
+      this.$store.dispatch("fetchUserById",this.propCard.id_prof_orientador);
+    } catch (error) {
+        console.log(error);
+        this.content =(error.response && error.response.data) ||  error.message || error.toString();
+      }
   }
 };
 </script>
