@@ -95,7 +95,7 @@
         </b-col>
         <div class="d-flex justify-content-center"> 
           <b-col md="8" >
-            <b-form-textarea id="input-3" v-model="form.candidatura" placeholder="Adicione observações à candidatura" rows="10" max-rows="10" required maxlength="350"></b-form-textarea>
+            <b-form-textarea id="input-3" v-model="form.revisao" placeholder="Adicione observações à candidatura" rows="10" max-rows="10" required maxlength="350"></b-form-textarea>
               <div v-if="catchAlert.alert" class="d-flex justify-content-center mt-5">
                 <b-alert id="alertMessage" show variant="danger">{{catchAlert.alert}}</b-alert>
               </div>
