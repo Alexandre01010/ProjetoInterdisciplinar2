@@ -6,67 +6,71 @@
           <h3 class="TitlePage">Foruns</h3>
         </b-col>
       </div>
-      <div>
-        <b-col md="12">
-          <b-input
-            id="seacrhInput"
-            class="mt-5"
-            type="text"
-            placeholder="Search"
-            v-model="search"
-          ></b-input>
-          
-          <card-forum v-for="forum in getForums"
-              :key="forum.titulo"
-              :forum="forum" />
-              
-          
-        </b-col>
-      </div>
+
+      <b-col md="12">
+        <b-input
+          id="seacrhInput"
+          class="mt-5"
+          type="text"
+          placeholder="Search"
+          v-model="search"
+        ></b-input>
+        <div v-if="getForums.length > 0">
+          <card-forum
+            v-for="forum in getForums"
+            :key="forum.titulo"
+            :forum="forum"
+          />
+        </div>
+        <div class="align-self-center mt-3" v-else>
+          <warning
+            message="Não foram encontrados resultados para a pesquisa!"
+          />
+        </div>
+      </b-col>
     </b-col>
   </div>
 </template>
 
 <script>
 import cardForum from "../components/cardForum.vue";
+import warning from "../components/warning.vue";
 export default {
   name: "MinhasPropostas.vue",
   components: {
     cardForum,
+    warning,
     //cardEstagio,
-    
   },
   data() {
     return {
-      search:""
+      search: "",
     };
   },
   methods: {
-    
     async getMyForuns() {
-        try {
-          await this.$store.dispatch("fetchMyForuns");
-        } catch (error) {
-          console.log(error);
-          this.content =
-            (error.response && error.response.data) ||
-            error.message ||
-            error.toString();
-        } finally {
-          // calls getter getMessage and result is put inside content component data
-          this.content = this.getMessage;
-        }
-      },
+      try {
+        await this.$store.dispatch("fetchMyForuns");
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+      } finally {
+        // calls getter getMessage and result is put inside content component data
+        this.content = this.getMessage;
+      }
+    },
   },
   computed: {
     getForums() {
-      return this.$store.getters
-        .getForuns(this.search);
+      return this.$store.getters.getForuns(this.search);
     },
   },
   created() {
-      this.getMyForuns();
-    },
+    this.getMyForuns();
+  },
 };
 </script>
 

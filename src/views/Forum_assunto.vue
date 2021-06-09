@@ -59,7 +59,7 @@
                     </b-row>
                   </b-col>
                   <b-col md="4">
-                    <div class="d-flex justify-content-end">À 8 horas</div>
+                    <router-link class="menuItems" :to="{ name: 'forumAnswers', params: { forum: forum } }"><b-button id="btnDetails" variant="primary">Respostas</b-button></router-link>
                   </b-col>
                 </b-row>
               </b-col>
@@ -126,6 +126,16 @@ export default {
 </script>
 
 <style  >
+#btnDetails {
+  background-color: #0077b6;
+  color: #fff;
+  border: none;
+  border-radius: 19px;
+  width: 159px;
+  font-size: 14px;
+  font-family: Rubik, sans-serif;
+  font-weight: lighter;
+}
 .card {
   background-color: #fff;
   font-size: 17px;
