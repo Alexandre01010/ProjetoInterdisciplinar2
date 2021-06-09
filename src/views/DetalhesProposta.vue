@@ -37,11 +37,29 @@
           <p v-if="proposta.nome_entidade != null" class="text">{{ proposta.email }}</p>
         </b-card-text>
       </b-card>
-      <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum mb-4 mt-4 ml-3" variant="light">Aprovar</b-button>
+      <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum mb-4 mt-4 ml-3" variant="light" @click="$bvModal.show('aprovar_modal')">Aprovar</b-button>
       <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Enviar para Revisão</b-button>
       <b-button v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Editar</b-button>
       <b-button v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Eliminar Proposta</b-button>
       <b-button id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Voltar</b-button>
+      <b-modal id="aprovar_modal" size="lg" hide-footer hide-header>
+        <div class="d-flex justify-content-center modalContent">
+          <b-col md="8">
+            <p id="title" class="mb-5">Atribuição de Tutor ESMAD</p>
+            <b-input-group>
+              <b-form-input v-model="form.orientador" list="my-list-id" placeholder="Selecione o Docente" class="input"></b-form-input>
+              </b-input-group>
+            <datalist id="my-list-id">
+              <option>
+                Nome do artista
+              </option>
+            </datalist>
+            <div class="d-flex justify-content-center">
+              <b-button id="aprovar" class="mt-4" type="submit">Aprovar</b-button>
+            </div>
+          </b-col>
+        </div>
+      </b-modal>
     </b-col>
   </div>
 </template>
