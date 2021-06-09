@@ -46,15 +46,6 @@ export default {
     };
   },
   methods: {
-      showModal(){
-          //v-b-modal="'editCandidaturaModal'"
-    
-          this.$root.$emit('bv::show::modal', 'editCandidaturaModal', '#btnShow')
-      },
-
-      selectCand(cand){
-          console.log(cand)
-      },
     async getMyAplications() {
         try {
           await this.$store.dispatch("fetchMyCandidaturas");

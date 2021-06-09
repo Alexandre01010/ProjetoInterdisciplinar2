@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-      <h1>This is an Editar Proposta page</h1>
+  <div>
+    
   </div>
 </template>
 

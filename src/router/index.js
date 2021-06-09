@@ -8,7 +8,7 @@ import Entrevistas from '../views/Entrevistas.vue'
 import AprovarPropostas from '../views/AprovarPropostas.vue'
 import CriarProposta from '../views/CriarProposta.vue'
 import DetalhesProposta from '../views/DetalhesProposta.vue'
-import EditarProposta from '../views/EditarProposta.vue'
+import EditarCandidatura from '../views/EditarCandidatura.vue'
 import EditarUser from '../views/EditarUser.vue'
 import LandingPage from '../views/LandingPage.vue'
 import MinhasPropostas from '../views/MinhasPropostas.vue'
@@ -98,9 +98,9 @@ const routes = [
     component: LandingPage
   },
   {
-    path: '/EditarProposta',
-    name: 'editarProposta',
-    component: EditarProposta,
+    path: '/EditarCandidatura',
+    name: 'editarCandidatura',
+    component: EditarCandidatura,
     meta: {
       requiresAuth: true
     }

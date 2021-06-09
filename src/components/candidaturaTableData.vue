@@ -2,7 +2,7 @@
 
     <b-tr id="tabelaCandidaturas" class="text-center tabledata">
         <b-td class="candTd">{{getProposal}}</b-td>
-        <b-td class="candTd">{{tableTr.n_ordem_escolha}}</b-td>
+        <b-td class="candTd"><input min="1" max="5" v-model="change" type="number"></b-td>
         <b-td v-if="tableTr.id_tipo_estado == 1" class="candTd">
             <b-badge class="proposalState" variant="warning">Análise</b-badge>
         </b-td>
@@ -10,7 +10,8 @@
             <b-badge class="proposalState" variant="success">Aprovado</b-badge>
         </b-td>
         <b-td>
-            <b-button class="btn_edit" variant="#0077B6" font-color="#0077B6"><b-icon-pencil-square class="btn ml-1" style="width: 23px; height: 23px"/></b-button>
+            
+            <router-link class="menuItems" :to="{ name: 'editarCandidatura', params: { proposta: tableTr } }"><b-button class="btn_edit" variant="#0077B6" font-color="#0077B6"><b-icon-pencil-square class="btn ml-1" style="width: 23px; height: 23px"/></b-button></router-link>
             <b-button id="remove" class="btn ml-1"><b-icon-trash-fill style="width: 23px; height: 23px" /></b-button>
         </b-td>
     </b-tr>
@@ -25,7 +26,8 @@ export default {
   },
   data() {
     return {
-      username:""
+      username:"",
+      change:""
     };
   },
   methods: {
@@ -43,6 +45,9 @@ export default {
           this.content = this.getMessage;
         }
       },
+      changeValues(){
+          this.change = this.tableTr.n_ordem_escolha
+      }
   },
   computed:{
       getProposal(){
@@ -50,6 +55,7 @@ export default {
       }
   },
   created(){
+      this.change = this.tableTr.n_ordem_escolha
       this.getProposalById()
   }
 }
