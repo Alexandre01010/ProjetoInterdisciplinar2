@@ -59,7 +59,7 @@
                     </b-row>
                   </b-col>
                   <b-col md="4">
-                    <router-link class="menuItems" :to="{ name: 'forumAnswers', params: { forum: forum } }"><b-button id="btnDetails" variant="primary">Respostas</b-button></router-link>
+                    <router-link class="menuItems" :to="{ name: 'respostas', params: { forum: forum } }"><b-button id="btnDetails" variant="primary">Respostas</b-button></router-link>
                   </b-col>
                 </b-row>
               </b-col>

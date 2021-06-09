@@ -19,6 +19,7 @@ import Dashboard from '../views/DashBoard.vue'
 import EditarPerfil from '../views/EditarPerfil.vue'
 import Forum_assunto from '../views/Forum_assunto.vue'
 import MinhasCandidaturas from '../views/MinhasCandidaturas.vue'
+import Respostas from '../views/Respostas.vue'
 
 
 Vue.use(VueRouter)
@@ -155,7 +156,16 @@ const routes = [
     meta: {
       requiresAuth: true
     }
-  }
+  },
+  {
+    path: '/Respostas',
+    name: 'respostas',
+    component: Respostas,
+    props:true,
+    meta: {
+      requiresAuth: true
+    }
+  },
 ]
 
  const router = new VueRouter({
