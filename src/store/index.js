@@ -140,6 +140,9 @@ export default new Vuex.Store({
       context.commit("SETUSER", response.data);
       //context.commit("SETUSER", response.data);
     },
+    // async fetchUserByType(context, id) {
+    //   const response = await axios.get(resource_uri + "/users")
+    // },
     async fetchProposals(context) {
       const response = await axios.get(resource_uri + "/propostas/approved", {
         headers: {
