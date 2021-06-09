@@ -18,6 +18,9 @@
           <card-forum v-for="forum in getForums"
               :key="forum.titulo"
               :forum="forum" />
+              
+          
+        </b-col>
       </div>
     </b-col>
   </div>
