@@ -59,6 +59,14 @@
             <div class="d-flex justify-content-center">
               <b-button @click="updateProposalState" id="aprovar" class="mt-4" type="submit">Aprovar</b-button>
             </div>
+              <div
+                v-if="catchAlert.alert"
+                class="d-flex justify-content-center mt-5"
+              >
+                <b-alert id="alertMessage" show variant="danger">{{
+                  catchAlert.alert
+                }}</b-alert>
+              </div>
           </b-col>
         </div>
       </b-modal>
@@ -74,7 +82,7 @@ export default {
     return {
       admin: this.$store.getters.getLoggedUser.name == "CCA" ? true : false,
       form: {
-        orientador: "",
+        orientador: null,
         revisao: "",
         candidatura: "",
         ordem: 1,
@@ -86,6 +94,9 @@ export default {
         username: "",
         userSend: "",
         userSendPhoto: "",
+      },
+      catchAlert: {
+        alert: "",
       },
 
       userAutor:"",
@@ -148,12 +159,10 @@ export default {
       try{
         await this.$store.dispatch("putAproveProposal", {id_proposta: this.proposta.id_proposta, id_tipo_estado: 3, id_prof_orientador: this.getProfessores.filter(prof => prof.nome == this.form.orientador)[0].id_user })
       }catch(error){
-        this.content =
-          (error.response && error.response.data) ||  error.message || error.toString();
-      }finally{
-        // calls getter getMessage and result is put inside content component data
-        this.content = this.getMessage;
+        this.catchAlert.alert = "Deve inserir um professor orientador para aprovar uma proposta";
       }
+      
+      
     },
 
     async getProfNames(){
