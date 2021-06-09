@@ -11,7 +11,7 @@
         </b-td>
         <b-td>
             
-            <router-link class="menuItems" :to="{ name: 'editarCandidatura', params: { proposta: tableTr } }"><b-button class="btn_edit" variant="#0077B6" font-color="#0077B6"><b-icon-pencil-square class="btn ml-1" style="width: 23px; height: 23px"/></b-button></router-link>
+            <b-button @click="updateCandidatura" class="btn_edit" variant="#0077B6" font-color="#0077B6"><b-icon-pencil-square class="btn ml-1" style="width: 23px; height: 23px"/></b-button>
             <b-button id="remove" class="btn ml-1"><b-icon-trash-fill style="width: 23px; height: 23px" /></b-button>
         </b-td>
     </b-tr>
@@ -47,6 +47,23 @@ export default {
       },
       changeValues(){
           this.change = this.tableTr.n_ordem_escolha
+      },
+
+      async updateCandidatura(){
+          this.tableTr.n_ordem_escolha = +this.change
+          try{
+            await this.$store.dispatch("putUpdateCandidatura", this.tableTr)
+            location.reload()
+          }catch(error){
+            console.log(error);
+            this.content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+          }finally {
+          // calls getter getMessage and result is put inside content component data
+          this.content = this.getMessage;
+        }
       }
   },
   computed:{

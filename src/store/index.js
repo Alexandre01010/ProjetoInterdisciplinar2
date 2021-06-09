@@ -100,6 +100,14 @@ export default new Vuex.Store({
       });
       context.commit("SETPROPOSALS", response.data);
     },
+    async putUpdateCandidatura(context, payload) {
+        await axios.put(resource_uri + '/propostas/' +  payload.id_proposta + '/candidaturas' , payload, {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      })
+    },
     async fetchUserById(context, id) {
       const response = await axios.get(resource_uri + "/users/" + id);
       context.commit("SETUSER", response.data);
