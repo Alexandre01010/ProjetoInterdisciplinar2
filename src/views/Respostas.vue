@@ -3,7 +3,7 @@
     <b-col id="contentContainer" cols="12">
       <div id="forumTitle">
         <b-col cols="12">
-          <h3 class="TitlePage">Tema -{{}}</h3>
+          <h3 class="TitlePage">Tema -{{forum.titulo}}</h3>
         </b-col>
       </div>
       <div>
@@ -17,7 +17,7 @@
                   <p class="text">
                     Filtros:
                     <b-badge id="filterInfo" class="mr-1">{{ filterText }}</b-badge>
-                    <b-badge id="filterInfo" class="mr-1">{{ getProposals.length }} resultados</b-badge>
+                    <b-badge id="filterInfo" class="mr-1">{{ getAnswersCp.length }} resultados</b-badge>
                   </p>
                 </div>
               </b-col>
@@ -25,21 +25,19 @@
                 <b-button id="filterBtn" variant="light" data-bs-toggle="dropdown"><b-icon icon="filter-right" aria-hidden="true"></b-icon></b-button>
                 <ul id="dropdownFilter" class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
                   <li>
-                    <a @click="allProposals" class="dropdown-item">Todas</a>
+                    <a  class="dropdown-item">Todas</a>
                   </li>
-                  <li>
-                    <a @click="filterProjeto" class="dropdown-item">Proposta Projeto</a>
-                  </li>
-                  <li>
-                    <a @click="filterEstagio" class="dropdown-item">Proposta Estágio</a>
-                  </li>
+                  
                 </ul>
               </b-col>
             </b-row>
           </div>
           <!--Cards-->
-          <div class="mt-1" id="cardsDisplay" v-if="getProposals.length > 0">
-            <cardProjeto v-for="proposal in getProposals" :key="proposal.titulo" :propCard="proposal"/>
+          <div class="mt-1" id="cardsDisplay" v-if="getAnswersCp.length > 0">
+            <b-alert class="alert mt-3" show variant="danger" v-for="answer in getAnswersCp" :key="answer.titulo">
+              {{}}
+            </b-alert>
+            
           </div>
           <div class="align-self-center mt-3" v-else>
             <warning message="Não foram encontrados resultados para a pesquisa!"/>
@@ -50,15 +48,15 @@
   </div>
 </template>
 <script>
-import cardProjeto from "../components/cardProjeto.vue";
 import warning from "../components/warning.vue";
 //import cardEstagio from '../components/cardEstagio.vue'
 export default {
   name: "MinhasPropostas.vue",
   components: {
-    cardProjeto,
-    //cardEstagio,
     warning,
+  },
+  props:{
+    forum:Object
   },
   data() {
     return {
@@ -68,20 +66,10 @@ export default {
     };
   },
   methods: {
-    filterProjeto() {
-      this.selectedOption = "projeto";
-      this.filterText = "Projeto";
-    },
-    filterEstagio() {
-      this.selectedOption = "estagio";
-      this.filterText = "Estágio";
-    },
-    allProposals() {
-      this.selectedOption = "all";
-    },
-    async getProposalsApproved() {
+    
+    async getAnswers() {
       try {
-        await this.$store.dispatch("fetchProposals");
+        await this.$store.dispatch("fetchAnswers");
       } catch (error) {
         console.log(error);
         this.content =
@@ -94,16 +82,15 @@ export default {
     
   },
   computed: {
-    getProposals() {
+    getAnswersCp() {
       return this.$store.getters
-        .getFilterdProposals(this.selectedOption, this.search)
+        .getFilterdAnswers(this.selectedOption, this.search)
         .filter((proposal) => proposal.id_tipo_estado == 3);
-      
       
     },
   },
   created(){
-    this.getProposalsApproved()
+    this.getAnswers()
   }
 };
 </script>

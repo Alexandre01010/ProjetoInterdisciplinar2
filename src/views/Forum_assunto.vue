@@ -34,7 +34,7 @@
                     <b-row>
                       <div class="d-flex justify-content-center">
                         <b-col>
-                          <b-avatar size="50px" :src="assunto.img"></b-avatar
+                          <b-avatar size="50px" :src="getFoto"></b-avatar
                         ></b-col></div
                     ></b-row>
                     <b-row class="mt-1">
@@ -110,17 +110,32 @@ export default {
           
           this.content = this.getMessage;
         }
-    }
+    },
+    async getAuthorFoto() {
+      try {
+        await this.$store.dispatch("fetchUserById",this.forum.id_user);
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||  error.message || error.toString();
+      } finally {
+        // calls getter getMessage and result is put inside content component data
+        this.content = this.getMessage;
+      }
+    },
   },
   computed:{
+    getFoto(){
+      return this.$store.getters.getPretendedUserName.foto
+    },
     getTemas() {
-      
       return this.$store.getters
         .getFilterdtemas(this.search);
     },
   },
   created() {
       this.getForumTemas();
+      this.getAuthorFoto();
     },
 };
 </script>
