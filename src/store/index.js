@@ -127,6 +127,15 @@ export default new Vuex.Store({
         },
       })
     },
+    async putAproveProposal(context, payload) {
+      console.log(payload)
+      await axios.put(resource_uri + '/propostas/' + payload.id_proposta + '/data', payload, {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      })
+    },
     async deleteMyCandidatura(context, payload) {
       await axios.delete(resource_uri + '/propostas/' + payload.id_proposta + '/candidaturas', {
         headers: {
@@ -140,9 +149,15 @@ export default new Vuex.Store({
       context.commit("SETUSER", response.data);
       //context.commit("SETUSER", response.data);
     },
-    // async fetchUserByType(context, id) {
-    //   const response = await axios.get(resource_uri + "/users")
-    // },
+     async fetchUserByType(context, id) {
+       const response = await axios.get(resource_uri + "/users?idTipoUser=" + id, {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+       })
+       context.commit("SETUSERTYPE", response.data)
+     },
     async fetchProposals(context) {
       const response = await axios.get(resource_uri + "/propostas/approved", {
         headers: {
@@ -296,6 +311,9 @@ export default new Vuex.Store({
     SETFORUNS(state,data){state.foruns=data},
     SETUSER(state, data) {
       state.ProposalUser = data;
+    },
+    SETUSERTYPE(state, data){
+      state.users = data
     },
     SETPROPOSALS(state, data) {
       state.proposals = data;

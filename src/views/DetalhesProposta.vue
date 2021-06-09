@@ -50,12 +50,14 @@
               <b-form-input v-model="form.orientador" list="my-list-id" placeholder="Selecione o Docente" class="input"></b-form-input>
               </b-input-group>
             <datalist id="my-list-id">
-              <option>
-                Nome do artista
-              </option>
+              <select>
+                <option v-for="prof in getProfessores" :key="prof.id_user">
+                  {{prof.nome}}
+                </option>
+              </select>
             </datalist>
             <div class="d-flex justify-content-center">
-              <b-button id="aprovar" class="mt-4" type="submit">Aprovar</b-button>
+              <b-button @click="updateProposalState" id="aprovar" class="mt-4" type="submit">Aprovar</b-button>
             </div>
           </b-col>
         </div>
@@ -141,11 +143,39 @@ export default {
         this.content = this.getMessage;
       }
     },
+
+    async updateProposalState(){
+      try{
+        await this.$store.dispatch("putAproveProposal", {id_proposta: this.proposta.id_proposta, id_tipo_estado: 3, id_prof_orientador: this.getProfessores.filter(prof => prof.nome == this.form.orientador)[0].id_user })
+      }catch(error){
+        this.content =
+          (error.response && error.response.data) ||  error.message || error.toString();
+      }finally{
+        // calls getter getMessage and result is put inside content component data
+        this.content = this.getMessage;
+      }
+    },
+
+    async getProfNames(){
+      try {
+        await this.$store.dispatch("fetchUserByType", 2)
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||  error.message || error.toString();
+      } finally {
+        // calls getter getMessage and result is put inside content component data
+        this.content = this.getMessage;
+      }
+    }
     
   },
   computed:{
     getName(){
       return this.$store.getters.getPretendedUserName.nome
+    },
+    getProfessores(){
+      return this.$store.getters.getUsers
     }
   },
 
@@ -153,6 +183,8 @@ export default {
     this.getAuthorUser();
 
     this.getRole()
+
+    this.getProfNames()
 
     this.getUserId()
     try {
