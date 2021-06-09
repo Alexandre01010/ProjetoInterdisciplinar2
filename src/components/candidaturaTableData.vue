@@ -12,7 +12,7 @@
         </b-td>
         <b-td class="candTd" v-if="tableTr.id_tipo_estado == 1"> 
             <b-button @click="updateCandidatura" class="btn_edit" variant="#0077B6" font-color="#0077B6"><b-icon-pencil-square class="btn ml-1" style="width: 23px; height: 23px"/></b-button>
-            <b-button id="remove" class="btn ml-1"><b-icon-trash-fill style="width: 23px; height: 23px" /></b-button>
+            <b-button @click="deleteCandidatura" id="remove" class="btn ml-1"><b-icon-trash-fill style="width: 23px; height: 23px" /></b-button>
         </b-td>
         <b-td class="candTd" v-if="tableTr.id_tipo_estado == 3"> 
             <p>Fechado</p>
@@ -67,6 +67,21 @@ export default {
           // calls getter getMessage and result is put inside content component data
           this.content = this.getMessage;
         }
+      },
+      //deleteMyCandidatura
+      async deleteCandidatura(){
+          try{
+            await this.$store.dispatch("deleteMyCandidatura", this.tableTr)
+            location.reload()
+          }catch(error){
+            console.log(error);
+            this.content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+          }finally{
+            this.content = this.getMessage;
+          }
       }
   },
   computed:{
@@ -105,10 +120,10 @@ export default {
 }
 .editEscolhaOrdem{
     font-weight: lighter;
-    border-top: 0 none;
+    /* border-top: 0 none;
     border-left: 0 none;
-    border-right: 0 none;
-    border-bottom: 1px solid #c94514;
+    border-right: 0 none; */
+    border: 1px solid #c94514;
     outline: 0;
     text-align: right;
 }

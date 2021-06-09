@@ -108,6 +108,14 @@ export default new Vuex.Store({
         },
       })
     },
+    async deleteMyCandidatura(context, payload) {
+      await axios.delete(resource_uri + '/propostas/' + payload.id_proposta + '/candidaturas', {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      })
+    },
     async fetchUserById(context, id) {
       const response = await axios.get(resource_uri + "/users/" + id);
       context.commit("SETUSER", response.data);
