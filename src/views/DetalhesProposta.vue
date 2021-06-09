@@ -43,17 +43,18 @@
       <b-button v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Eliminar Proposta</b-button>
       <b-button id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Voltar</b-button>
       <b-modal id="aprovar_modal" size="lg" hide-header hide-footer>
-            <b-col md="12">
-              <b-row>
-                <b-col md="6">
-                  <p id="title">Atribuição de Tutor ESMAD</p>
-                </b-col>
-                <b-col class="d-flex justify-content-end" md="6">
-                  <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal">X</b-button>
-                </b-col>
-              </b-row>
+        <b-col md="12">
+          <b-row>
+            <b-col md="6">
+              <p id="title">Atribuição de Tutor ESMAD</p>
             </b-col>
-            <b-col md="8">
+            <b-col class="d-flex justify-content-end" md="6">
+              <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal">X</b-button>
+            </b-col>
+          </b-row>
+        </b-col>
+        <div class="d-flex justify-content-center"> 
+          <b-col md="8" >
             <b-input-group>
               <b-form-input v-model="form.orientador" list="my-list-id" placeholder="Selecione o Docente" class="input"></b-form-input>
             </b-input-group>
@@ -64,15 +65,15 @@
                 </option>
               </select>
             </datalist>
-            <div class="d-flex justify-content-center">
-              <b-button @click="updateProposalState" id="aprovar" class="mt-4" type="submit">Aprovar</b-button>
-            </div>
               <div v-if="catchAlert.alert" class="d-flex justify-content-center mt-5">
                 <b-alert id="alertMessage" show variant="danger">{{catchAlert.alert}}</b-alert>
               </div>
-
-            </b-col>
-          </b-modal>
+          </b-col>
+        </div>  
+        <div class="d-flex justify-content-center">
+          <b-button @click="updateProposalState" id="aprovar" class="mt-4" type="submit">Aprovar</b-button>
+        </div>
+      </b-modal>
     </b-col>
   </div>
 </template>
