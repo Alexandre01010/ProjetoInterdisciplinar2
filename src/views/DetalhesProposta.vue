@@ -19,6 +19,11 @@
           <p class="text">{{ proposta.resultados_esperados }}</p>
         </b-card-text>
       </b-card>
+      <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum mb-4 mt-4 ml-3" variant="light">Aprovar</b-button>
+      <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Enviar para Revisão</b-button>
+      <b-button v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Editar</b-button>
+      <b-button v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Eliminar Proposta</b-button>
+      <b-button id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Voltar</b-button>
     </b-col>
   </div>
 </template>
@@ -45,11 +50,19 @@ export default {
         userSendPhoto: "",
       },
 
-      userAutor:""
+      userAutor:"",
+      roleUser:"",
+      userAutorId:""
     };
   },
   methods: {
     editar() {},
+    getRole(){
+      this.roleUser = JSON.parse(localStorage.getItem('user')).role
+    },
+    getUserId(){
+      this.userAutorId = JSON.parse(localStorage.getItem('user')).id
+    },
     eliminar() {
       this.$store.dispatch("eliminar", this.$route.params.id);
       this.$router.go(-1);
@@ -102,6 +115,10 @@ export default {
 
   created(){
     this.getAuthorUser();
+
+    this.getRole()
+
+    this.getUserId()
   }
 };
 </script>

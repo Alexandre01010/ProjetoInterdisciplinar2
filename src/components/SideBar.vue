@@ -132,8 +132,7 @@
               Minhas Propostas</router-link
             >
           </li>
-          <div v-if="getLoggedUser == 'CCA'">
-            <hr />
+          <div v-if="getLoggedUser == 1">
             <li class="d-flex justify-content-start">
               <router-link class="menuItems" :to="{ name: 'aproveProposals' }"
                 ><b-icon
@@ -241,7 +240,7 @@ export default {
       }
     },
     getLoggedUser() {
-      return this.$store.getters.getLoggedUser.name;
+      return JSON.parse(localStorage.getItem('user')).role
     },
   },
 };
