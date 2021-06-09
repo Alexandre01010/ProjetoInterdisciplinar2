@@ -1,5 +1,6 @@
 <template>
-    <b-tr class="text-center tabledata">
+
+    <b-tr id="tabelaCandidaturas" class="text-center tabledata">
         <b-td class="candTd">{{getProposal}}</b-td>
         <b-td class="candTd">{{tableTr.n_ordem_escolha}}</b-td>
         <b-td v-if="tableTr.id_tipo_estado == 1" class="candTd">
@@ -13,6 +14,8 @@
             <b-button id="remove" class="btn ml-1"><b-icon-trash-fill style="width: 23px; height: 23px" /></b-button>
         </b-td>
     </b-tr>
+    
+    
 </template>
 <script>
 export default {
@@ -39,7 +42,7 @@ export default {
           // calls getter getMessage and result is put inside content component data
           this.content = this.getMessage;
         }
-      }
+      },
   },
   computed:{
       getProposal(){
@@ -52,8 +55,26 @@ export default {
 }
 </script>
 <style scoped>
+#tabelaCandidaturas{
+    font-weight: lighter;
+    font-family: Rubik, sans-serif;
+}
 .candTd{
     text-align: center; 
     vertical-align: middle;
+}
+.btn {
+  color: #0077b6;
+  background-color: #fff;
+  border: none;
+  padding: 0;
+}
+#remove {
+  color: #dc3545;
+  background-color: #fff;
+  border: none;
+}
+.proposalState{
+    font-weight: lighter;
 }
 </style>

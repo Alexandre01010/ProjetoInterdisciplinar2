@@ -8,7 +8,6 @@
       </div>
       <div>
         <b-col id="listCards" md="12">
-          <!--Cards-->
           <div class="mt-3" id="cardsDisplay" v-if="getMyCandid.length > 0">
             <div id="forumContent" class="d-flex justify-content-center">
                 <b-table-simple responsive class="table input" borderless hover>
@@ -23,9 +22,7 @@
             </div>
           </div>
           <div class="align-self-center" v-else>
-            <warning
-              message="Não foram encontrados resultados para a pesquisa!"
-            />
+            <warning message="Não foram encontrados resultados para a pesquisa!"/>
           </div>
         </b-col>
       </div>
@@ -45,14 +42,19 @@ export default {
   },
   data() {
     return {
-      selectedOption: "all",
-      selectedState: "all",
-      stateText: "Todas Propostas",
-      filterText: "",
-      search: "",
+        selectedCand: "",
     };
   },
   methods: {
+      showModal(){
+          //v-b-modal="'editCandidaturaModal'"
+    
+          this.$root.$emit('bv::show::modal', 'editCandidaturaModal', '#btnShow')
+      },
+
+      selectCand(cand){
+          console.log(cand)
+      },
     async getMyAplications() {
         try {
           await this.$store.dispatch("fetchMyCandidaturas");
@@ -157,17 +159,6 @@ export default {
 }
 .tabledata {
   font-size: 17px;
-}
-#remove {
-  color: #dc3545;
-  background-color: #fff;
-  border: none;
-}
-.btn {
-  color: #0077b6;
-  background-color: #fff;
-  border: none;
-  padding: 0;
 }
 .head {
   color: #707070;
