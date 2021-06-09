@@ -19,7 +19,7 @@ export default new Vuex.Store({
     proposal: "",
     foruns: [],
     temas:[],
-
+    answers:[],
     notifications: localStorage.getItem("notification")
       ? JSON.parse(localStorage.getItem("notification"))
       : [],
@@ -43,6 +43,12 @@ export default new Vuex.Store({
       return state.notifications.length > 0
         ? state.notifications[state.notifications.length - 1].id + 1
         : 1;
+    },
+    getFilterdAnswers:(state)=>(search)=>{
+      if(search){
+        return state.answers.filter(answer=>answer.texto_resposta.includes(search))
+      }
+      return state.answers
     },
     getFilterdtemas:(state)=>(search)=>{
       if (search) {
@@ -88,6 +94,21 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async fetchAnswers(context,payload){
+      try{
+        
+        const response = await axios.get(resource_uri + "/foruns/temas/"+payload.id_tema+"/respostas", {
+          headers: {
+            "x-access-token": JSON.parse(localStorage.getItem("user"))
+              .accessToken,
+          },
+        });
+        
+        context.commit("SETRESP", response.data);
+      }catch(error){
+        context.commit('SETRESP', [])
+      }
+    },
     async fetchTemasByIdForum(context,payload){
       try{
         const response = await axios.get(resource_uri + "/foruns/"+payload.id_forum+"/temas/", {
@@ -307,6 +328,7 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    SETRESP(state,data){state.answers=data},
     SETTEMAS(state,data){state.temas=data},
     SETFORUNS(state,data){state.foruns=data},
     SETUSER(state, data) {
