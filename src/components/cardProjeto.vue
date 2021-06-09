@@ -47,7 +47,7 @@ export default {
   computed:{
     AssignUserName(){
       
-      return this.$store.getters.getPretendedUserName
+      return this.$store.getters.getPretendedUserName.nome
     }
   },
   created(){

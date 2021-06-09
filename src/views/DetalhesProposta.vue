@@ -145,7 +145,7 @@ export default {
   },
   computed:{
     getName(){
-      return this.$store.getters.getPretendedUserName
+      return this.$store.getters.getPretendedUserName.nome
     }
   },
 

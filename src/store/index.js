@@ -295,7 +295,7 @@ export default new Vuex.Store({
     SETTEMAS(state,data){state.temas=data},
     SETFORUNS(state,data){state.foruns=data},
     SETUSER(state, data) {
-      state.ProposalUser = data.nome;
+      state.ProposalUser = data;
     },
     SETPROPOSALS(state, data) {
       state.proposals = data;
