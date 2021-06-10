@@ -190,7 +190,7 @@
                     }"
                   >
                     <button
-                      id="dropButtons"
+                      id="dropButton1"
                       class="dropdown-item"
                       type="button"
                     >
@@ -205,7 +205,7 @@
                       params: { type: 'projeto' },
                     }"
                     ><button
-                      id="dropButtons"
+                      id="dropButton2"
                       class="dropdown-item"
                       type="button"
                     >
@@ -363,7 +363,11 @@ a[data-toggle="collapse"] {
   font-weight: lighter;
   border-radius: 19px;
 }
-#dropButtons {
+#dropButton1 {
+  font-weight: lighter;
+  color: #747883;
+}
+#dropButton2 {
   font-weight: lighter;
   color: #747883;
 }

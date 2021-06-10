@@ -79,14 +79,14 @@
           <b-row align-v="end">
             <b-col
               ><div class="text-left mt-5">
-                <b-button id="sumbitBtn" type="Button" @click="back()"
+                <b-button id="sumbitBtn1" type="Button" @click="back()"
                   >Voltar</b-button
                 >
               </div>
             </b-col>
             <b-col
               ><div class="text-right mt-5">
-                <b-button id="sumbitBtn" type="Submit">{{
+                <b-button id="sumbitBtn2" type="Submit">{{
                   comp == "estagio" ? "Seguinte" : "Concluir"
                 }}</b-button>
               </div></b-col
@@ -158,7 +158,17 @@ export default {
   box-shadow: 2px 2px 2px 2px #e6e6e6;
   border: none;
 }
-#sumbitBtn {
+#sumbitBtn1 {
+  background-color: #0077b6;
+  width: 269px;
+  height: 48px;
+  border-radius: 18px;
+  font-weight: lighter;
+  font-size: 22px;
+  border: none;
+}
+
+#sumbitBtn2 {
   background-color: #0077b6;
   width: 269px;
   height: 48px;
