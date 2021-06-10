@@ -25,76 +25,70 @@
             >
           </b-col>
         </b-row>
-        <b-row class="mt-3" v-if="getTemas.length>0">
-          <cardAssunto v-for="assunto in getTemas" :key="assunto.id_tema" :assunto="assunto" :forum="forum" />
-          
-            
-          
-          
+        <b-row class="mt-3" v-if="getTemas.length > 0">
+          <cardAssunto
+            v-for="assunto in getTemas"
+            :key="assunto.id_tema"
+            :assunto="assunto"
+            :forum="forum"
+          />
         </b-row>
-        <div class="align-self-center" v-else>
-            <warning
-              message="Não foram encontrados resultados para a pesquisa!"
-            />
-          </div>
-      </b-col>
 
-      <div></div>
+        <div class="align-self-center mt-3"  v-else>
+          <warning
+            message="Não foram encontrados resultados para a pesquisa!"
+          />
+        </div>
+      </b-col>
     </b-col>
   </div>
 </template>
 
 <script>
-import cardAssunto from "../components/cardAssunto.vue"
+import cardAssunto from "../components/cardAssunto.vue";
 import warning from "../components/warning.vue";
 export default {
-  components:{
+  components: {
     warning,
-    cardAssunto
+    cardAssunto,
   },
   props: {
-        forum: Object,
-    },
+    forum: Object,
+  },
   data() {
-    
     return {
       search: "",
-      
     };
   },
   methods: {
-    async getForumTemas(){
+    async getForumTemas() {
       try {
-          console.log(this.forum.id_forum +" id do forum")
-          await this.$store.dispatch("fetchTemasByIdForum",this.forum);
-        } catch (error) {
-          console.log(error);
-          this.content =
-            (error.response && error.response.data) ||
-            error.message ||
-            error.toString();
-        } finally {
-          
-          this.content = this.getMessage;
-        }
+        console.log(this.forum.id_forum + " id do forum");
+        await this.$store.dispatch("fetchTemasByIdForum", this.forum);
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+      } finally {
+        this.content = this.getMessage;
+      }
     },
-    
   },
-  computed:{
-    
+  computed: {
     getTemas() {
-      return this.$store.getters
-        .getFilterdtemas(this.search);
+      return this.$store.getters.getFilterdtemas(this.search);
     },
   },
   created() {
-      this.getForumTemas();
-      //this.getAuthorFoto();
-    },
+    this.getForumTemas();
+    //this.getAuthorFoto();
+  },
 };
 </script>
 
-<style  >
+<style>
 #btnDetails {
   background-color: #0077b6;
   color: #fff;
