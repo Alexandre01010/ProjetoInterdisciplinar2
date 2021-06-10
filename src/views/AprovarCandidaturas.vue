@@ -74,7 +74,6 @@ export default {
   },
   created() {
       this.getAllProposals()
-
     }
 };
 </script>

@@ -6,8 +6,8 @@
         <b-td class="candTd">
           <b-button v-if="tableTr.id_tipo_estado == 1" @click="aceitar" class="btn_edit" variant="#0077B6" font-color="#0077B6"><b-icon icon="check2-circle" class="btn ml-3" style="width: 23px; height: 23px"/></b-button>
           <b-button v-if="tableTr.id_tipo_estado == 1" id="remove" class="btn ml-3"><b-icon icon="x-circle" style="width: 23px; height: 23px" /></b-button>
-          <b-badge v-if="tableTr.id_tipo_estado != 1 && tableTr.id_tipo_estado == 3" class="proposalState" variant="success">Aprovado</b-badge>
-          <b-badge v-if="tableTr.id_tipo_estado != 1 && tableTr.id_tipo_estado == 7" class="proposalState" variant="danger">Recusado</b-badge>
+          <b-badge v-if="tableTr.id_tipo_estado == 3" class="proposalState" variant="success">Aprovado</b-badge>
+          <b-badge v-if="tableTr.id_tipo_estado == 7" class="proposalState" variant="danger">Recusado</b-badge>
         </b-td>
     </b-tr>
     
@@ -75,31 +75,47 @@ export default {
     },
 
     async aceitar(){
-      try{
+      // try{
       let response =  await this.$store.dispatch("fetchCandidaturas")
-      console.log("Response: " + response)
+      console.log("O QUE é para aprovar: ")
+      console.log(this.tableTr.id_proposta)
+      
       response.data.forEach(element => {
       if(element.id_proposta == this.tableTr.id_proposta){
         if(element.id_user == this.tableTr.id_user){
+          console.log(element.id_user, element.id_proposta)
           this.aprovar(element.id_user, element.id_proposta)
         }else{
+          console.log(element.id_user, element.id_proposta)
           this.recusar(element.id_user, element.id_proposta)
         }
       }
       });
+      response.data.forEach(element => {
+        if(element.id_user == this.tableTr.id_user){
+          if(element.id_proposta != this.tableTr.id_proposta&&element.id_tipo_estado==1){
+            this.recusar(element.id_user, element.id_proposta)
+          }
+        }
+      })
       this.$router.push({ name: "aprovarCandidaturas" })
-      }catch(error){
-        console.log(error)
-      }
+      // }catch(error){
+      //   console.log(error)
+      // }
     }
   },
   computed:{
   },
   created(){
-      this.getAuthorUser()
+      
+      
       this.getCandidaturasByProposal()
+      this.getAuthorUser()
+      console.log(this.tableTr.id_proposta)
   },
   updated(){
+    // console.log(this.tableTr.id_tipo_estado)
+    this.getCandidaturasByProposal()
     this.getAuthorUser()
   }
 }

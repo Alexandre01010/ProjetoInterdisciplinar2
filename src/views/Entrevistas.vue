@@ -78,18 +78,18 @@
                 </b-input-group-append>
               </b-input-group>
               <datalist id="my-list-id">
-                <option v-for="user in users" :key="user.name">
-                  {{ user.name }}
+                <option v-for="user in getAllProfs" :key="user.id_user">
+                  {{ user.nome }}
                 </option>
               </datalist>
 
               <p id="SelectedUsers" class="mt-4">Users Selecionados:</p>
               <b-col
                 v-for="(user1, index) in selectedUsersArr"
-                :key="user1.name"
+                :key="user1.nome"
               >
                 <div class="userSel" @click="deleteSel(index)">
-                  {{ user1.name }}
+                  {{ user1.nome }}
                 </div>
               </b-col>
 
@@ -129,7 +129,7 @@ export default {
   data() {
     return {
       search: "",
-      selectedUsersArr:"",
+      selectedUsersArr:[],
       form: {
         topico: "",
         utilizador: "",
@@ -139,6 +139,18 @@ export default {
     };
   },
   methods: {
+    async getUsers(){
+      try {
+        await this.$store.dispatch("fetchUsers")
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||  error.message || error.toString();
+      } finally {
+        // calls getter getMessage and result is put inside content component data
+        this.content = this.getMessage;
+      }
+    },
     async getEntrevistas() {
       try {
         await this.$store.dispatch("fetchEntrevistas");
@@ -150,7 +162,20 @@ export default {
           error.toString();
       }
     },
-    criarAgenda() {},
+    async criarAgenda() {
+      try {
+        let entrevista={id_tipo_estado:9,data_hora:this.form.data+"T"+this.form.hora,texto_agenda:this.form.topico,id_user:JSON.parse(localStorage.getItem('user')).id}
+        await this.$store.dispatch("createEntrevista",entrevista);
+        location.reload()
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+      }
+
+    },
     now() {
       let today = new Date().toISOString().slice(0, 10);
       return today;
@@ -162,16 +187,16 @@ export default {
     },
     selectedUser() {
       console.log(
-        this.users.filter((user) => user.name == this.form.utilizador)
+        this.getAllProfs.filter((user) => user.name == this.form.utilizador)
       );
-      if (this.users.filter((user) => user.name == this.form.utilizador)[0]) {
+      if (this.getAllProfs.filter((user) => user.nome == this.form.utilizador)[0]) {
         let a = {
-          value: this.users.filter(
-            (user) => user.name == this.form.utilizador
-          )[0].name,
-          name: this.users.filter(
-            (user) => user.name == this.form.utilizador
-          )[0].name,
+          value: this.getAllProfs.filter(
+            (user) => user.nome == this.form.utilizador
+          )[0].nome,
+          nome: this.getAllProfs.filter(
+            (user) => user.nome == this.form.utilizador
+          )[0].nome,
         };
         this.selectedUsersArr.push(a);
       }
@@ -181,9 +206,13 @@ export default {
     interviews() {
       return this.$store.getters.getInterviews(this.search);
     },
+    getAllProfs(){
+      return this.$store.getters.getUsers
+    },
   },
   created() {
     this.getEntrevistas();
+    this.getUsers();
   },
 };
 </script>

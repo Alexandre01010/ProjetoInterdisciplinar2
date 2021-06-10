@@ -17,7 +17,7 @@
                         <b-th class="text-center">Mensagem de candidatura</b-th>
                         <b-th class="text-center">Ações</b-th>
                     </b-tr>
-                <tableTrCand v-for="cand in getMyCandid" :key="cand.titulo" :tableTr="cand" />
+                <tableTrCand v-for="cand in getMyCandid" :key="cand.id_user" :tableTr="cand" />
                 </b-table-simple>
             </div>
             <b-button>Voltar</b-button>  
