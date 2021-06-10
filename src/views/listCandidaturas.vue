@@ -8,9 +8,9 @@
       </div>
       <div>
         <b-col id="listCards" md="12">
-          <div class="mt-3" id="cardsDisplay">
-            <div id="forumContent" class="d-flex justify-content-center">
-                <b-table-simple responsive class="table input" borderless hover>
+          <div class="mt-3" id="cardsDisplay" v-if="!error">
+            <div id="forumContent" class="d-flex justify-content-center" >
+                <b-table-simple responsive class="table input" borderless hover >
                     <b-tr class="head">
                         <b-th class="text-center">Proposta</b-th>
                         <b-th class="text-center">Prioridade</b-th>
@@ -21,7 +21,7 @@
                 </b-table-simple>
             </div>
           </div>
-          <div class="align-self-center">
+          <div class="align-self-center" v-else>
             <warning message="Não foram encontrados resultados para a pesquisa!"/>
           </div>
         </b-col>
@@ -45,7 +45,9 @@ export default {
   },
   data() {
     return {
+        error:"",
         selectedCand: "",
+
     };
   },
   methods: {
@@ -53,6 +55,7 @@ export default {
           try{
               await this.$store.dispatch("getCandidaturasByProposal", this.tableTrCand)
           }catch(error){
+              this.error=error
               console.log(error)
           }
       }

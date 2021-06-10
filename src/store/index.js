@@ -18,16 +18,16 @@ export default new Vuex.Store({
     applications: [],
     proposal: "",
     foruns: [],
-    temas:[],
-    answers:[],
+    temas: [],
+    answers: [],
     notifications: localStorage.getItem("notification")
       ? JSON.parse(localStorage.getItem("notification"))
       : [],
   },
   getters: {
-    getForuns: (state) =>(search)=> {
+    getForuns: (state) => (search) => {
       if (search) {
-        return state.foruns.filter(forum=>forum.titulo.includes(search));
+        return state.foruns.filter((forum) => forum.titulo.includes(search));
       }
       return state.foruns;
     },
@@ -44,15 +44,17 @@ export default new Vuex.Store({
         ? state.notifications[state.notifications.length - 1].id + 1
         : 1;
     },
-    getFilterdAnswers:(state)=>(search)=>{
-      if(search){
-        return state.answers.filter(answer=>answer.texto_resposta.includes(search))
-      }
-      return state.answers
-    },
-    getFilterdtemas:(state)=>(search)=>{
+    getFilterdAnswers: (state) => (search) => {
       if (search) {
-        return state.temas.filter(tema=>tema.titulo.includes(search));
+        return state.answers.filter((answer) =>
+          answer.texto_resposta.includes(search)
+        );
+      }
+      return state.answers;
+    },
+    getFilterdtemas: (state) => (search) => {
+      if (search) {
+        return state.temas.filter((tema) => tema.titulo.includes(search));
       }
       return state.temas;
     },
@@ -94,77 +96,81 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async createResposta(context,payload){
-      await axios.post(resource_uri + "/foruns/temas/"+payload.id_tema+"/respostas",payload, {
-        headers: {
-          "x-access-token": JSON.parse(localStorage.getItem("user"))
-            .accessToken,
-        },
-        
-      });
-    },
-
-    async createTema(context,payload){
-      await axios.post(resource_uri + "/foruns/"+payload.id_forum+"/temas",payload, {
-        headers: {
-          "x-access-token": JSON.parse(localStorage.getItem("user"))
-            .accessToken,
-        },
-        
-      });
-      
-      
-    },
-    async createForum(context,payload){
-      try{
-        
-        const response = await axios.post(resource_uri + "/foruns",payload, {
+    async createResposta(context, payload) {
+      await axios.post(
+        resource_uri + "/foruns/temas/" + payload.id_tema + "/respostas",
+        payload,
+        {
           headers: {
             "x-access-token": JSON.parse(localStorage.getItem("user"))
               .accessToken,
           },
-          
-        });
-        location.reload()
-        
-        context.commit("SETRESP", response.data);
-      }catch(error){
-        context.commit('SETRESP', [])
-      }
-
+        }
+      );
     },
 
-
-
-    async fetchAnswers(context,payload){
-      try{
-        
-        const response = await axios.get(resource_uri + "/foruns/temas/"+payload.id_tema+"/respostas", {
+    async createTema(context, payload) {
+      await axios.post(
+        resource_uri + "/foruns/" + payload.id_forum + "/temas",
+        payload,
+        {
+          headers: {
+            "x-access-token": JSON.parse(localStorage.getItem("user"))
+              .accessToken,
+          },
+        }
+      );
+    },
+    async createForum(context, payload) {
+      try {
+        const response = await axios.post(resource_uri + "/foruns", payload, {
           headers: {
             "x-access-token": JSON.parse(localStorage.getItem("user"))
               .accessToken,
           },
         });
-        
+        location.reload();
+
         context.commit("SETRESP", response.data);
-      }catch(error){
-        context.commit('SETRESP', [])
+      } catch (error) {
+        context.commit("SETRESP", []);
       }
     },
-    async fetchTemasByIdForum(context,payload){
-      try{
-        const response = await axios.get(resource_uri + "/foruns/"+payload.id_forum+"/temas/", {
-          headers: {
-            "x-access-token": JSON.parse(localStorage.getItem("user"))
-              .accessToken,
-          },
-        });
+
+    async fetchAnswers(context, payload) {
+      try {
+        const response = await axios.get(
+          resource_uri + "/foruns/temas/" + payload.id_tema + "/respostas",
+          {
+            headers: {
+              "x-access-token": JSON.parse(localStorage.getItem("user"))
+                .accessToken,
+            },
+          }
+        );
+
+        context.commit("SETRESP", response.data);
+      } catch (error) {
+        context.commit("SETRESP", []);
+      }
+    },
+    async fetchTemasByIdForum(context, payload) {
+      try {
+        const response = await axios.get(
+          resource_uri + "/foruns/" + payload.id_forum + "/temas/",
+          {
+            headers: {
+              "x-access-token": JSON.parse(localStorage.getItem("user"))
+                .accessToken,
+            },
+          }
+        );
         context.commit("SETTEMAS", response.data);
-      }catch(error){
-        context.commit('SETTEMAS', [])
+      } catch (error) {
+        context.commit("SETTEMAS", []);
       }
     },
-    async fetchMyForuns(context){
+    async fetchMyForuns(context) {
       const response = await axios.get(resource_uri + "/foruns", {
         headers: {
           "x-access-token": JSON.parse(localStorage.getItem("user"))
@@ -183,37 +189,52 @@ export default new Vuex.Store({
       context.commit("SETPROPOSALS", response.data);
     },
     async putUpdateCandidatura(context, payload) {
-        await axios.put(resource_uri + '/propostas/' +  payload.id_proposta + '/candidaturas' , payload, {
-        headers: {
-          "x-access-token": JSON.parse(localStorage.getItem("user"))
-            .accessToken,
-        },
-      })
+      await axios.put(
+        resource_uri + "/propostas/" + payload.id_proposta + "/candidaturas",
+        payload,
+        {
+          headers: {
+            "x-access-token": JSON.parse(localStorage.getItem("user"))
+              .accessToken,
+          },
+        }
+      );
     },
     async putUpdateProposal(context, payload) {
-      await axios.put(resource_uri + '/propostas/' + payload.id_proposta + '/data', payload, {
-        headers: {
-          "x-access-token": JSON.parse(localStorage.getItem("user"))
-            .accessToken,
-        },
-      })
+      await axios.put(
+        resource_uri + "/propostas/" + payload.id_proposta + "/data",
+        payload,
+        {
+          headers: {
+            "x-access-token": JSON.parse(localStorage.getItem("user"))
+              .accessToken,
+          },
+        }
+      );
     },
     async putAproveProposal(context, payload) {
-      console.log(payload)
-      await axios.put(resource_uri + '/propostas/' + payload.id_proposta + '/data', payload, {
-        headers: {
-          "x-access-token": JSON.parse(localStorage.getItem("user"))
-            .accessToken,
-        },
-      })
+      console.log(payload);
+      await axios.put(
+        resource_uri + "/propostas/" + payload.id_proposta + "/data",
+        payload,
+        {
+          headers: {
+            "x-access-token": JSON.parse(localStorage.getItem("user"))
+              .accessToken,
+          },
+        }
+      );
     },
     async deleteMyCandidatura(context, payload) {
-      await axios.delete(resource_uri + '/propostas/' + payload.id_proposta + '/candidaturas', {
-        headers: {
-          "x-access-token": JSON.parse(localStorage.getItem("user"))
-            .accessToken,
-        },
-      })
+      await axios.delete(
+        resource_uri + "/propostas/" + payload.id_proposta + "/candidaturas",
+        {
+          headers: {
+            "x-access-token": JSON.parse(localStorage.getItem("user"))
+              .accessToken,
+          },
+        }
+      );
     },
     async fetchUserById(context, id) {
       const response = await axios.get(resource_uri + "/users/" + id);
@@ -222,23 +243,26 @@ export default new Vuex.Store({
     },
 
     async deleteProposals(context, payload) {
-      await axios.delete(resource_uri + '/propostas/' + payload.id_proposta, {
+      await axios.delete(resource_uri + "/propostas/" + payload.id_proposta, {
         headers: {
           "x-access-token": JSON.parse(localStorage.getItem("user"))
             .accessToken,
         },
-      })
+      });
     },
 
-     async fetchUserByType(context, id) {
-       const response = await axios.get(resource_uri + "/users?idTipoUser=" + id, {
-        headers: {
-          "x-access-token": JSON.parse(localStorage.getItem("user"))
-            .accessToken,
-        },
-       })
-       context.commit("SETUSERTYPE", response.data)
-     },
+    async fetchUserByType(context, id) {
+      const response = await axios.get(
+        resource_uri + "/users?idTipoUser=" + id,
+        {
+          headers: {
+            "x-access-token": JSON.parse(localStorage.getItem("user"))
+              .accessToken,
+          },
+        }
+      );
+      context.commit("SETUSERTYPE", response.data);
+    },
     async fetchProposals(context) {
       const response = await axios.get(resource_uri + "/propostas/approved", {
         headers: {
@@ -252,14 +276,14 @@ export default new Vuex.Store({
       const response = await axios.get(resource_uri + "/propostas/" + id);
       context.commit("SETPROPOSAL", response.data);
     },
-    async fetchPorposalForApproval(context){
+    async fetchPorposalForApproval(context) {
       const response = await axios.get(resource_uri + "/propostas/pending", {
         headers: {
           "x-access-token": JSON.parse(localStorage.getItem("user"))
             .accessToken,
         },
-      })
-      context.commit("SETPROPOSALBYSTATE", response.data)
+      });
+      context.commit("SETPROPOSALBYSTATE", response.data);
     },
     async fetchMyCandidaturas(context) {
       const response = await axios.get(resource_uri + "/candidaturas/minhas", {
@@ -272,23 +296,34 @@ export default new Vuex.Store({
       context.commit("SETMYCANDIDATURAS", response.data);
     },
 
-    async postCandidatura(context, payload) { 
-      await axios.post(resource_uri + '/candidaturas/' + payload.id_proposta, payload, {
-        headers: {
-          "x-access-token": JSON.parse(localStorage.getItem("user"))
-            .accessToken,
-        },
-      })
+    async postCandidatura(context, payload) {
+      await axios.post(
+        resource_uri + "/candidaturas/" + payload.id_proposta,
+        payload,
+        {
+          headers: {
+            "x-access-token": JSON.parse(localStorage.getItem("user"))
+              .accessToken,
+          },
+        }
+      );
     },
 
     async getCandidaturasByProposal(context, payload) {
-      const response = await axios.get(resource_uri + '/propostas/' + payload.id_proposta + '/candidaturas/associadas', {
-        headers: {
-          "x-access-token": JSON.parse(localStorage.getItem("user"))
-            .accessToken,
-        },
-      })
-      context.commit("SETCANDIDATURASBYPROPOSAL", response.data)
+      const response = await axios.get(
+        resource_uri +
+          "/propostas/" +
+          payload.id_proposta +
+          "/candidaturas/associadas",
+        {
+          headers: {
+            "x-access-token": JSON.parse(localStorage.getItem("user"))
+              .accessToken,
+          },
+        }
+      );
+
+      context.commit("SETCANDIDATURASBYPROPOSAL", response.data);
     },
 
     async eliminar(context, id) {
@@ -408,23 +443,29 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    SETCANDIDATURASBYPROPOSAL(state, data){
-      state.applications = data
+    SETCANDIDATURASBYPROPOSAL(state, data) {
+      state.applications = data;
     },
-    SETRESP(state,data){state.answers=data},
-    SETTEMAS(state,data){state.temas=data},
-    SETFORUNS(state,data){state.foruns=data},
+    SETRESP(state, data) {
+      state.answers = data;
+    },
+    SETTEMAS(state, data) {
+      state.temas = data;
+    },
+    SETFORUNS(state, data) {
+      state.foruns = data;
+    },
     SETUSER(state, data) {
       state.ProposalUser = data;
     },
-    SETUSERTYPE(state, data){
-      state.users = data
+    SETUSERTYPE(state, data) {
+      state.users = data;
     },
     SETPROPOSALS(state, data) {
       state.proposals = data;
     },
     SETPROPOSALBYSTATE(state, data) {
-      state.proposals = data
+      state.proposals = data;
     },
     SETPROPOSAL(state, data) {
       state.proposal = data.titulo;
