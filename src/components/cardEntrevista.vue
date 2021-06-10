@@ -14,16 +14,16 @@
       <b-col md="12">
         <b-row>
           <b-col class="fw-bolder" md="8">
-            <div class="title">{{ interview.title }}</div>
+            <div class="title">{{ interview.texto_agenda }}</div>
             <b-col class="text-muted" md="12">
-              <p class="participants">Data: {{ interview.date }}</p>
+              <p class="participants">Data: {{ interview.data_hora.split('T')[0] }}</p>
             </b-col>
             <b-col class="text-muted" md="12">
-              <p class="participants">Hora: {{ interview.time }}</p>
+              <p class="participants">Hora: {{ interview.data_hora.split('T')[1].replace(':00.000Z','') }}</p>
             </b-col>
             <b-col class="text-muted" md="12">
               <p class="participants">
-                Nº participantes: {{ interview.participant }}
+                Autor: {{ u_name }}
               </p>
             </b-col>
           </b-col>
@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-      
+      u_name:""
       
     };
   },
@@ -56,7 +56,7 @@ export default {
 
     async getAuthorUser() {
       try {
-        await this.$store.dispatch("fetchUserById",this.forum.id_user);
+        await this.$store.dispatch("fetchUserById",this.interview.id_user);
         
         this.u_name=this.$store.getters.getPretendedUserName.nome
       } catch (error) {
@@ -70,22 +70,7 @@ export default {
     },
 
 
-    async getForumTemas() {
-      try {
-        await this.$store.dispatch("fetchTemasByIdForum", this.forum);
-        
-        this.n_temas=this.$store.getters.getFilterdtemas("").length
-        
-      } catch (error) {
-        console.log(error);
-        this.content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-      } finally {
-        this.content = this.getMessage;
-      }
-    },
+    
   },
   computed:{
     
@@ -93,14 +78,8 @@ export default {
   
   created() {
     this.getAuthorUser()
-    this.getForumTemas()
-    try {
-      console.log(this.forum)
-      this.$store.dispatch("fetchUserById",this.propCard.id_prof_orientador);
-    } catch (error) {
-        console.log(error);
-        this.content =(error.response && error.response.data) ||  error.message || error.toString();
-      }
+    
+    
   },
   
 };
