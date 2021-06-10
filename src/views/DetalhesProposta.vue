@@ -42,6 +42,8 @@
       <b-col md="12">
         <p class="acoes ml-1">Ações:</p>
       </b-col>
+      <p class="ml-3" v-if="!validador">Já estas candidatado a esta proposta. Consulta a página <router-link class="menuItems" :to="{ name: 'minhasCandidaturas' }">Minhas Candidaturas</router-link></p>
+      <b-button @click="$bvModal.show('candidatura')" v-if="roleUser == 3 && proposta.id_tipo_estado == 3 && validador" id="btnOpenForum" class="btnOpenForum mb-4 mt-1 ml-3" variant="light">Candidatar-me</b-button>
       <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum mb-4 mt-1 ml-3" variant="light" @click="$bvModal.show('aprovar_modal')">Aprovar</b-button>
       <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-1" variant="light" @click="$bvModal.show('enviar_revisao')">Enviar para Revisão</b-button>
       <b-button @click="$router.push({ name: 'editarPropostas', params: { propostaProp: proposta } })" v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-1" variant="light">Editar</b-button>
@@ -127,6 +129,32 @@
           <b-button @click="updateProposalStateRevisao" id="aprovar" class="btnSubmitValues mt-4" type="submit">Enviar</b-button>
         </div>
       </b-modal>
+      <b-modal id="candidatura" size="lg" hide-header hide-footer>
+        <b-col md="12">
+          <b-row>
+            <b-col class="items" md="12">
+            <b-row>
+               <p class="ml-3" id="title">Candidatar-me</p>
+                <b-button @click="$bvModal.hide('candidatura')" variant="light" class="closeModal">X</b-button>
+            </b-row>
+            </b-col>
+            <!-- <b-col class="d-flex justify-content-end" md="6">
+              <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal mb-3">X</b-button>
+            </b-col> -->
+          </b-row>
+        </b-col>
+        <div class="d-flex justify-content-center"> 
+          <b-col md="8" >
+            <b-form-textarea id="input-3" v-model="msgCandidatura" placeholder="Adicione observações à candidatura" rows="10" max-rows="10" required maxlength="350"></b-form-textarea>
+              <div v-if="catchAlert.alert" class="d-flex justify-content-center mt-5">
+                <b-alert id="alertMessage" show variant="danger">{{catchAlert.alert}}</b-alert>
+              </div>
+            </b-col>
+        </div>  
+        <div class="d-flex justify-content-center">
+          <b-button @click="updateProposalStateRevisao" id="aprovar" class="btnSubmitValues mt-4" type="submit">Enviar</b-button>
+        </div>
+      </b-modal>
     </b-col>
   </div>
 </template>
@@ -158,7 +186,8 @@ export default {
 
       userAutor:"",
       roleUser:"",
-      userAutorId:""
+      userAutorId:"",
+      msgCandidatura:""
     };
   },
   methods: {
@@ -259,12 +288,34 @@ export default {
         // calls getter getMessage and result is put inside content component data
         this.content = this.getMessage;
       }
+    },
+    async validateCandidaturaBtn(){
+      try{
+        await this.$store.dispatch("fetchMyCandidaturas")
+      }catch(error){
+          console.log(error);
+          this.content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+      }
     }
     
   },
   computed:{
     getName(){
       return this.$store.getters.getPretendedUserName.nome
+    },
+
+    validador(){
+      if(this.$store.getters.getMyCandidaturas.length == 0){
+        return true
+      }
+      if(this.$store.getters.getMyCandidaturas.filter(prop => prop.id_proposta == this.proposta.id_proposta && prop.id_user == JSON.parse(localStorage.getItem('user')).id).length == 0){
+        return true
+      }else{
+        return false
+      }
     },
 
     getAllProfs(){
@@ -295,6 +346,8 @@ export default {
         console.log(error);
         this.content =(error.response && error.response.data) ||  error.message || error.toString();
       }
+    
+    this.validateCandidaturaBtn()
   }
 };
 </script>

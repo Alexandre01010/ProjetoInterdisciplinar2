@@ -74,6 +74,13 @@
                     value="3"
                     >Não Docente</b-form-radio
                   >
+                  <b-form-radio
+                    v-model="selected"
+                    name="some-radios"
+                    class="opt3 ml-4"
+                    value="4"
+                    >Entidade Externa</b-form-radio
+                  >
                 </b-row>
               </b-form-group>
             </b-col>
@@ -109,11 +116,13 @@
   border: none;
 }
 .opt1,
-.opt2 {
+.opt2,
+.opt3 {
   padding: 1px;
   font-size: 17px;
 }
-.opt2 {
+.opt2,
+.opt3 {
   padding-left: 17px;
 }
 #tipo {
@@ -135,7 +144,8 @@
   border: none;
 }
 @media only screen and (max-width: 992px) {
-  .opt2 {
+  .opt2,
+  .opt3 {
     padding-left: 0;
   }
 }
@@ -148,7 +158,7 @@ export default {
       icon: "upload",
       email: "",
       password: "",
-      selected: "aluno",
+      selected: 3,
       nome: "",
       img: "",
       descricao: "",
