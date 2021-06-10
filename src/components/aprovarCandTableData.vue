@@ -1,7 +1,8 @@
 <template>
     <b-tr id="tabelaCandidaturas" class="text-center tabledata">
         <b-td class="candTd">{{tableTr.titulo}}</b-td>
-        <b-td class="candTd"><router-link class="menuItems" :to="{ name: 'listagemCandidaturas' }"><b-button>Candidaturas</b-button></router-link></b-td>
+        
+        <b-td class="candTd"><b-button @click="assignProp" >Candidaturas</b-button></b-td>
     </b-tr>
     
     
@@ -20,6 +21,12 @@ export default {
     };
   },
   methods: {
+
+    assignProp(){
+      console.log(this.tableTr)
+      this.$router.push({ name: 'listagemCandidaturas', params: { tableTrCand: this.tableTr } })
+    },
+    
       async getCandidaturasByProposal() {
           try{
               await this.$store.dispatch("getCandidaturasByProposal")
@@ -35,6 +42,7 @@ export default {
   computed:{
   },
   created(){
+      console.log(this.tableTr)
       this.getCandidaturasByProposal()
   }
 }

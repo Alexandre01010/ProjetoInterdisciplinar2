@@ -1,6 +1,6 @@
 <template>
     <b-tr id="tabelaCandidaturas" class="text-center tabledata">
-        <b-td class="candTd">{{tableTr.titulo}}</b-td>
+        <b-td class="candTd">{{tableTr.mensagem}}</b-td>
         <b-td class="candTd"><b-button>Candidaturas</b-button></b-td>
     </b-tr>
     

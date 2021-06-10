@@ -35,6 +35,9 @@ import warning from "../components/warning.vue";
 //import cardEstagio from '../components/cardEstagio.vue'
 export default {
   name: "MinhasCandidaturas.vue",
+  props:{
+    tableTrCand:Object
+  },
   components: {
     tableTrCand,
     //cardEstagio,
@@ -55,10 +58,13 @@ export default {
       }
   },
   computed: {
-
+    getMyCandid(){
+      return this.$store.getters.getMyCandidaturas
+    }
   },
   created() {
-
+      console.log(this.tableTrCand)
+      this.getCandidaturasByProposal()
     }
 };
 </script>
