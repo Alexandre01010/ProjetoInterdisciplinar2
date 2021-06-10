@@ -14,11 +14,13 @@
                     <b-tr class="head">
                         <b-th class="text-center">Aluno candidato</b-th>
                         <b-th class="text-center">Prioridade de escolha</b-th>
+                        <b-th class="text-center">Mensagem de candidatura</b-th>
                         <b-th class="text-center">Ações</b-th>
                     </b-tr>
                 <tableTrCand v-for="cand in getMyCandid" :key="cand.titulo" :tableTr="cand" />
                 </b-table-simple>
             </div>
+            <b-button>Voltar</b-button>  
           </div>
           <div class="align-self-center" v-else>
             <warning message="Não foram encontrados resultados para a pesquisa!"/>

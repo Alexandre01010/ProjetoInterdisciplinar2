@@ -218,6 +218,14 @@ export default new Vuex.Store({
         }
       );
     },
+    async putUpdateCandidaturaState(context, payload) {
+      await axios.put(resource_uri + '/propostas/' + payload.id_proposta + '/candidaturas/updateState', payload, {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      })
+    },
     async putUpdateProposal(context, payload) {
       await axios.put(
         resource_uri + "/propostas/" + payload.id_proposta + "/data",
@@ -312,6 +320,17 @@ export default new Vuex.Store({
       });
       console.log(response.data);
       context.commit("SETMYCANDIDATURAS", response.data);
+    },
+
+    async fetchCandidaturas(context) {
+      const response = await axios.get(resource_uri + "/candidaturas", {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      })
+      context.commit("SETMYCANDIDATURAS", response.data);
+      return response
     },
 
     async postCandidatura(context, payload) {

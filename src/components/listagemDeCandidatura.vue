@@ -2,9 +2,10 @@
     <b-tr id="tabelaCandidaturas" class="text-center tabledata">
         <b-td class="candTd">{{ u_name }}</b-td>
         <b-td class="candTd">{{ tableTr.n_ordem_escolha }}</b-td>
+        <b-td class="candTd">{{ tableTr.mensagem }}</b-td>
         <b-td class="candTd">
-          <b-button class="btn_edit" variant="#0077B6" font-color="#0077B6"><b-icon-pencil-square class="btn ml-1" style="width: 23px; height: 23px"/></b-button>
-          <b-button id="remove" class="btn ml-1"><b-icon-trash-fill style="width: 23px; height: 23px" /></b-button>
+          <b-button v-if="tableTr.id_tipo_estado == 1" @click="aceitar" class="btn_edit" variant="#0077B6" font-color="#0077B6"><b-icon icon="check2-circle" class="btn ml-3" style="width: 23px; height: 23px"/></b-button>
+          <b-button v-if="tableTr.id_tipo_estado == 1" id="remove" class="btn ml-3"><b-icon icon="x-circle" style="width: 23px; height: 23px" /></b-button>
         </b-td>
     </b-tr>
     
@@ -25,6 +26,26 @@ export default {
     };
   },
   methods: {
+
+    async aprovar(id_user, id_proposta){
+      try{
+        let cand = {id_user: id_user, id_proposta: id_proposta, id_tipo_estado: 3}
+        await this.$store.dispatch("putUpdateCandidaturaState", cand)
+
+      }catch(error){
+        console.log(error)
+      }
+    },
+
+    async recusar(id_user, id_proposta){
+      try{
+        let cand = {id_user: id_user, id_proposta: id_proposta, id_tipo_estado: 7}
+        await this.$store.dispatch("putUpdateCandidaturaState", cand)
+      }catch(error){
+        console.log(error)
+      }
+    },
+
       async getCandidaturasByProposal() {
           try{
               await this.$store.dispatch("getCandidaturasByProposal")
@@ -50,6 +71,25 @@ export default {
         this.content = this.getMessage;
       }
     },
+
+    async aceitar(){
+      try{
+      let response =  await this.$store.dispatch("fetchCandidaturas")
+      console.log("Response: " + response)
+      response.data.forEach(element => {
+      if(element.id_proposta == this.tableTr.id_proposta){
+        if(element.id_user == this.tableTr.id_user){
+          this.aprovar(element.id_user, element.id_proposta)
+        }else{
+          this.recusar(element.id_user, element.id_proposta)
+        }
+      }
+      });
+      this.$router.push({ name: "aprovarCandidaturas" })
+      }catch(error){
+        console.log(error)
+      }
+    }
   },
   computed:{
   },
