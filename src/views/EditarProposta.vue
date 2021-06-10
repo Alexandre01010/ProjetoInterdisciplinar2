@@ -13,29 +13,27 @@
           <p class="textNotEditable">{{ getName }}</p>
           <p class="header">Objetivos:</p>
           <br>
-          <b-col md="12">
-
-          <textarea rows="4" cols="50" class="text mb-3" type="text" v-model="edit.objetivos"></textarea>
+          <textarea rows="4" cols="99" class="text mb-3" type="text" v-model="edit.objetivos"></textarea>
           <br>
           <p class="header">Plano Provisório de Trabalho:</p>
           <br>
-          <textarea rows="4" cols="50" class="text mb-3" type="text" v-model="edit.planoTrabalho"></textarea>
+          <textarea rows="4" cols="99" class="text mb-3" type="text" v-model="edit.planoTrabalho"></textarea>
           <br>
           <p class="header">Recursos necessários:</p>
           <br>
-          <textarea rows="4" cols="50" class="text mb-3" type="text" v-model="edit.recursosNecessarios"></textarea>
+          <textarea rows="4" cols="99" class="text mb-3" type="text" v-model="edit.recursosNecessarios"></textarea>
           <br>
           <p class="header">Perfil do candidato desejado:</p>
           <br>
-          <textarea rows="4" cols="50" class="text mb-3" type="text" v-model="edit.perfilCandidato"></textarea>
+          <textarea rows="4" cols="99" class="text mb-3" type="text" v-model="edit.perfilCandidato"></textarea>
           <br>
           <p class="header">Resultados Esperados:</p>
           <br>
-          <textarea rows="4" cols="50" class="text mb-3" type="text" v-model="edit.resultadosEsperados"></textarea>
+          <textarea rows="4" cols="99" class="text mb-3" type="text" v-model="edit.resultadosEsperados"></textarea>
           <br>
           <p class="header">Outros Dados:</p>
           <br>
-          <textarea rows="4" cols="50" class="text mb-3" type="text" v-model="edit.outrosDados"></textarea>
+          <textarea rows="4" cols="99" class="text mb-3" type="text" v-model="edit.outrosDados"></textarea>
           <br>
           <p v-if="propostaProp.id_tipo_estado == 3" class="header">Professor orientador:</p>
           <p v-if="propostaProp.id_tipo_estado == 3" class="text">{{ getProfessores }}</p>
@@ -63,11 +61,10 @@
           <br>
           <input v-if="propostaProp.nome_entidade != null" class="text mb-3" type="text" v-model="edit.emailEntidade">
           <br>
-          </b-col>
         </b-card-text>
       </b-card>
       <b-button @click="updateProposal" v-if="userAutorId == propostaProp.id_user_autor && (propostaProp.id_tipo_estado == 1 || propostaProp.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Editar</b-button>
-      <b-button id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Voltar</b-button>
+      <router-link class="menuItems" :to="{ name: 'proposalDetails', params: { proposta: propostaProp } }"><b-button id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Voltar</b-button></router-link>
     </b-col>
   </div>
 </template>
@@ -352,11 +349,15 @@ export default {
 .text{
     font-weight: lighter;
     border-top: 0 none;
-    border-left: 0 none;
+    border-left: 1px solid #c94514;
     border-right: 0 none;
-    border-bottom: 1px solid #c94514;
+    border-bottom: 0 none;
     outline: 0;
-    /*background-color: #f5f5f5;*/
+    background-color: #f5f5f5;
     border-radius: 3px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    max-width: 100%;
 }
 </style>
