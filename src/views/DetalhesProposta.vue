@@ -39,11 +39,14 @@
           <p v-if="proposta.id_tipo_estado == 2" class="text">{{ proposta.msgRevisao }}</p>
         </b-card-text>
       </b-card>
-      <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum mb-4 mt-4 ml-3" variant="light" @click="$bvModal.show('aprovar_modal')">Aprovar</b-button>
-      <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light" @click="$bvModal.show('enviar_revisao')">Enviar para Revisão</b-button>
-      <b-button @click="$router.push({ name: 'editarPropostas', params: { propostaProp: proposta } })" v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Editar</b-button>
-      <b-button @click="deleteProposal" v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Eliminar Proposta</b-button>
-      <b-button @click="goBack" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Voltar</b-button>
+      <b-col md="12">
+        <p class="acoes ml-1">Ações:</p>
+      </b-col>
+      <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum mb-4 mt-1 ml-3" variant="light" @click="$bvModal.show('aprovar_modal')">Aprovar</b-button>
+      <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-1" variant="light" @click="$bvModal.show('enviar_revisao')">Enviar para Revisão</b-button>
+      <b-button @click="$router.push({ name: 'editarPropostas', params: { propostaProp: proposta } })" v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-1" variant="light">Editar</b-button>
+      <b-button @click="$bvModal.show('confirmar_apagar')" v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-1" variant="light">Eliminar Proposta</b-button>
+      <b-button @click="goBack" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-1" variant="light">Voltar</b-button>
       <b-modal id="aprovar_modal" size="lg" hide-header hide-footer>
         <b-col md="12">
           <b-row>
@@ -77,6 +80,25 @@
         </div>  
         <div class="d-flex justify-content-center">
           <b-button @click="updateProposalState" id="aprovar" class="btnSubmitValues mt-4" type="submit">Aprovar</b-button>
+        </div>
+        <!--modal de confirmação de delete-->
+      </b-modal>
+      <b-modal id="confirmar_apagar" size="lg" hide-header hide-footer>
+        <b-col md="12">
+          <b-row>
+            <b-col class="items" md="12">
+            <b-row class="d-flex justify-content-center">
+                <p class="ml-3" id="title">Tem a certeza que pretende eliminar a proposta?</p>
+            </b-row>
+            </b-col>
+            <!-- <b-col class="d-flex justify-content-end" md="6">
+              <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal mb-3">X</b-button>
+            </b-col> -->
+          </b-row>
+        </b-col>
+        <div class="d-flex justify-content-center">
+            <b-button @click="deleteProposal" id="aprovar" class="btnSubmitValuesConfirmation mt-4" type="submit">Sim</b-button>
+            <b-button @click="$bvModal.hide('confirmar_apagar')" id="aprovar" class="btnSubmitValuesConfirmationDenied mt-4 ml-3" variant="danger" type="submit">Não</b-button>
         </div>
       </b-modal>
       <b-modal id="enviar_revisao" size="lg" hide-header hide-footer>
@@ -214,6 +236,7 @@ export default {
     async deleteProposal(){
         try{
             await this.$store.dispatch('deleteProposals', this.proposta)
+            this.$router.go(-1)
         }catch(error){
             console.log(error);
             this.content =
@@ -335,5 +358,23 @@ export default {
   border-radius: 15px !important;
   box-shadow: 2px 2px 2px 2px #e6e6e6;
   border: none;
+}
+.acoes{
+  font-family: rubik, sans-serif;
+  font-weight: lighter;
+  color: #767676;
+}
+.btnSubmitValuesConfirmation{
+  border-radius: 19px;
+  background-color: #0077b6;
+  border: none;
+  width: 19%;
+  font-weight: lighter;
+}
+.btnSubmitValuesConfirmationDenied{
+  border-radius: 19px;
+  width: 19%;
+  border: none;
+  font-weight: lighter;
 }
 </style>

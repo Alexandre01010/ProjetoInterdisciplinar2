@@ -162,8 +162,12 @@ export default {
   methods: {
     register() {
       try {
-        this.$store.dispatch("register", this.$data);
-        this.$router.push({ name: "login" });
+        if(this.password != this.confirm_password){
+          throw "As passwords não combinam"
+        }else{
+          this.$store.dispatch("register", this.$data);
+          this.$router.push({ name: "login" });
+        }
       } catch (error) {
         this.catchAlert.alert = error;
       }

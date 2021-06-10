@@ -7,7 +7,7 @@
         <b-card-text>
           <p v-if="propostaProp.nome_entidade == null" class="type">Projeto ESMAD</p>
           <p v-else class="type">Estágio ESMAD</p>
-          <input class="text mb-3" type="text" v-model="edit.titulo">
+          <input maxlength="50" class="text mb-3" type="text" v-model="edit.titulo">
           <br>
           <p class="header">Autor:</p>
           <p class="textNotEditable">{{ getName }}</p>
