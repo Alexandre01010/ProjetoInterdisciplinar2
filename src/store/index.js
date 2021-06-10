@@ -5,7 +5,7 @@ import axios from "axios";
 import { AuthService } from "@/services/auth.service";
 
 Vue.use(Vuex);
-const resource_uri = "http://localhost:8080";
+const resource_uri = "https://warm-scrubland-37055.herokuapp.com";
 
 export default new Vuex.Store({
   state: {
