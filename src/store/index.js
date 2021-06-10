@@ -20,11 +20,18 @@ export default new Vuex.Store({
     foruns: [],
     temas: [],
     answers: [],
+    entrevistas:[],
     notifications: localStorage.getItem("notification")
       ? JSON.parse(localStorage.getItem("notification"))
       : [],
   },
   getters: {
+    getInterviews:(state)=>(search)=>{
+      if (search) {
+        return state.entrevistas.filter(inter=>inter.texto_agenda.includes(search))
+      }
+      return state.entrevistas
+    },
     getForuns: (state) => (search) => {
       if (search) {
         return state.foruns.filter((forum) => forum.titulo.includes(search));
@@ -96,6 +103,17 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async fetchEntrevistas(context){
+      let response=await axios.get(
+        resource_uri + "/entrevistas",{
+          headers: {
+            "x-access-token": JSON.parse(localStorage.getItem("user"))
+              .accessToken,
+          },
+        }
+      );
+      context.commit("SETENTREVISTAS", response.data);
+    },
     async createResposta(context, payload) {
       await axios.post(
         resource_uri + "/foruns/temas/" + payload.id_tema + "/respostas",
@@ -443,6 +461,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    SETENTREVISTAS(state,data){
+      state.entrevistas = data;
+    },
     SETCANDIDATURASBYPROPOSAL(state, data) {
       state.applications = data;
     },
