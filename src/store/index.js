@@ -219,6 +219,7 @@ export default new Vuex.Store({
       );
     },
     async putUpdateCandidaturaState(context, payload) {
+      
       await axios.put(resource_uri + '/propostas/' + payload.id_proposta + '/candidaturas/updateState/' + payload.id_user, payload, {
         headers: {
           "x-access-token": JSON.parse(localStorage.getItem("user"))
@@ -275,6 +276,26 @@ export default new Vuex.Store({
             .accessToken,
         },
       });
+    },
+    async createEntrevista(context,payload){
+      await axios.post(resource_uri + "/entrevistas",payload, {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      });
+    },
+    async fetchUsers(context) {
+      const response = await axios.get(
+        resource_uri + "/users",
+        {
+          headers: {
+            "x-access-token": JSON.parse(localStorage.getItem("user"))
+              .accessToken,
+          },
+        }
+      );
+      context.commit("SETUSERTYPE", response.data);
     },
 
     async fetchUserByType(context, id) {

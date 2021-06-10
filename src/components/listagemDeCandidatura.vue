@@ -75,9 +75,11 @@ export default {
     },
 
     async aceitar(){
-      try{
+      // try{
       let response =  await this.$store.dispatch("fetchCandidaturas")
-      console.log("Response: " + response)
+      console.log("O QUE é para aprovar: ")
+      console.log(this.tableTr.id_proposta)
+      
       response.data.forEach(element => {
       if(element.id_proposta == this.tableTr.id_proposta){
         if(element.id_user == this.tableTr.id_user){
@@ -91,28 +93,29 @@ export default {
       });
       response.data.forEach(element => {
         if(element.id_user == this.tableTr.id_user){
-          if(element.id_proposta != this.tableTr.id_proposta){
+          if(element.id_proposta != this.tableTr.id_proposta&&element.id_tipo_estado==1){
             this.recusar(element.id_user, element.id_proposta)
           }
         }
       })
       this.$router.push({ name: "aprovarCandidaturas" })
-      }catch(error){
-        console.log(error)
-      }
+      // }catch(error){
+      //   console.log(error)
+      // }
     }
   },
   computed:{
   },
   created(){
-      console.log("Em baixo created")
-      console.log(this.tableTr)
-      this.getAuthorUser()
+      
+      
       this.getCandidaturasByProposal()
+      this.getAuthorUser()
+      console.log(this.tableTr.id_proposta)
   },
   updated(){
-    console.log(this.tableTr.id_tipo_estado)
-     this.getCandidaturasByProposal()
+    // console.log(this.tableTr.id_tipo_estado)
+    this.getCandidaturasByProposal()
     this.getAuthorUser()
   }
 }
