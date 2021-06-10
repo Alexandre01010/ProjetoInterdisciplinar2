@@ -46,16 +46,33 @@ export default {
   },
   data() {
     return {
-      
+      search:""
     };
+  },
+  methods:{
+    async getForumTemas() {
+      try {
+        console.log(this.forum.id_forum + " id do forum");
+        await this.$store.dispatch("fetchTemasByIdForum", this.forum);
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+      } finally {
+        this.content = this.getMessage;
+      }
+    },
   },
   computed: {
     n_temas(){
-      
+      return this.$store.getters.getFilterdtemas(this.search).length
     }
 
   },
   created() {
+    this.getForumTemas()
     try {
       console.log(this.forum)
       this.$store.dispatch("fetchUserById",this.propCard.id_prof_orientador);
@@ -64,6 +81,7 @@ export default {
         this.content =(error.response && error.response.data) ||  error.message || error.toString();
       }
   },
+  
 };
 </script>
 <style scoped></style>
