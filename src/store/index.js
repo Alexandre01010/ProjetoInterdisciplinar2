@@ -178,6 +178,16 @@ export default new Vuex.Store({
       context.commit("SETUSER", response.data);
       //context.commit("SETUSER", response.data);
     },
+
+    async deleteProposals(context, payload) {
+      await axios.delete(resource_uri + '/propostas/' + payload.id_proposta, {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      })
+    },
+
      async fetchUserByType(context, id) {
        const response = await axios.get(resource_uri + "/users?idTipoUser=" + id, {
         headers: {

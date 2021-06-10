@@ -10,30 +10,32 @@
           <input class="text mb-3" type="text" v-model="edit.titulo">
           <br>
           <p class="header">Autor:</p>
-          <p class="text">{{ getName }}</p>
+          <p class="textNotEditable">{{ getName }}</p>
           <p class="header">Objetivos:</p>
           <br>
-          <textarea class="text mb-3" type="text" v-model="edit.objetivos"></textarea>
+          <b-col md="12">
+
+          <textarea rows="4" cols="50" class="text mb-3" type="text" v-model="edit.objetivos"></textarea>
           <br>
           <p class="header">Plano Provisório de Trabalho:</p>
           <br>
-          <textarea class="text mb-3" type="text" v-model="edit.planoTrabalho"></textarea>
+          <textarea rows="4" cols="50" class="text mb-3" type="text" v-model="edit.planoTrabalho"></textarea>
           <br>
           <p class="header">Recursos necessários:</p>
           <br>
-          <textarea class="text mb-3" type="text" v-model="edit.recursosNecessarios"></textarea>
+          <textarea rows="4" cols="50" class="text mb-3" type="text" v-model="edit.recursosNecessarios"></textarea>
           <br>
           <p class="header">Perfil do candidato desejado:</p>
           <br>
-          <textarea class="text mb-3" type="text" v-model="edit.perfilCandidato"></textarea>
+          <textarea rows="4" cols="50" class="text mb-3" type="text" v-model="edit.perfilCandidato"></textarea>
           <br>
           <p class="header">Resultados Esperados:</p>
           <br>
-          <textarea class="text mb-3" type="text" v-model="edit.resultadosEsperados"></textarea>
+          <textarea rows="4" cols="50" class="text mb-3" type="text" v-model="edit.resultadosEsperados"></textarea>
           <br>
           <p class="header">Outros Dados:</p>
           <br>
-          <textarea class="text mb-3" type="text" v-model="edit.outrosDados"></textarea>
+          <textarea rows="4" cols="50" class="text mb-3" type="text" v-model="edit.outrosDados"></textarea>
           <br>
           <p v-if="propostaProp.id_tipo_estado == 3" class="header">Professor orientador:</p>
           <p v-if="propostaProp.id_tipo_estado == 3" class="text">{{ getProfessores }}</p>
@@ -61,6 +63,7 @@
           <br>
           <input v-if="propostaProp.nome_entidade != null" class="text mb-3" type="text" v-model="edit.emailEntidade">
           <br>
+          </b-col>
         </b-card-text>
       </b-card>
       <b-button @click="updateProposal" v-if="userAutorId == propostaProp.id_user_autor && (propostaProp.id_tipo_estado == 1 || propostaProp.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Editar</b-button>
@@ -215,6 +218,7 @@ export default {
                 this.propostaProp.id_tipo_estado = 1
             }
             await this.$store.dispatch('putUpdateProposal', this.propostaProp)
+            this.$router.push({ name: "myProposals" });
         }catch(error){
             console.log(error);
             this.content =
@@ -225,7 +229,7 @@ export default {
             this.content = this.getMessage;
         }
 
-    }
+    },
     
   },
   computed:{
@@ -291,6 +295,12 @@ export default {
   color: #767676;
   word-wrap: break-word;
 }
+.textNotEditable{
+    font-weight: lighter;
+    font-size: 17px;
+    color: #767676;
+    word-wrap: break-word;
+}
 .header {
   font-weight: 700;
   color: #707070;
@@ -338,5 +348,15 @@ export default {
   border-radius: 15px !important;
   box-shadow: 2px 2px 2px 2px #e6e6e6;
   border: none;
+}
+.text{
+    font-weight: lighter;
+    border-top: 0 none;
+    border-left: 0 none;
+    border-right: 0 none;
+    border-bottom: 1px solid #c94514;
+    outline: 0;
+    /*background-color: #f5f5f5;*/
+    border-radius: 3px;
 }
 </style>
