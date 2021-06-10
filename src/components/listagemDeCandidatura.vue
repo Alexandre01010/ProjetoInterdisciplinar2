@@ -1,11 +1,13 @@
 <template>
     <b-tr id="tabelaCandidaturas" class="text-center tabledata">
-        <b-td class="candTd">{{ u_name }}</b-td>
+        <b-td class="candTd">{{ userCandName }}</b-td>
         <b-td class="candTd">{{ tableTr.n_ordem_escolha }}</b-td>
         <b-td class="candTd">{{ tableTr.mensagem }}</b-td>
         <b-td class="candTd">
           <b-button v-if="tableTr.id_tipo_estado == 1" @click="aceitar" class="btn_edit" variant="#0077B6" font-color="#0077B6"><b-icon icon="check2-circle" class="btn ml-3" style="width: 23px; height: 23px"/></b-button>
           <b-button v-if="tableTr.id_tipo_estado == 1" id="remove" class="btn ml-3"><b-icon icon="x-circle" style="width: 23px; height: 23px" /></b-button>
+          <b-badge v-if="tableTr.id_tipo_estado != 1 && tableTr.id_tipo_estado == 3" class="proposalState" variant="success">Aprovado</b-badge>
+          <b-badge v-if="tableTr.id_tipo_estado != 1 && tableTr.id_tipo_estado == 7" class="proposalState" variant="danger">Recusado</b-badge>
         </b-td>
     </b-tr>
     
@@ -22,7 +24,7 @@ export default {
       username:"",
       change:"",
       titulo:"",
-      u_name:""
+      userCandName:""
     };
   },
   methods: {
@@ -61,7 +63,7 @@ export default {
       try {
         await this.$store.dispatch("fetchUserById",this.tableTr.id_user);
         
-        this.u_name=this.$store.getters.getPretendedUserName.nome
+        this.userCandName=this.$store.getters.getPretendedUserName.nome
       } catch (error) {
         console.log(error);
         this.content =
@@ -94,8 +96,11 @@ export default {
   computed:{
   },
   created(){
-      this.getCandidaturasByProposal()
       this.getAuthorUser()
+      this.getCandidaturasByProposal()
+  },
+  updated(){
+    this.getAuthorUser()
   }
 }
 </script>
