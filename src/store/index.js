@@ -148,6 +148,14 @@ export default new Vuex.Store({
         },
       })
     },
+    async putUpdateProposal(context, payload) {
+      await axios.put(resource_uri + '/propostas/' + payload.id_proposta + '/data', payload, {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      })
+    },
     async putAproveProposal(context, payload) {
       console.log(payload)
       await axios.put(resource_uri + '/propostas/' + payload.id_proposta + '/data', payload, {

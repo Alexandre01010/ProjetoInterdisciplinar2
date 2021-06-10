@@ -63,72 +63,8 @@
           <br>
         </b-card-text>
       </b-card>
-      <b-button v-if="roleUser == 1 && propostaProp.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum mb-4 mt-4 ml-3" variant="light" @click="$bvModal.show('aprovar_modal')">Aprovar</b-button>
-      <b-button v-if="roleUser == 1 && propostaProp.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light" @click="$bvModal.show('enviar_revisao')">Enviar para Revisão</b-button>
-      <b-button v-if="userAutorId == propostaProp.id_user_autor && (propostaProp.id_tipo_estado == 1 || propostaProp.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Editar</b-button>
-      <b-button v-if="userAutorId == propostaProp.id_user_autor && (propostaProp.id_tipo_estado == 1 || propostaProp.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Eliminar Proposta</b-button>
+      <b-button @click="updateProposal" v-if="userAutorId == propostaProp.id_user_autor && (propostaProp.id_tipo_estado == 1 || propostaProp.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Editar</b-button>
       <b-button id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Voltar</b-button>
-      <b-modal id="aprovar_modal" size="lg" hide-header hide-footer>
-        <b-col md="12">
-          <b-row>
-            <b-col class="items" md="12">
-            <b-row>
-                <p class="ml-3" id="title">Atribuição de Tutor ESMAD</p>
-                <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal">X</b-button>
-            </b-row>
-            </b-col>
-            <!-- <b-col class="d-flex justify-content-end" md="6">
-              <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal mb-3">X</b-button>
-            </b-col> -->
-          </b-row>
-        </b-col>
-        <div class="d-flex justify-content-center"> 
-          <b-col md="8" >
-            <b-input-group>
-              <b-form-input v-model="form.orientador" list="my-list-id" placeholder="Selecione o Docente" class="input"></b-form-input>
-            </b-input-group>
-            <datalist id="my-list-id">
-              <select>
-                <option v-for="prof in getAllProfs" :key="prof.id_user">
-                  {{prof.nome}}
-                </option>
-              </select>
-            </datalist>
-              <div v-if="catchAlert.alert" class="d-flex justify-content-center mt-5">
-                <b-alert id="alertMessage" show variant="danger">{{catchAlert.alert}}</b-alert>
-              </div>
-          </b-col>
-        </div>  
-        <div class="d-flex justify-content-center">
-          <b-button @click="updateProposalState" id="aprovar" class="btnSubmitValues mt-4" type="submit">Aprovar</b-button>
-        </div>
-      </b-modal>
-      <b-modal id="enviar_revisao" size="lg" hide-header hide-footer>
-        <b-col md="12">
-          <b-row>
-            <b-col class="items" md="12">
-            <b-row>
-               <p class="ml-3" id="title">Motivo da revisão</p>
-                <b-button @click="$bvModal.hide('enviar_revisao')" variant="light" class="closeModal">X</b-button>
-            </b-row>
-            </b-col>
-            <!-- <b-col class="d-flex justify-content-end" md="6">
-              <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal mb-3">X</b-button>
-            </b-col> -->
-          </b-row>
-        </b-col>
-        <div class="d-flex justify-content-center"> 
-          <b-col md="8" >
-            <b-form-textarea id="input-3" v-model="form.revisao" placeholder="Adicione observações à candidatura" rows="10" max-rows="10" required maxlength="350"></b-form-textarea>
-              <div v-if="catchAlert.alert" class="d-flex justify-content-center mt-5">
-                <b-alert id="alertMessage" show variant="danger">{{catchAlert.alert}}</b-alert>
-              </div>
-            </b-col>
-        </div>  
-        <div class="d-flex justify-content-center">
-          <b-button @click="updateProposalStateRevisao" id="aprovar" class="btnSubmitValues mt-4" type="submit">Enviar</b-button>
-        </div>
-      </b-modal>
     </b-col>
   </div>
 </template>
@@ -258,6 +194,37 @@ export default {
         // calls getter getMessage and result is put inside content component data
         this.content = this.getMessage;
       }
+    },
+    async updateProposal(){
+        this.propostaProp.titulo = this.edit.titulo
+        this.propostaProp.objetivos = this.edit.objetivos
+        this.propostaProp.plano_provisorio_trabalho = this.edit.planoTrabalho
+        this.propostaProp.recursos_necessarios = this.edit.recursosNecessarios
+        this.propostaProp.perfil_candidato_desejado = this.edit.perfilCandidato
+        this.propostaProp.resultados_esperados = this.edit.resultadosEsperados
+        this.propostaProp.outros_dados = this.edit.outrosDados
+        this.propostaProp.cargo_tutor = this.edit.cargoTutor
+        this.propostaProp.contato = this.edit.contatoEntidade
+        this.propostaProp.nome_entidade = this.edit.nomeEntidade
+        this.propostaProp.morada_entidade = this.edit.moradaEntidade
+        this.propostaProp.email = this.edit.emailEntidade
+        this.propostaProp.nome_tutor = this.edit.tutor
+
+        try{
+            if(this.propostaProp.id_tipo_estado == 2){
+                this.propostaProp.id_tipo_estado = 1
+            }
+            await this.$store.dispatch('putUpdateProposal', this.propostaProp)
+        }catch(error){
+            console.log(error);
+            this.content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+        }finally{
+            this.content = this.getMessage;
+        }
+
     }
     
   },
