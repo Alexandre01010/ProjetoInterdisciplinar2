@@ -20,6 +20,7 @@ import EditarPerfil from '../views/EditarPerfil.vue'
 import Forum_assunto from '../views/Forum_assunto.vue'
 import MinhasCandidaturas from '../views/MinhasCandidaturas.vue'
 import Respostas from '../views/Respostas.vue'
+import EditarProposta from '../views/EditarProposta.vue'
 
 
 Vue.use(VueRouter)
@@ -166,6 +167,15 @@ const routes = [
       requiresAuth: true
     }
   },
+  {
+    path: '/EditarProposta',
+    name: 'editarPropostas',
+    component: EditarProposta,
+    props:true,
+    meta: {
+      requiresAuth: true
+    }
+  }
 ]
 
  const router = new VueRouter({

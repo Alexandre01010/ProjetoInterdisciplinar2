@@ -101,9 +101,7 @@
             >
           </li>
           <li v-if="getLoggedUser != 1" class="d-flex justify-content-start">
-            <router-link class="menuItems" :to="{ name: 'minhasCandidaturas' }"
-              ><b-icon
-                style="
+            <router-link class="menuItems" :to="{ name: 'minhasCandidaturas' }"><b-icon style="
                   color: #c74620;
                   width: 22px;
                   height: 22px;

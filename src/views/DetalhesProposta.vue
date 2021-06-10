@@ -41,7 +41,7 @@
       </b-card>
       <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum mb-4 mt-4 ml-3" variant="light" @click="$bvModal.show('aprovar_modal')">Aprovar</b-button>
       <b-button v-if="roleUser == 1 && proposta.id_tipo_estado == 1" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light" @click="$bvModal.show('enviar_revisao')">Enviar para Revisão</b-button>
-      <b-button v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Editar</b-button>
+      <b-button @click="$router.push({ name: 'editarPropostas', params: { propostaProp: proposta } })" v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Editar</b-button>
       <b-button v-if="userAutorId == proposta.id_user_autor && (proposta.id_tipo_estado == 1 || proposta.id_tipo_estado == 2)" id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Eliminar Proposta</b-button>
       <b-button id="btnOpenForum" class="btnOpenForum ml-3 mb-4 mt-4" variant="light">Voltar</b-button>
       <b-modal id="aprovar_modal" size="lg" hide-header hide-footer>
