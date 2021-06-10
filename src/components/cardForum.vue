@@ -20,7 +20,7 @@
                     >4</b-badge
                   >
                   <b-col class="text-muted mt-2" md="12">
-                    <p class="participants">Numero de participantes 4</p>
+                    <p class="participants">Numero de Temas {{n_temas}}</p>
                   </b-col>
                 </b-col>
                 <b-col md="4">
@@ -49,7 +49,12 @@ export default {
       
     };
   },
-  computed: {},
+  computed: {
+    n_temas(){
+      
+    }
+
+  },
   created() {
     try {
       console.log(this.forum)

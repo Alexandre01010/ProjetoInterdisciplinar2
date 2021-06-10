@@ -8,14 +8,15 @@
         {{ answer.texto_resposta }}
       </b-col>
       <b-col md="4" class=" d-flex justify-content-end">
-        <b-icon
+        <p>{{getTime}}</p>
+        <!-- <b-icon
           icon="chat-left-fill"
           style="width: 20px; height: 20px; color: #c74620"
-        />
-        <b-icon-arrow-up
+        /> -->
+        <!-- <b-icon-arrow-up
           style="width: 25px; height: 25px; color: #0077b6"
           class="arrow-up-short ml-3"
-        />
+        /> -->
       </b-col>
     </b-row>
   </div>
@@ -49,7 +50,10 @@ export default {
     },
   },
   computed: {
-    
+    getTime(){
+      
+      return this.answer.data_hora.split('T')[0]  ;
+    }
   },
   created() {
     this.getAuthorFoto();
