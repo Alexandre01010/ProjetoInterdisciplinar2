@@ -21,10 +21,8 @@
               ></b-input>
             </label>
           </b-col>
-          <b-col md="2">
-            <b-form-select v-model="cargo" :options="cargos"></b-form-select>
-          </b-col>
-          <b-col md="2">
+
+          <b-col md="4">
             <b-button
               id="agendar"
               type="submit"
@@ -34,45 +32,12 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col v-for="interview in interviews" :key="interview.id" cols="12">
-            <b-card class="mt-5 interviewCard">
-              <b-col md="3">
-                <p class="cardIdentification">
-                  <b-icon
-                    style="color: #0077b6"
-                    icon="mic-fill"
-                    aria-hidden="true"
-                  ></b-icon>
-                  Entrevista
-                </p>
-              </b-col>
-              <b-col md="12">
-                <b-row>
-                  <b-col class="fw-bolder" md="8">
-                    <div class="title">{{ interview.title }}</div>
-                    <b-col class="text-muted" md="12">
-                      <p class="participants">Data: {{ interview.date }}</p>
-                    </b-col>
-                    <b-col class="text-muted" md="12">
-                      <p class="participants">Hora: {{ interview.time }}</p>
-                    </b-col>
-                    <b-col class="text-muted" md="12">
-                      <p class="participants">
-                        Nº participantes: {{ interview.participant }}
-                      </p>
-                    </b-col>
-                  </b-col>
-                  <b-col md="4">
-                    <div class="d-flex justify-content-end">
-                      <b-button class="btnOpenInt" href="#" variant="primary"
-                        >Opções</b-button
-                      >
-                    </div>
-                  </b-col>
-                </b-row>
-              </b-col>
-            </b-card>
-          </b-col>
+          <cardEntrevista
+            v-for="interview in interviews"
+            :key="interview.id"
+            :interview="interview"
+            cols="12"
+          />
         </b-row>
       </b-col>
 
@@ -156,53 +121,35 @@
 </template>
 
 <script>
+import cardEntrevista from "../components/cardEntrevista.vue";
 export default {
+  components: {
+    cardEntrevista,
+  },
   data() {
     return {
       search: "",
 
-      selectedUsersArr: [],
       form: {
         topico: "",
         utilizador: "",
         data: this.now(),
         hora: "00:00:00",
       },
-      cargo: null,
-      cargos: [
-        { value: null, text: "Cargos" },
-        { value: 1, text: "Docente" },
-        { value: 2, text: "Professor" },
-        { value: 3, text: "CCA" },
-        { value: 4, text: "Entidade Externa" },
-      ],
-      users: this.$store.getters.getUsers,
-      interviews: [
-        {
-          id: 1,
-          date: "13/02/2021",
-          title: "Entrevista sobre o projeto de estágio",
-          participant: 6,
-          time: "10:55",
-        },
-        {
-          id: 2,
-          date: "15/02/2030",
-          title: "Entrevista Entrega Final",
-          participant: 4,
-          time: "22:55",
-        },
-        {
-          id: 3,
-          date: "15/02/2030",
-          title: "Entrevista Entrega Final",
-          participant: 4,
-          time: "13:55",
-        },
-      ],
     };
   },
   methods: {
+    async getEntrevistas() {
+      try {
+        await this.$store.dispatch("fetchEntrevistas");
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+      }
+    },
     criarAgenda() {},
     now() {
       let today = new Date().toISOString().slice(0, 10);
@@ -230,11 +177,18 @@ export default {
       }
     },
   },
+  computed: {
+    interviews() {
+      return this.$store.getters.getInterviews(this.search);
+    },
+  },
+  created() {
+    this.getEntrevistas();
+  },
 };
 </script>
 
-
-<style scoped >
+<style scoped>
 .userSel {
   color: #707070;
 }
