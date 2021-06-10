@@ -95,9 +95,15 @@ export default {
   },
   computed: {
     getProposals() {
+      if(JSON.parse(localStorage.getItem('user')).role == 4){
+      return this.$store.getters
+        .getFilterdProposals(this.selectedOption, this.search)
+        .filter((proposal) => proposal.id_tipo_estado == 3 && proposal.id_user_autor == JSON.parse(localStorage.getItem('user')).id);
+      }else{
       return this.$store.getters
         .getFilterdProposals(this.selectedOption, this.search)
         .filter((proposal) => proposal.id_tipo_estado == 3);
+      }
       
       
     },
