@@ -1,7 +1,7 @@
 <template>
 
     <b-tr id="tabelaCandidaturas" class="text-center tabledata">
-        <b-td class="candTd">{{getProposal}}</b-td>
+        <b-td class="candTd">{{titulo}}</b-td>
         <b-td v-if="tableTr.id_tipo_estado == 1" class="candTd"><input class="editEscolhaOrdem" min="1" max="5" v-model="change" type="number"></b-td>
         <b-td v-if="tableTr.id_tipo_estado == 3" class="candTd">{{tableTr.n_ordem_escolha}}</b-td>
         <b-td v-if="tableTr.id_tipo_estado == 1" class="candTd">
@@ -30,13 +30,15 @@ export default {
   data() {
     return {
       username:"",
-      change:""
+      change:"",
+      titulo:""
     };
   },
   methods: {
       async getProposalById(){
       try {
           await this.$store.dispatch("fetchProposalById", this.tableTr.id_proposta);
+          this.titulo = this.$store.getters.getProposalTitle
         } catch (error) {
           console.log(error);
           this.content =
@@ -85,9 +87,6 @@ export default {
       },
   },
   computed:{
-      getProposal(){
-          return this.$store.getters.getProposalTitle
-      }
   },
   created(){
       this.change = this.tableTr.n_ordem_escolha

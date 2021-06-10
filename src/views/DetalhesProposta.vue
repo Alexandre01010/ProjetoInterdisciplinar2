@@ -146,13 +146,17 @@
         <div class="d-flex justify-content-center"> 
           <b-col md="8" >
             <b-form-textarea id="input-3" v-model="msgCandidatura" placeholder="Adicione observações à candidatura" rows="10" max-rows="10" required maxlength="350"></b-form-textarea>
+            <b-col md="12">
+              <b-form-input type="range" v-model="form.ordem" list="tickmarks" class=" mt-3 range " max="5" min="1"/>
+            </b-col>
+              <label for="range" class="d-flex justify-content-center mt-2">Prioridade: {{ form.ordem }}</label>
               <div v-if="catchAlert.alert" class="d-flex justify-content-center mt-5">
                 <b-alert id="alertMessage" show variant="danger">{{catchAlert.alert}}</b-alert>
               </div>
             </b-col>
         </div>  
         <div class="d-flex justify-content-center">
-          <b-button @click="updateProposalStateRevisao" id="aprovar" class="btnSubmitValues mt-4" type="submit">Enviar</b-button>
+          <b-button @click="createCandidatura" id="aprovar" class="btnSubmitValues mt-4" type="submit">Enviar</b-button>
         </div>
       </b-modal>
     </b-col>
@@ -187,7 +191,8 @@ export default {
       userAutor:"",
       roleUser:"",
       userAutorId:"",
-      msgCandidatura:""
+      msgCandidatura:"",
+      ordemEscolha:""
     };
   },
   methods: {
@@ -298,6 +303,20 @@ export default {
             (error.response && error.response.data) ||
             error.message ||
             error.toString();
+      }
+    },
+
+    async createCandidatura(){
+      try{
+        let newRegister = {id_proposta: this.proposta.id_proposta, mensagem: this.msgCandidatura, n_ordem_escolha: this.form.ordem}
+        await this.$store.dispatch("postCandidatura", newRegister)
+        this.$router.push({ name: "dashboard" })
+      }catch(error){
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
       }
     }
     

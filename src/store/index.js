@@ -271,6 +271,15 @@ export default new Vuex.Store({
       console.log(response.data);
       context.commit("SETMYCANDIDATURAS", response.data);
     },
+
+    async postCandidatura(context, payload) { 
+      await axios.post(resource_uri + '/candidaturas/' + payload.id_proposta, payload, {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      })
+    },
     async eliminar(context, id) {
       context.commit("DELETEPROPOSAL", id);
       localStorage.setItem(
