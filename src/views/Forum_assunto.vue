@@ -15,7 +15,10 @@
             ></b-input>
           </b-col>
           <b-col md="4" class="d-flex justify-content-end">
-            <b-button @click="$bvModal.show('aprovar_modal')"  id="createDiscuss" class="btnOpenForum"
+            <b-button
+              @click="$bvModal.show('aprovar_modal')"
+              id="createDiscuss"
+              class="btnOpenForum"
               >Criar Assunto</b-button
             >
           </b-col>
@@ -29,7 +32,7 @@
           />
         </b-row>
 
-        <div class="align-self-center mt-3"  v-else>
+        <div class="align-self-center mt-3" v-else>
           <warning
             message="Não foram encontrados resultados para a pesquisa!"
           />
@@ -37,48 +40,57 @@
       </b-col>
     </b-col>
 
-
-
-
     <!-- MODAL -->
     <b-modal id="aprovar_modal" size="lg" hide-header hide-footer>
-        <b-col md="12">
-          <b-row>
-            <b-col class="items" md="12">
+      <b-col md="12">
+        <b-row>
+          <b-col class="items" md="12">
             <b-row>
-                <p class="ml-3" id="title">Criar Forum</p>
-                <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal">X</b-button>
+              <p class="ml-3" id="title">Criar Assunto</p>
+              <b-button
+                @click="$bvModal.hide('aprovar_modal')"
+                variant="light"
+                class="closeModal"
+                >X</b-button
+              >
             </b-row>
-            </b-col>
-            <!-- <b-col class="d-flex justify-content-end" md="6">
+          </b-col>
+          <!-- <b-col class="d-flex justify-content-end" md="6">
               <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal mb-3">X</b-button>
             </b-col> -->
-          </b-row>
+        </b-row>
+      </b-col>
+      <div class="d-flex justify-content-center">
+        <b-col md="8">
+          <b-input-group>
+            <b-form-input
+              v-model="titulo"
+              list="my-list-id"
+              placeholder="Título do assunto"
+              class="input"
+            ></b-form-input>
+          </b-input-group>
+
+          <div
+            v-if="catchAlert.alert"
+            class="d-flex justify-content-center mt-5"
+          >
+            <b-alert id="alertMessage" show variant="danger">{{
+              catchAlert.alert
+            }}</b-alert>
+          </div>
         </b-col>
-        <div class="d-flex justify-content-center"> 
-          <b-col md="8" >
-            <b-input-group>
-              <b-form-input v-model="titulo" list="my-list-id" placeholder="Título do Fórum" class="input"></b-form-input>
-            </b-input-group>
-            
-              <div v-if="catchAlert.alert" class="d-flex justify-content-center mt-5">
-                <b-alert id="alertMessage" show variant="danger">{{catchAlert.alert}}</b-alert>
-              </div>
-          </b-col>
-        </div>
-        <div class="d-flex justify-content-center">
-          <b-button @click="createForum" id="aprovar" class="btnSubmitValues mt-4" type="submit">Criar Forum</b-button>
-        </div>
-      </b-modal>
-
-
-
-
-
-
-
-
-
+      </div>
+      <div class="d-flex justify-content-center">
+        <b-button
+          @click="createAssunto"
+          id="aprovar"
+          class="btnSubmitValues mt-4"
+          type="submit"
+          >Criar assunto</b-button
+        >
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -96,13 +108,26 @@ export default {
   data() {
     return {
       search: "",
-      titulo:"",
-      catchAlert:{
-        alert:""
-      }
+      titulo: "",
+      catchAlert: {
+        alert: "",
+      },
     };
   },
   methods: {
+    async createAssunto() {
+      try {
+        let newTema = { titulo: this.titulo, id_forum: this.forum.id_forum };
+        await this.$store.dispatch("createTema", newTema);
+        this.$router.go(-1)
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+      }
+    },
     async getForumTemas() {
       try {
         console.log(this.forum.id_forum + " id do forum");

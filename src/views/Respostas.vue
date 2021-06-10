@@ -1,16 +1,14 @@
 <template>
-  <div id="forumContent" class="d-flex justify-content-center">
-    <b-col id="contentContainer" cols="12">
-      <div id="forumTitle">
-        <b-col cols="12">
-          <h3 class="TitlePage">Tema -{{ forum.titulo }}</h3>
-        </b-col>
-      </div>
+  <div class="page" id="forumContent">
+    <b-col md="12">
+      <b-col md="12">
+        <p id="title" class="mb-5">Forum - {{ tema.titulo }}</p>
+      </b-col>
       <div>
-        <b-col id="listCards" md="12">
-          <div id="inputFilters" class="mt-5">
+        <b-col  md="12">
+          
             <b-row>
-              <b-col md="9">
+              <b-col md="8">
                 <b-input
                   id="seacrhInput"
                   v-model="search"
@@ -18,41 +16,18 @@
                   placeholder="Search"
                 ></b-input>
                 <br />
-                <div v-if="selectedOption != 'all'">
-                  <p class="text">
-                    Filtros:
-                    <b-badge id="filterInfo" class="mr-1">{{
-                      filterText
-                    }}</b-badge>
-                    <b-badge id="filterInfo" class="mr-1"
-                      >{{ getAnswersCp.length }} resultados</b-badge
-                    >
-                  </p>
-                </div>
+                
               </b-col>
-              <b-col
-                id="filterButton"
-                class="d-flex justify-content-end"
-                md="3"
-              >
-                <b-button
-                  id="filterBtn"
-                  variant="light"
-                  data-bs-toggle="dropdown"
-                  ><b-icon icon="filter-right" aria-hidden="true"></b-icon
-                ></b-button>
-                <ul
-                  id="dropdownFilter"
-                  class="dropdown-menu"
-                  aria-labelledby="dropdownMenuButton2"
-                >
-                  <li>
-                    <a class="dropdown-item">Todas</a>
-                  </li>
-                </ul>
-              </b-col>
+              <b-col md="4" class="d-flex justify-content-end">
+            <b-button
+              @click="$bvModal.show('aprovar_modal')"
+              id="createDiscuss"
+              class="btnOpenForum"
+              >Criar Resposta</b-button
+            >
+          </b-col>
             </b-row>
-          </div>
+          
           <!--Cards-->
           <div class="mt-1" id="cardsDisplay" v-if="getAnswersCp.length > 0">
             
@@ -66,6 +41,63 @@
         </b-col>
       </div>
     </b-col>
+
+
+  <!-- modal -->
+
+<b-modal id="aprovar_modal" size="lg" hide-header hide-footer>
+      <b-col md="12">
+        <b-row>
+          <b-col class="items" md="12">
+            <b-row>
+              <p class="ml-3" id="title">Criar Resposta</p>
+              <b-button
+                @click="$bvModal.hide('aprovar_modal')"
+                variant="light"
+                class="closeModal"
+                >X</b-button
+              >
+            </b-row>
+          </b-col>
+          <!-- <b-col class="d-flex justify-content-end" md="6">
+              <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal mb-3">X</b-button>
+            </b-col> -->
+        </b-row>
+      </b-col>
+      <div class="d-flex justify-content-center">
+        <b-col md="8">
+          <b-input-group>
+            <b-form-input
+              v-model="titulo"
+              list="my-list-id"
+              placeholder="Texto de resposta"
+              class="input"
+            ></b-form-input>
+          </b-input-group>
+
+          <div
+            v-if="catchAlert.alert"
+            class="d-flex justify-content-center mt-5"
+          >
+            <b-alert id="alertMessage" show variant="danger">{{
+              catchAlert.alert
+            }}</b-alert>
+          </div>
+        </b-col>
+      </div>
+      <div class="d-flex justify-content-center">
+        <b-button
+          @click="createResposta"
+          id="aprovar"
+          class="btnSubmitValues mt-4"
+          type="submit"
+          >Criar resposta</b-button
+        >
+      </div>
+    </b-modal>
+
+
+
   </div>
 </template>
 <script>
@@ -84,13 +116,34 @@ export default {
   },
   data() {
     return {
+      titulo:"",
       selectedOption: "all",
       filterText: "",
       search: "",
+      catchAlert: {
+        alert: "",
+      },
     };
   },
   methods: {
-    
+    async createResposta(){
+      try {
+        let resposta={texto_resposta:this.titulo,id_forum:this.forum.id_forum,id_tema:this.tema.id_tema}
+        await this.$store.dispatch("createResposta", resposta);
+        this.$router.push({ name: "forum" });
+        //navegar Pag anterior
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+      } finally {
+        // calls getter getMessage and result is put inside content component data
+        this.content = this.getMessage;
+      }
+      
+    },
     async getAnswers() {
       try {
         await this.$store.dispatch("fetchAnswers", this.tema);
@@ -119,6 +172,15 @@ export default {
 };
 </script>
 <style scoped>
+#createDiscuss {
+  background-color: #0077b6;
+  color: #fff;
+  border: none;
+  border-radius: 19px;
+  width: 100%;
+  font-size: 14px;
+  height: 38px;
+}
 #forumContent {
   margin-top: 20px;
 }

@@ -94,6 +94,27 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async createResposta(context,payload){
+      await axios.post(resource_uri + "/foruns/temas/"+payload.id_tema+"/respostas",payload, {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+        
+      });
+    },
+
+    async createTema(context,payload){
+      await axios.post(resource_uri + "/foruns/"+payload.id_forum+"/temas",payload, {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+        
+      });
+      
+      
+    },
     async createForum(context,payload){
       try{
         
