@@ -94,6 +94,27 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async createForum(context,payload){
+      try{
+        
+        const response = await axios.post(resource_uri + "/foruns",payload, {
+          headers: {
+            "x-access-token": JSON.parse(localStorage.getItem("user"))
+              .accessToken,
+          },
+          
+        });
+        location.reload()
+        
+        context.commit("SETRESP", response.data);
+      }catch(error){
+        context.commit('SETRESP', [])
+      }
+
+    },
+
+
+
     async fetchAnswers(context,payload){
       try{
         

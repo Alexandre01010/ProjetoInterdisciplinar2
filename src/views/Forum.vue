@@ -119,7 +119,8 @@ export default {
         this.catchAlert.alert="Introduza um título"
       }else{
         try {
-        await this.$store.dispatch("createForum");
+        let newForum={titulo:this.titulo,texto:"texto"}
+        await this.$store.dispatch("createForum",newForum);
         //reload na action
       } catch (error) {
         console.log(error);

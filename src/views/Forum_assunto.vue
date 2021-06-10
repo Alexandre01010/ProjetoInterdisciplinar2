@@ -14,14 +14,9 @@
               placeholder="Search"
             ></b-input>
           </b-col>
-          <b-col md="2" class="d-flex justify-content-end">
-            <b-button id="createDiscuss" class="btnOpenForum"
+          <b-col md="4" class="d-flex justify-content-end">
+            <b-button @click="$bvModal.show('aprovar_modal')"  id="createDiscuss" class="btnOpenForum"
               >Criar Assunto</b-button
-            >
-          </b-col>
-          <b-col md="2">
-            <b-button id="createForum" class="btnOpenForum"
-              >Criar Novo Forum</b-button
             >
           </b-col>
         </b-row>
@@ -41,6 +36,49 @@
         </div>
       </b-col>
     </b-col>
+
+
+
+
+    <!-- MODAL -->
+    <b-modal id="aprovar_modal" size="lg" hide-header hide-footer>
+        <b-col md="12">
+          <b-row>
+            <b-col class="items" md="12">
+            <b-row>
+                <p class="ml-3" id="title">Criar Forum</p>
+                <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal">X</b-button>
+            </b-row>
+            </b-col>
+            <!-- <b-col class="d-flex justify-content-end" md="6">
+              <b-button @click="$bvModal.hide('aprovar_modal')" variant="light" class="closeModal mb-3">X</b-button>
+            </b-col> -->
+          </b-row>
+        </b-col>
+        <div class="d-flex justify-content-center"> 
+          <b-col md="8" >
+            <b-input-group>
+              <b-form-input v-model="titulo" list="my-list-id" placeholder="Título do Fórum" class="input"></b-form-input>
+            </b-input-group>
+            
+              <div v-if="catchAlert.alert" class="d-flex justify-content-center mt-5">
+                <b-alert id="alertMessage" show variant="danger">{{catchAlert.alert}}</b-alert>
+              </div>
+          </b-col>
+        </div>
+        <div class="d-flex justify-content-center">
+          <b-button @click="createForum" id="aprovar" class="btnSubmitValues mt-4" type="submit">Criar Forum</b-button>
+        </div>
+      </b-modal>
+
+
+
+
+
+
+
+
+
   </div>
 </template>
 
@@ -58,6 +96,10 @@ export default {
   data() {
     return {
       search: "",
+      titulo:"",
+      catchAlert:{
+        alert:""
+      }
     };
   },
   methods: {
