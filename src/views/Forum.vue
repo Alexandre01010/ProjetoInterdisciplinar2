@@ -26,7 +26,7 @@
         <div v-if="getForums.length > 0" class="mt-3">
           <card-forum
             v-for="forum in getForums"
-            :key="forum.titulo"
+            :key="forum.id_forum"
             :forum="forum"
           />
         </div>

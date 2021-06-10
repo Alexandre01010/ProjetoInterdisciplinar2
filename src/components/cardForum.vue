@@ -17,10 +17,10 @@
                     id="badgeNotification"
                     class="ml-3"
                     variant="danger"
-                    >4</b-badge
+                    > {{n_temas}}</b-badge
                   >
                   <b-col class="text-muted mt-2" md="12">
-                    <p class="participants">Numero de Temas {{n_temas}}</p>
+                    <p class="participants">Autor:  {{u_name}}</p>
                   </b-col>
                 </b-col>
                 <b-col md="4">
@@ -46,14 +46,34 @@ export default {
   },
   data() {
     return {
-      search:""
+      n_temas:"",
+      u_name:""
     };
   },
   methods:{
+
+    async getAuthorUser() {
+      try {
+        await this.$store.dispatch("fetchUserById",this.forum.id_user);
+        
+        this.u_name=this.$store.getters.getPretendedUserName.nome
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||  error.message || error.toString();
+      } finally {
+        // calls getter getMessage and result is put inside content component data
+        this.content = this.getMessage;
+      }
+    },
+
+
     async getForumTemas() {
       try {
-        console.log(this.forum.id_forum + " id do forum");
         await this.$store.dispatch("fetchTemasByIdForum", this.forum);
+        
+        this.n_temas=this.$store.getters.getFilterdtemas("").length
+        
       } catch (error) {
         console.log(error);
         this.content =
@@ -65,13 +85,12 @@ export default {
       }
     },
   },
-  computed: {
-    n_temas(){
-      return this.$store.getters.getFilterdtemas(this.search).length
-    }
-
+  computed:{
+    
   },
+  
   created() {
+    this.getAuthorUser()
     this.getForumTemas()
     try {
       console.log(this.forum)

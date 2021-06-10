@@ -25,8 +25,7 @@
                 class="arrow-up-short ml-3"
             /></b-row>
             <b-row
-              ><div class="d-flex justify-content-center ml-2">4</div>
-              <div class="d-flex justify-content-center ml-4">5</div>
+              ><div class="d-flex justify-content-center ml-2">{{respostas}}</div>
             </b-row>
           </b-col>
           <b-col md="4">
