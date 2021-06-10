@@ -2,7 +2,7 @@
   <div class="alert">
     <b-row class="mt-2">
       <b-col md="2">
-        <b-avatar size="50px" :src="getFoto"></b-avatar>
+        <b-avatar size="50px" :src="fotos"></b-avatar>
       </b-col>
       <b-col md="6">
         {{ answer.texto_resposta }}
@@ -26,10 +26,16 @@ export default {
   props: {
     answer: Object,
   },
+  data(){
+      return{
+          fotos:""
+      }
+  },
   methods: {
     async getAuthorFoto() {
       try {
         await this.$store.dispatch("fetchUserById", this.answer.id_user);
+        this.fotos=this.$store.getters.getPretendedUserName.foto
       } catch (error) {
         console.log(error);
         this.content =
@@ -43,10 +49,7 @@ export default {
     },
   },
   computed: {
-    getFoto() {
-      console.log(this.$store.getters.getPretendedUserName);
-      return this.$store.getters.getPretendedUserName.foto;
-    },
+    
   },
   created() {
     this.getAuthorFoto();

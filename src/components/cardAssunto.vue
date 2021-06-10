@@ -7,7 +7,7 @@
             <b-row>
               <div class="d-flex justify-content-center">
                 <b-col>
-                  <b-avatar size="50px" :src="getFoto"></b-avatar
+                  <b-avatar size="50px" :src="fotos"></b-avatar
                 ></b-col></div
             ></b-row>
             <b-row class="mt-1"> </b-row>
@@ -49,9 +49,41 @@
 
 <script>
 export default {
+    data(){
+        return{
+            fotos:""
+        }
+    },
     props:{
-        assunto:Object
-    }
+        assunto:Object,
+        forum:Object,
+    },
+
+    methods: {
+    async getAuthorFoto() {
+      try {
+          console.log(this.assunto.id_user)
+        await this.$store.dispatch("fetchUserById", this.assunto.id_user);
+        console.log(this.$store.getters.getPretendedUserName)
+        this.fotos=this.$store.getters.getPretendedUserName.foto
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+      } finally {
+        // calls getter getMessage and result is put inside content component data
+        this.content = this.getMessage;
+      }
+    },
+  },
+  computed: {
+    
+  },
+  created() {
+    this.getAuthorFoto();
+  },
 };
 </script>
 

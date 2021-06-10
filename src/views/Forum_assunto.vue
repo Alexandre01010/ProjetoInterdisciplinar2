@@ -26,7 +26,7 @@
           </b-col>
         </b-row>
         <b-row class="mt-3" v-if="getTemas.length>0">
-          <cardAssunto v-for="assunto in getTemas" :key="assunto.id_tema" :assunto="assunto" />
+          <cardAssunto v-for="assunto in getTemas" :key="assunto.id_tema" :assunto="assunto" :forum="forum" />
           
             
           
@@ -78,26 +78,10 @@ export default {
           this.content = this.getMessage;
         }
     },
-    async getAuthorFoto(assunto) {
-      try {
-        console.log(assunto)
-        await this.$store.dispatch("fetchUserById",assunto.id_user);
-        
-      } catch (error) {
-        console.log(error);
-        this.content =
-          (error.response && error.response.data) ||  error.message || error.toString();
-      } finally {
-        // calls getter getMessage and result is put inside content component data
-        this.content = this.getMessage;
-      }
-    },
+    
   },
   computed:{
-    getFoto(assunto){
-      this.getAuthorFoto(assunto)
-      return this.$store.getters.getPretendedUserName.foto
-    },
+    
     getTemas() {
       return this.$store.getters
         .getFilterdtemas(this.search);
