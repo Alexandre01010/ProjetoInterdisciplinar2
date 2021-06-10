@@ -19,13 +19,13 @@
             <b-row class="mt-4"
               ><b-icon
                 icon="chat-left-fill"
-                style="width: 20px; height: 20px; color: #c74620"/>
-              <b-icon-arrow-up
-                style="width: 25px; height: 25px; color: #0077b6"
-                class="arrow-up-short ml-3"
-            /></b-row>
+                style="width: 20px; height: 20px; color: #c74620"
+              />
+            </b-row>
             <b-row
-              ><div class="d-flex justify-content-center ml-2">{{respostas}}</div>
+              ><div class="d-flex justify-content-center ml-2">
+                {{ respostas }}
+              </div>
             </b-row>
           </b-col>
           <b-col md="4">
@@ -48,23 +48,41 @@
 
 <script>
 export default {
-    data(){
-        return{
-            fotos:""
-        }
-    },
-    props:{
-        assunto:Object,
-        forum:Object,
+  data() {
+    return {
+      fotos: "",
+      respostas: 2,
+    };
+  },
+  props: {
+    assunto: Object,
+    forum: Object,
+  },
+
+  methods: {
+    async getAnswers() {
+      try {
+        await this.$store.dispatch("fetchAnswers", this.assunto);
+        this.respostas=this.$store.getters.getFilterdAnswers("").length
+      } catch (error) {
+        console.log(error);
+        this.content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+      } finally {
+        // calls getter getMessage and result is put inside content component data
+        this.content = this.getMessage;
+      }
     },
 
-    methods: {
     async getAuthorFoto() {
       try {
-          console.log(this.assunto.id_user)
+        console.log(this.assunto.id_user);
         await this.$store.dispatch("fetchUserById", this.assunto.id_user);
-        console.log(this.$store.getters.getPretendedUserName)
-        this.fotos=this.$store.getters.getPretendedUserName.foto
+        
+        console.log(this.$store.getters.getPretendedUserName);
+        this.fotos = this.$store.getters.getPretendedUserName.foto;
       } catch (error) {
         console.log(error);
         this.content =
@@ -77,17 +95,12 @@ export default {
       }
     },
   },
-  computed: {
-    
-  },
+  computed: {},
   created() {
+    this.getAnswers()
     this.getAuthorFoto();
   },
 };
 </script>
 
-<style>
-
-
-
-</style>
+<style></style>
