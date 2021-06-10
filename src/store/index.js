@@ -219,7 +219,7 @@ export default new Vuex.Store({
       );
     },
     async putUpdateCandidaturaState(context, payload) {
-      await axios.put(resource_uri + '/propostas/' + payload.id_proposta + '/candidaturas/updateState', payload, {
+      await axios.put(resource_uri + '/propostas/' + payload.id_proposta + '/candidaturas/updateState/' + payload.id_user, payload, {
         headers: {
           "x-access-token": JSON.parse(localStorage.getItem("user"))
             .accessToken,
