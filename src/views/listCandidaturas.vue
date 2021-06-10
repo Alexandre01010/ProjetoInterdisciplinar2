@@ -3,7 +3,7 @@
     <b-col id="contentContainer" cols="12">
       <div id="forumTitle">
         <b-col cols="12">
-          <h3 class="TitlePage">Minhas Candidaturas</h3>
+          <h3 class="TitlePage">Candidaturas</h3>
         </b-col>
       </div>
       <div>
@@ -12,9 +12,8 @@
             <div id="forumContent" class="d-flex justify-content-center" >
                 <b-table-simple responsive class="table input" borderless hover >
                     <b-tr class="head">
-                        <b-th class="text-center">Proposta</b-th>
-                        <b-th class="text-center">Prioridade</b-th>
-                        <b-th class="text-center">Estado</b-th>
+                        <b-th class="text-center">Aluno candidato</b-th>
+                        <b-th class="text-center">Prioridade de escolha</b-th>
                         <b-th class="text-center">Ações</b-th>
                     </b-tr>
                 <tableTrCand v-for="cand in getMyCandid" :key="cand.titulo" :tableTr="cand" />

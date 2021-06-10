@@ -51,7 +51,7 @@ export default {
     }
   },
   created(){
-try {
+    try {
       console.log(this.propCard.id_prof_orientador)
       this.$store.dispatch("fetchUserById",this.propCard.id_prof_orientador);
     } catch (error) {
