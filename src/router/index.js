@@ -21,7 +21,8 @@ import Forum_assunto from '../views/Forum_assunto.vue'
 import MinhasCandidaturas from '../views/MinhasCandidaturas.vue'
 import Respostas from '../views/Respostas.vue'
 import EditarProposta from '../views/EditarProposta.vue'
-
+import AprovarCandidaturas from '../views/AprovarCandidaturas.vue'
+import listCandidaturas from '../views/listCandidaturas.vue'
 
 Vue.use(VueRouter)
 
@@ -175,7 +176,26 @@ const routes = [
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: '/AprovarCandidaturas',
+    name: 'aprovarCandidaturas',
+    component: AprovarCandidaturas,
+    props: true,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/ListagemCandidaturas',
+    name: 'listagemCandidaturas',
+    component: listCandidaturas,
+    props: true,
+    meta:{
+      requiresAuth: true
+    }
   }
+
 ]
 
  const router = new VueRouter({

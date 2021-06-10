@@ -280,6 +280,17 @@ export default new Vuex.Store({
         },
       })
     },
+
+    async getCandidaturasByProposal(context, payload) {
+      const response = await axios.get(resource_uri + '/propostas/' + payload.id_proposta + '/candidaturas/associadas', {
+        headers: {
+          "x-access-token": JSON.parse(localStorage.getItem("user"))
+            .accessToken,
+        },
+      })
+      context.commit("SETCANDIDATURASBYPROPOSAL", response.data)
+    },
+
     async eliminar(context, id) {
       context.commit("DELETEPROPOSAL", id);
       localStorage.setItem(
@@ -397,6 +408,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    SETCANDIDATURASBYPROPOSAL(state, data){
+      state.applications = data
+    },
     SETRESP(state,data){state.answers=data},
     SETTEMAS(state,data){state.temas=data},
     SETFORUNS(state,data){state.foruns=data},

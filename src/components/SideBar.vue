@@ -148,6 +148,24 @@
               >
             </li>
           </div>
+            <div v-if="getLoggedUser == 1">
+            <li class="d-flex justify-content-start">
+              <router-link class="menuItems" :to="{ name: 'aprovarCandidaturas' }"
+                ><b-icon
+                  style="
+                    color: #c74620;
+                    width: 22px;
+                    height: 22px;
+                    margin-right: 9px;
+                  "
+                  class="menuIcons"
+                  icon="check2-circle"
+                  aria-hidden="true"
+                ></b-icon>
+                Aprovar Candidaturas</router-link
+              >
+            </li>
+          </div>
           <li>
             <div class="dropdown">
               <button
