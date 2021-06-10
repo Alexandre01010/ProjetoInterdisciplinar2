@@ -48,7 +48,8 @@ export default {
   },
   data() {
     return {
-      u_name:""
+      u_name:"",
+      
       
     };
   },
